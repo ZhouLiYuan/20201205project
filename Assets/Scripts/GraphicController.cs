@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GraphicController
+public class GraphicController: Movement
 {
     private SpriteRenderer spriteRenderer;
     [SerializeField] public GameObject graphic;

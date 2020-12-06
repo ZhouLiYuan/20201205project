@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrapplingHook
+public class GrapplingHook : MonoBehaviour
 {
     //钩子本身
     public GameObject hook;

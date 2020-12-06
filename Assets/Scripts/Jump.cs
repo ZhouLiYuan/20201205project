@@ -10,19 +10,18 @@ public class Jump: Movement
     public float jumpCount;
 
     private Rigidbody2D m_rb;
-  
-    //暂时顶替grounded
-    public bool isGround;
+ 
     public bool isJump;
     //是否按下了跳跃按钮
     public bool jumpPressed;
 
+    //好像不用new实例也可以？
+    public CharacterExecute jumpCE;
 
 
-
-    void Jumpping()
+    public void Jumpping()
     {
-        if (Input.GetButtonDown("Jump") && isGround)
+        if (Input.GetButtonDown("Jump") && jumpCE.m_groundCheck.grounded)
         {
             velocity.y = jumpTakeOffSpeed;
         }
@@ -34,13 +33,13 @@ public class Jump: Movement
             }
         }
 
-        if (isGround)
+        if (jumpCE.m_groundCheck.grounded)
         {
             //二段跳
             jumpCount = 2;
             isJump = false;
         }
-        if (jumpPressed && isGround)
+        if (jumpPressed && jumpCE.m_groundCheck.grounded)
         {
             isJump = true;
             Debug.Log(m_rb.velocity);

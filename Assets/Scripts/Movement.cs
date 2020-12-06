@@ -11,12 +11,13 @@ public class Movement:MonoBehaviour
     protected Vector2 move = Vector2.zero;
 
     protected Rigidbody2D rb2d;
-    protected Vector2 velocity;
+
+    public Vector2 velocity;
 
     public float maxSpeed;
     
 
-    void HorizontalMovement()
+    public void HorizontalMovement()
     {
         
 

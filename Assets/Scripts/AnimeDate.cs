@@ -5,14 +5,16 @@ using UnityEngine;
 public class AnimeDate
 {
     [SerializeField] private Animator animator;
-    //animator是一个布尔类型数据？
+    
+    private CharacterExecute animCE;
+    private Movement animMove;
 
     void SwitchAnim()
     {
         if (animator)
         {
-            animator.SetBool("grounded", grounded);
-            animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
+            animator.SetBool("grounded", animCE.m_groundCheck.grounded);
+            animator.SetFloat("velocityX", Mathf.Abs(animMove.velocity.x) / animMove.maxSpeed);
         }
     }
 }
