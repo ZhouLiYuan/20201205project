@@ -9,7 +9,6 @@ public class Movement:MonoBehaviour
 
     protected Vector2 targetVelocity;
     protected Vector2 move = Vector2.zero;
-
     protected Rigidbody2D rb2d;
 
     public Vector2 velocity;

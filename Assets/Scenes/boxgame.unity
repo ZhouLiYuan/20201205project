@@ -121,6 +121,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &290439890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7001297901964988198, guid: 1aa63a1d059c2444bafc70b64762151e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7001297902211452404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &290439896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290439890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609a13e837410f04b8de2fe286413fd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_movement: {fileID: 0}
+  m_jumpping: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +308,7 @@ PrefabInstance:
     - target: {fileID: 7001297901964988192, guid: 1aa63a1d059c2444bafc70b64762151e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.14
+      value: 1.45
       objectReference: {fileID: 0}
     - target: {fileID: 7001297901964988192, guid: 1aa63a1d059c2444bafc70b64762151e,
         type: 3}
@@ -340,6 +360,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: character
       objectReference: {fileID: 0}
+    - target: {fileID: 8196871875562489104, guid: 1aa63a1d059c2444bafc70b64762151e,
+        type: 3}
+      propertyPath: graphic
+      value: 
+      objectReference: {fileID: 290439890}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1aa63a1d059c2444bafc70b64762151e, type: 3}
 --- !u!1001 &7416758080000607491

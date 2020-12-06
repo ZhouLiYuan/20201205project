@@ -5,8 +5,9 @@ using UnityEngine;
 public class CharacterExecute : MonoBehaviour
 {
     //自己创建的类的字段
-    public Movement m_movement;
-    public Jump m_jumpping;
+    protected Movement m_movement;
+    protected Jump m_jumpping;
+
     //public GrapplingHook m_grap;
     public HookedChecker m_hookedCheck;
     public GroundedCheck m_groundCheck;
