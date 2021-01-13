@@ -13,7 +13,7 @@ public class CharacterExecute : MonoBehaviour
     public GroundedCheck m_groundCheck;
     public SoundDate m_soundDate ;
 
-
+    //
 
 
     void OnEnable()
