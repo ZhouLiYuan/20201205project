@@ -127,6 +127,33 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7001297902211452404}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &290439891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290439890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c9fa5ea8d633649bf131b577b3e00f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &290439892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290439890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06eb6d05ab2d0794088c51e670799884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graphic: {fileID: 0}
+  velocity: {x: 0, y: 0}
+  maxSpeed: 0
 --- !u!114 &290439896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,8 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 609a13e837410f04b8de2fe286413fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movement: {fileID: 0}
-  m_jumpping: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

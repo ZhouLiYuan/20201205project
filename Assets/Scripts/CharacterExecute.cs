@@ -36,7 +36,7 @@ public class CharacterExecute : MonoBehaviour
     {
 
         //m_grap.Grappling();
-        m_groundCheck.CheckIsGrounded();
+        //m_groundCheck.CheckIsGrounded();
         //m_movement.Move(传参);
         m_movement.HorizontalMovement();
         m_soundDate.PlayAudio();
