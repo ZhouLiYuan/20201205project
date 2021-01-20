@@ -30,9 +30,11 @@ public class Hook : MonoBehaviour
         state = HookState.HookToTarget;
         targetPosition = position;
     }
+    
 
     private void Update()
     {
+
         //不同状态标签下，不同的功能切换
         switch (state)
         {

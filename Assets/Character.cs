@@ -8,6 +8,7 @@ public class Character : MonoBehaviour
     //public Vector2 velocity;
     //下面其实是x的max速度
     public float maxSpeed;
+    Vector3 dir = new Vector3(0, -1);
     //size不同的角色检测里面距离不同  
     [SerializeField] private float distance = 0.2f;
     [SerializeField] private float jumpSpeed = 5f;
@@ -17,14 +18,20 @@ public class Character : MonoBehaviour
     //好像这里的rigidbody2d和所挂载Gobj的rg2d组件没什么关系，序列化后并没有出现在inspector里
     [SerializeField] private Hook m_hook;
 
+   
+
     private bool isGrounded;
 
     protected Vector2 targetVelocity;
     protected Vector2 move = Vector2.zero;
 
+    
 
     private void Update()
     {
+
+
+
         //在自己类体里调用就不用声明实例
         CheckIsGrounded();
 
@@ -83,17 +90,15 @@ public class Character : MonoBehaviour
 
     private void CheckIsGrounded()
     {
-        //只在这个方法内有用的变量就声明为本地变量，节省可用的公开变量名
-        //RaycastHit hit;
-        Vector3 dir = new Vector3(0, -1);
-     
+
+
         var result = Physics2D.Raycast(groundCheckPosition.position, dir, distance);
         //需要先判断result非空
         if (result.collider)
         {
             isGrounded = result.collider.tag == "Platform";
         }
-        //补足result为空的情况，因为result为空的时候不会执行上面的if语句， isGrounded会一直保留最开始时接地的判断true
+        //补足result为空的情况，因为result为空的时候不会执行上面的if语句， isGrounded会一直保留最开始时接地的判断true,会导致玩家可以无限跳
         else { isGrounded = false; }
 
         //Debug.Log($"{result.collider}{isGrounded}");
