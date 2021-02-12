@@ -18,14 +18,15 @@ public class Character : MonoBehaviour
     //好像这里的rigidbody2d和所挂载Gobj的rg2d组件没什么关系，序列化后并没有出现在inspector里
     [SerializeField] private Hook m_hook;
 
-   
+    [SerializeField] private GameObject weaponSelectCanvas;
+    [SerializeField] private GameObject weapon;
 
     private bool isGrounded;
 
     protected Vector2 targetVelocity;
     protected Vector2 move = Vector2.zero;
 
-    
+
 
     private void Update()
     {
@@ -110,5 +111,13 @@ public class Character : MonoBehaviour
         Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + transform.up * -1f * distance, Color.red, 1f);
     }
 
+
+    //切换武器
+    public void ChangeWeapon(string weaponName)
+    {
+        weapon = Resources.Load<GameObject>(weaponName);
+        Debug.Log("the weapon has been changed to" + weaponName);
+        weaponSelectCanvas.SetActive(false);
+    }
 
 }
