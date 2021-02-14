@@ -6,6 +6,7 @@ public class Hook : MonoBehaviour
 {
     //钩锁持有者（player）
     [SerializeField] private Transform owner;
+    [SerializeField] private Vector3 hookStartPosition;
 
     enum HookState { Standby, HookToTarget, CharacterToTarget }
     //声明枚举变量，设置初始状态
@@ -15,6 +16,7 @@ public class Hook : MonoBehaviour
     [SerializeField] private float distanceThreshold = 0.8f;
     [SerializeField] private float finalJumpDistance = 1.5f;
     [SerializeField] private float finalJumpUp =5f;
+
 
 
     //结构属于值类型，所以会有默认初始值0
@@ -30,7 +32,11 @@ public class Hook : MonoBehaviour
         state = HookState.HookToTarget;
         targetPosition = position;
     }
-    
+
+    private void Start()
+    {
+        //hookStartTransform = this.GetComponent<Transform>();
+    }
 
     private void Update()
     {
@@ -72,7 +78,7 @@ public class Hook : MonoBehaviour
                     state = HookState.Standby;
                     Debug.Log("回归standby");
                     //顺便让钩锁归位,不要忘记让角色的重力也恢复
-                    transform.position = Vector3.zero;
+                    transform.position = hookStartPosition;
                     owner.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;
                     this.transform.SetParent(owner, false);
                 }

@@ -4,30 +4,37 @@ using UnityEngine;
 
 namespace Weapon
 {
-    
-
-
 
     public class Projectile : MonoBehaviour
     {
        
     }
     
-   
-
-    
-    
     public class HeavyProjectile : Projectile
     {
        
     }
 
-    //Melee
-
-
-
-    public class Melee : Projectile
+    public class LightProjectile : Projectile
     {
+
+    }
+
+
+    public class Melee : MonoBehaviour
+    {
+    
         
     }
+
+    public class HeavyMelee : Melee
+    { 
+
+    }
+
+    public class LightMelee : Melee
+    {
+
+    }
+
 }
