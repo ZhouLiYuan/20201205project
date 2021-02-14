@@ -95,7 +95,7 @@ public class CirclePanel : MonoBehaviour
     {
         var m_image = GameObject.Find($"根据自己对canvas下image命名方式来找到需要修改的GOBJ{m_index}").GetComponent<Image>();
         //设置被选中时的高亮颜色
-        var m_color = m_image.color.green;
+        //var m_color = m_image.color.green;
 
         //开始执行开启（调用迭代器）协程 的地方 ，执行之后代码的同时，等待下述 秒数(2f)后 继续执行迭代器中的内容
         yield return new WaitForSeconds(2f);
