@@ -761,7 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementCount: 8
-  screenCam: {fileID: 0}
+  screenCam: {fileID: 466416797}
 --- !u!1 &1225531439
 GameObject:
   m_ObjectHideFlags: 0
