@@ -21,11 +21,12 @@ public class CirclePanel : MonoBehaviour
     [SerializeField] private Transform elementParent;
     private List<Image> m_images;
     private RectTransform circlePanelRect;
-    //选中时的协程
+
+    //State.OnSelected选中时的协程
     private Coroutine OnSelectCoroutine;
     
     //初始值赋-1（在计算index时不会被算到，-1在这是用作为状态值（没有被选中这个状态）来使用  ）
-    private int m_index = -1;
+    private int m_index ;
     //状态较多的情况用 枚举 和 switch 来做状态机（switch限制状态条件会比多重if更严谨 可读性更高）
     //四个状态，1待机 2选择中 3没选中 4选中了（3 4像是分支）
     private enum State { Standby,Selecting,NoSelect,OnSelected}
@@ -73,6 +74,7 @@ public class CirclePanel : MonoBehaviour
 
             //为什么要做这一步？
             elementPrefab.SetActive(false);
+            SetPanelActive(false);
 
         }
 
@@ -90,36 +92,47 @@ public class CirclePanel : MonoBehaviour
             m_images[i] = GameObject.Find($"Image({i})").GetComponent<Image>();
         }
     }
-
-
-
-
-
+    
+    
     private void HandleInput()
     {
+        Debug.Log($"当前状态{m_state}");
+
         switch (m_state)
         {
             //待机状态下，按下O，进入选择状态
             case State.Standby:
-                if (Input.GetKey(KeyCode.O)){ m_state = State.Selecting; }
+                if (Input.GetKey(KeyCode.O))
+                {
+                    m_state = State.Selecting;
+                    //激活面板
+                    SetPanelActive(true);
+                }
                 break;
-
+                
                //有效的选择，进入 已选择状态
             case State.Selecting:
-                ChoosingElement();
                 //松开按键的时候
                 if (!Input.GetKey(KeyCode.O))
-                //m_state = m_index == -1 这种连等是什么写法？-1不是 没有选中 状态吗？这里返回的状态是不是写反了
-                { m_state = m_index == -1 ? State.OnSelected : State.OnSelected; }
+                //m_state是非空重载吗？为什么可以传布尔值
+                //==的执行优先级比=高
+                { m_state = (m_index = GetChoosingElementIndex()) == -1 ? State.NoSelect : State.OnSelected; }
                 break;
 
                 //无效选择，返回待机状态
             case State.NoSelect:
+                //关闭圆盘
+                SetPanelActive(false);
                 m_state = State.Standby;
+                //为什么需要刻意终止协程 不是都没有进入OnSelected状态吗？
+                if (OnSelectCoroutine != null) StopCoroutine(OnSelectCoroutine);
                 break;
-                //已经选择并执行对应功能（协程，UI变色）
+
+                //已选择 并 用协程  执行对应功能（协程，UI变色）
             case State.OnSelected:
-                StartCoroutine(SelectOne());
+                //这里接受的返回值是SelectOne()里写到的 yield return new WaitForSeconds(2f);吗?
+                OnSelectCoroutine = StartCoroutine(SelectOne());
+
                 break;
             default:
                 break;
@@ -138,12 +151,17 @@ public class CirclePanel : MonoBehaviour
         //}
 
     }
-
-    private void ChoosingElement()
+    
+    
+    /// <summary>
+    /// 返回玩家选中的UI区块索引号
+    /// </summary>
+    /// <returns></returns>
+    private int GetChoosingElementIndex()
     {
-        //激活面板
-        circlePanelRect.gameObject.SetActive(true);
-        //确认screen的点在Rect中？这个方法会受Rect的pivot（作为中心基准）的影响
+
+        
+        //确认screen的点在Rect中,这个方法会受Rect的pivot（作为中心基准）的影响
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(circlePanelRect, Input.mousePosition, screenCam, out Vector2 localPoint))
         {
             //用于判断位置的角度
@@ -152,13 +170,13 @@ public class CirclePanel : MonoBehaviour
             
 
             //角度是1°=1f吗？
-            float elementDegree = 360 / elementCount;
+            float intervalDegree = 360 / elementCount;
 
-            float currentDegree = -180f / elementCount;
-            float nextElementDegree = currentDegree + elementDegree;
+            //初始元素的角度区间
+            float currentDegree = - intervalDegree*0.5f ;
+            float nextElementDegree = currentDegree + intervalDegree;
 
-            //每次都按顺序挨个检查if条件性能不会很差吗？
-            for (int i = 0; i < elementCount; i++, currentDegree += elementDegree)
+            for (int i = 0; i < elementCount; i++)
             {
                 Debug.Log($"第{i}个，区间：{currentDegree}~{nextElementDegree}");
                 if (currentDegree < m_degree && m_degree < nextElementDegree)
@@ -167,16 +185,22 @@ public class CirclePanel : MonoBehaviour
                     m_index = i;
 
                     m_state = State.Selecting;
-                    return;
 
+                    //return会退出包含循环体的整个方法，这样在检测到鼠标所在角度范围的时候就会直接退出循环，节省性能
+                    //或者用break也能达到相同效
+
+                    return i;
                 }
+                currentDegree += intervalDegree;
+                nextElementDegree = currentDegree + intervalDegree;
 
-                else { m_index = -1; Debug.Log("无效选择范围"); }//这样就可以让区间 范围外的位置选择无效化
-              
+                //else {  Debug.Log("无效选择范围"); }//这样就可以让区间 范围外的位置选择无效化
+
             }
 
-
         }
+        //可以有两个return？
+        return -1;
     }
 
 
@@ -191,7 +215,8 @@ public class CirclePanel : MonoBehaviour
         //弧度
         var radian = Mathf.Atan2(v2.y, v2.x);
         //角度(Rad2Deg是像3.14一样弧度换算角度的一个常数)
-        float degree = Mathf.Rad2Deg * radian;
+        //然后映射一下
+        float degree = GetTrueDegree(Mathf.Rad2Deg * radian);
         Debug.Log($"输出锚点={v2}弧度={radian}角度={degree}");
         return degree;
     }
@@ -209,14 +234,51 @@ public class CirclePanel : MonoBehaviour
 
         //开始执行开启（调用迭代器）协程 的地方 ，执行之后代码的同时，等待下述 秒数(2f)后 继续执行迭代器中的内容
         yield return new WaitForSeconds(2f);
+
         //也就是鼠标停留再image上两秒后由绿色变成红色？
         m_image.color = Color.red;
         //重置m_index
         m_index = -1;
 
-        //关闭圆盘 并 重置状态
-        circlePanelRect.gameObject.SetActive(false);
+        // 重置状态
         m_state = State.Standby;
+        SetPanelActive(false);
+    }
+
+    /// <summary>
+    ///激活圆盘
+    /// </summary>
+    /// <param name="isActive"></param>
+    private void SetPanelActive(bool isActive)
+    {
+        ResetImageColor(isActive);
+        circlePanelRect.gameObject.SetActive(isActive);
+    }
+
+    /// <summary>
+    ///  关闭面板的时候，重置元素的颜色
+    /// </summary>
+    /// <param name="isActive"></param>
+    private void ResetImageColor(bool isActive)
+    {
+        if (!isActive)
+        {
+            //遍历也可以用于写入，无法修改引用本身 但是可以修改引用 内部的字段
+            foreach (var image in m_images)
+            {
+                image.color = Color.white;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 将检测到的角度 -180~180 映射到 0~360度
+    /// </summary>
+    private float GetTrueDegree(float degree) 
+    {
+        //把第三第四象限的角度变为正数
+        return degree < 0 ? degree + 360f : degree;
     }
 
 }
+

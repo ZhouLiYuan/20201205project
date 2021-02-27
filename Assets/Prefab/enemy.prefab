@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 6133326855701585824}
   - component: {fileID: 6133326855701585831}
   - component: {fileID: 6133326855701585830}
-  - component: {fileID: 3513965667658108466}
-  - component: {fileID: 3077844487297861037}
+  - component: {fileID: 74400862}
+  - component: {fileID: 74400859}
+  - component: {fileID: 74400863}
+  - component: {fileID: 1631810338}
   m_Layer: 11
   m_Name: enemy
   m_TagString: Enemy
@@ -134,19 +136,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3513965667658108466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6133326855701585829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7dedd2c3ddf8a945ab4b9238d17bf30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &3077844487297861037
+--- !u!95 &74400862
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -165,6 +155,49 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &74400859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133326855701585829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da2e537669125c4282c3d5959d1dc58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &74400863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133326855701585829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7dedd2c3ddf8a945ab4b9238d17bf30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1631810338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133326855701585829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec1e186f58eb2647a6b90869ef1e2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkIntervalVolume: 1
+  attackRange: 0.5
+  atkValue: 10
+  targetsLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  attackPos: {fileID: 4309937874338848375}
 --- !u!1 &6133326856071435033
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,7 +243,7 @@ GameObject:
   - component: {fileID: 8391095674336607958}
   m_Layer: 11
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -267,7 +300,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 0ea353e915f5d12488a4f8a681f0faaa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
