@@ -12,15 +12,15 @@ public class CirclePanel : MonoBehaviour
 
     [SerializeField] private int elementCount; 
     [SerializeField] private Camera screenCam;
+    [SerializeField] private RectTransform circlePanelRect;
 
-    [SerializeField] private GameObject circlePanel;
     /// <summary> 
     /// 用一个element image 旋转生成剩余的元素 图像
     /// </summary>
     [SerializeField] private GameObject elementPrefab;
     [SerializeField] private Transform elementParent;
     private List<Image> m_images;
-    private RectTransform circlePanelRect;
+ 
 
     //State.OnSelected选中时的协程
     private Coroutine OnSelectCoroutine;
@@ -38,8 +38,6 @@ public class CirclePanel : MonoBehaviour
        
         //InitializingElements();
         CreatingElements();
-        
-
         //circlePanelRect = this.GetComponent<RectTransform>();
 
         
@@ -72,12 +70,9 @@ public class CirclePanel : MonoBehaviour
             //调用集合添加元素方法
             m_images.Add(objTemp.GetComponent<Image>());
 
-            //为什么要做这一步？
-            elementPrefab.SetActive(false);
-            SetPanelActive(false);
-
         }
-
+  
+        SetPanelActive(false);
     }
 
     /// <summary>
@@ -104,9 +99,9 @@ public class CirclePanel : MonoBehaviour
             case State.Standby:
                 if (Input.GetKey(KeyCode.O))
                 {
-                    m_state = State.Selecting;
                     //激活面板
                     SetPanelActive(true);
+                    m_state = State.Selecting;
                 }
                 break;
                 
@@ -130,9 +125,8 @@ public class CirclePanel : MonoBehaviour
 
                 //已选择 并 用协程  执行对应功能（协程，UI变色）
             case State.OnSelected:
-                //这里接受的返回值是SelectOne()里写到的 yield return new WaitForSeconds(2f);吗?
+                //这里接受的返回值是SelectOne()里写到的 yield return new WaitForSeconds(1f);吗?
                 OnSelectCoroutine = StartCoroutine(SelectOne());
-
                 break;
             default:
                 break;
@@ -166,10 +160,6 @@ public class CirclePanel : MonoBehaviour
         {
             //用于判断位置的角度
             float m_degree = ComputeMousePosition(localPoint);
-
-            
-
-            //角度是1°=1f吗？
             float intervalDegree = 360 / elementCount;
 
             //初始元素的角度区间
@@ -178,26 +168,20 @@ public class CirclePanel : MonoBehaviour
 
             for (int i = 0; i < elementCount; i++)
             {
-                Debug.Log($"第{i}个，区间：{currentDegree}~{nextElementDegree}");
+                
                 if (currentDegree < m_degree && m_degree < nextElementDegree)
                 {
-                    Debug.Log($"选中  第{i}个，范围：{currentDegree}~{nextElementDegree}");
-                    m_index = i;
-
-                    m_state = State.Selecting;
-
-                    //return会退出包含循环体的整个方法，这样在检测到鼠标所在角度范围的时候就会直接退出循环，节省性能
-                    //或者用break也能达到相同效
+                    Debug.Log($"选中  第{i+1}个，范围：{currentDegree}~{nextElementDegree}");
 
                     return i;
+                    //return会退出包含循环体的整个方法，这样在检测到鼠标所在角度范围的时候就会直接退出循环，节省性能
+                    //或者用break也能达到相同效
                 }
                 currentDegree += intervalDegree;
                 nextElementDegree = currentDegree + intervalDegree;
 
                 //else {  Debug.Log("无效选择范围"); }//这样就可以让区间 范围外的位置选择无效化
-
             }
-
         }
         //可以有两个return？
         return -1;
@@ -223,7 +207,8 @@ public class CirclePanel : MonoBehaviour
 
 
     /// <summary>
-    ///  迭代器目前就记得  做延时wait效果就行 (C#图解讲的不全)
+    ///  迭代器目前就记得  做延时wait效果就行
+    ///  功能：选择由绿变红，选择完成后，关闭面板，重置状态机状态
     /// </summary>
     /// <returns></returns>
     private IEnumerator SelectOne()
@@ -233,23 +218,19 @@ public class CirclePanel : MonoBehaviour
         m_image.color = Color.green;
 
         //开始执行开启（调用迭代器）协程 的地方 ，执行之后代码的同时，等待下述 秒数(2f)后 继续执行迭代器中的内容
-        yield return new WaitForSeconds(2f);
-
+        yield return new WaitForSeconds(1f);
         //也就是鼠标停留再image上两秒后由绿色变成红色？
         m_image.color = Color.red;
+        //yield return new WaitForSeconds(1f);
         //重置m_index
         m_index = -1;
 
-        // 重置状态
+        // 重置状态 关闭面板
         m_state = State.Standby;
         SetPanelActive(false);
     }
 
-    /// <summary>
-    ///激活圆盘
-    /// </summary>
-    /// <param name="isActive"></param>
-    private void SetPanelActive(bool isActive)
+      private void SetPanelActive(bool isActive)
     {
         ResetImageColor(isActive);
         circlePanelRect.gameObject.SetActive(isActive);
