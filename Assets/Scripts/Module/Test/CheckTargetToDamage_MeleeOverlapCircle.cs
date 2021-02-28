@@ -54,6 +54,7 @@ public class CheckTargetToDamage_MeleeOverlapCircle : MonoBehaviour
 
                 foreach (Collider2D target in targetsToDamage)
                 {
+                    //为什么这段没有被打印出来？
                     Debug.Log($" kick{target.name}'s ass!!");
                 }
 

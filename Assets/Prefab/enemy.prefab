@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6133326855701585831}
   - component: {fileID: 6133326855701585830}
   - component: {fileID: 74400862}
-  - component: {fileID: 74400859}
   - component: {fileID: 74400863}
   - component: {fileID: 1631810338}
   m_Layer: 11
@@ -155,18 +154,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &74400859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6133326855701585829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4da2e537669125c4282c3d5959d1dc58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &74400863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,9 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec1e186f58eb2647a6b90869ef1e2eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkIntervalVolume: 1
-  attackRange: 0.5
-  atkValue: 10
+  atkIntervalVolume: 100
+  attackRange: 0.3
+  atkValue: 1
   targetsLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -346,7 +333,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.004171755, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -357,7 +344,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.09054636, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &8391095674336607958
 MonoBehaviour:

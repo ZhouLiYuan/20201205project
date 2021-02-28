@@ -73,7 +73,7 @@ public class EnemyGetDamage : MonoBehaviour
     public void TakeDamage(int damageValue)
     {
 
-        en_anim.SetTrigger("Hurt，根据unityEditor下的参数命名");
+        en_anim.SetTrigger("Hurt");
         //被攻击产生硬直
         dazedTime = dazedTimeVolume;
         Daze();
