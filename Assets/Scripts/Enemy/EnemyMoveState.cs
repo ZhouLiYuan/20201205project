@@ -28,7 +28,6 @@ public class EnemyMoveState : StateMachineBehaviour
     Transform player;
 
 
-    Rigidbody2D en_rb;
     Rigidbody2D en_parent_rb;
  
     EnemyFacing enemy_facing;
@@ -38,7 +37,7 @@ public class EnemyMoveState : StateMachineBehaviour
     {
          player = GameObject.FindGameObjectWithTag("Player").transform;
         //这里通过anim clip所属animator获取 animator所挂载物体的刚体信息
-        en_rb = animator.GetComponent<Rigidbody2D>();
+        
         en_parent_rb = animator.transform.parent.GetComponent<Rigidbody2D>();
 
         //如果不在这里赋予enemy引用变量实例，虽然没有编译错误，下面会无法调用LookAtPlayer()方法
@@ -57,11 +56,11 @@ public class EnemyMoveState : StateMachineBehaviour
         Vector2 en_newPosition =Vector2.MoveTowards(en_parent_rb.position, targetPosition, en_speed * Time.fixedDeltaTime);
         //实际修改敌人刚体矢量
         en_parent_rb.MovePosition(en_newPosition);
-        en_rb = en_parent_rb;
+     
 
 
         //切换为攻击模式
-        if (Vector2.Distance(player.position, en_rb.position) <= attackRange)
+        if (Vector2.Distance(player.position, en_parent_rb.position) <= attackRange)
         {
             animator.SetTrigger("Attack");
             //停下来攻击
