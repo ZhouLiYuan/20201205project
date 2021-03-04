@@ -35,7 +35,7 @@ public class GetDamage : MonoBehaviour
 
         //动画模块
         m_anim = GetComponent<Animator>();
-        m_anim.SetBool("Moving", true);
+        m_anim.SetTrigger("Move");
     }
 
 

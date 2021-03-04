@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] public GameObject graphic;
+    [SerializeField] public GameObject m_character;
     //public Vector2 velocity;
     /// <summary>
     /// x轴的max速度
@@ -12,27 +12,13 @@ public class Character : MonoBehaviour
     public float maxSpeed;
     Vector3 dir = new Vector3(0, -1);
 
-    //size不同的角色检测离地距离不同（也许可以做成模块,下面是代码参考，和GroundDetect配套）
-    //[SerializeField] private Rigidbody2D _rigidbody;
-
-    //private GroundDetect _groundDetect;
-    //private bool IsGrounded { get { return _groundDetect.IsGrounded; } }
-
-    //void Start()
-    //{
-    //    _rigidbody = GetComponent<Rigidbody2D>();
-    //    _groundDetect = GetComponentInChildren<GroundDetect>();
-   
-    //}
-
-    [SerializeField] private float distance = 0.2f;
-    [SerializeField] private float jumpSpeed = 5f;
-
-    [SerializeField] private Transform groundCheckPosition;
-    //好像这里的rigidbody2d和所挂载Gobj的rg2d组件没什么关系
-    //序列化后并没有出现在inspector里
+    /// <summary>
+    /// 剩余可跳跃次数
+    /// </summary>
+    private int jumpCount;
+    [SerializeField] private float jumpSpeed;
     [SerializeField] Rigidbody2D rigidbody2d;
-    
+
     //能力延伸
     [SerializeField] private Hook m_hook;
 
@@ -40,20 +26,27 @@ public class Character : MonoBehaviour
     [SerializeField] private GameObject weaponSelectCanvas;
     [SerializeField] private GameObject weapon;
 
-    private bool isGrounded;
+    //地面检测
+    private GroundDetect _groundDetect;
+    private bool IsGrounded { get { return _groundDetect.IsGrounded; } }
 
     protected Vector2 targetVelocity;
-    protected Vector2 move = Vector2.zero;
+    protected Vector2 move;
 
+
+    private void Start()
+    {
+        move = Vector2.zero;
+        _groundDetect = GetComponentInChildren<GroundDetect>();
+    }
 
 
     private void Update()
     {
 
         //在自己类体里调用就不用声明实例
-        CheckIsGrounded();
-
         HandleInput();
+        GraphicFlip();
 
     }
 
@@ -65,7 +58,7 @@ public class Character : MonoBehaviour
         move.x = Input.GetAxis("Horizontal");
         HorizontalMovement();
         //跳跃
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) { Jump(); }
+        if (Input.GetKeyDown(KeyCode.Space)) { Jump(); }
         //钩锁
         if (Input.GetKey(KeyCode.G))
         {
@@ -80,15 +73,55 @@ public class Character : MonoBehaviour
         rigidbody2d.velocity = new Vector2(move.x * maxSpeed, rigidbody2d.velocity.y);
     }
 
+    /// <summary>
+    ///角色反转功能
+    ///使用前提，动画中没有k scale或者rotation的帧
+    ///当Gobj scale和速度方向相反的时候反转
+    /// </summary>
+    private void GraphicFlip()
+    {
+        //先判断非空
+        if (m_character)
+        {
+            if (move.x > 0.01f && m_character.transform.localScale.x == -1)
+            {
+                m_character.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            }
+            else if (move.x < -0.01f && m_character.transform.localScale.x == 1)
+            {
+                    m_character.transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 一次跳跃，2段跳，浮空跳
+    /// </summary>
     private void Jump()
 
     {
-        rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, jumpSpeed);
+        if (IsGrounded)
+        {
+            jumpCount = 2;
+            rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, jumpSpeed);
+            jumpCount--;
+            Debug.Log($"剩余跳跃次数{jumpCount}");
+        }
+        //
+        else if (Input.GetKeyDown(KeyCode.Space) && !IsGrounded && jumpCount > 0)
+        {
+            rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, jumpSpeed);
+            jumpCount = 0;
+        }
     }
+
+
+
+
 
     private void Hook()
     {
-        
+
         var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //所挂载Gobj坐标 到 鼠标坐标(实现实时变化的距离)
         var direction = worldPosition - transform.position;
@@ -106,26 +139,6 @@ public class Character : MonoBehaviour
 
     }
 
-    private void CheckIsGrounded()
-    {
-        var result = Physics2D.Raycast(groundCheckPosition.position, dir, distance);
-        //需要先判断result非空
-        if (result.collider)
-        {
-            isGrounded = result.collider.tag == "Platform";
-        }
-        //补足result为空的情况，因为result为空的时候不会执行上面的if语句， isGrounded会一直保留最开始时接地的判断true,会导致玩家可以无限跳
-        else { isGrounded = false; }
-
-        //Debug.Log($"{result.collider}{isGrounded}");
-        Debug.Log($"地面碰撞情况 = {isGrounded}");
-    }
-
-    private void OnDrawGizmos()
-    {
-        Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + transform.up * -1f * distance, Color.red, 1f);
-    }
-
 
     //切换武器
     public void ChangeWeapon(string weaponName)
@@ -138,6 +151,32 @@ public class Character : MonoBehaviour
 }
 
 
+//[SerializeField] private Transform groundCheckPosition;
+//private bool isGrounded;
+///// <summary>
+///// 旧的地面检测方法，现在用分离做成模块的脚本
+///// </summary>
+//private void CheckIsGrounded()
+//{
+//    var result = Physics2D.Raycast(groundCheckPosition.position, dir, distance);
+//    //需要先判断result非空
+//    if (result.collider)
+//    {
+//        isGrounded = result.collider.tag == "Platform";
+//    }
+//    //补足result为空的情况，因为result为空的时候不会执行上面的if语句， isGrounded会一直保留最开始时接地的判断true,会导致玩家可以无限跳
+//    else { isGrounded = false; }
+
+//    //Debug.Log($"{result.collider}{isGrounded}");
+//    Debug.Log($"地面碰撞情况 = {isGrounded}");
+//}
+
+//private void OnDrawGizmos()
+//{
+//    Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + transform.up * -1f * distance, Color.red, 1f);
+//}
+
+
 //代码素材库
 /*
 [SerializeField] private GameObject graphic;
@@ -148,25 +187,7 @@ public class Character : MonoBehaviour
 [SerializeField] private AudioClip[] jumpSounds;
 */
 
-//反转功能
-//if (graphic)
-//{
-//    if (move.x > 0.01f)
-//    {
-//        if (graphic.transform.localScale.x == -1) //这里是不是写反了
-//        {
-//            graphic.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
-//            //为什么变量后面可以跟成员名
-//            //前面加上GameObject变量名反而错？
-//        }
-//    }
-//    else if (move.x < -0.01f)
-//    {
-//        if (graphic.transform.localScale.x == 1)
-//        {
-//            graphic.transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-//        }
-//    }
+
 
 //音效功能
 
@@ -223,26 +244,3 @@ public class Character : MonoBehaviour
 //}
 
 
-//二段跳
-//  void Jump()
-//{
-//    if (isGround)
-//    {
-//        //二段跳
-//        jumpCount = 2;
-//        isJump = false;
-//    }
-//    if (jumpPressed && isGround)
-//    {
-//        isJump = true;
-//        Debug.Log(m_rb.velocity);
-//        m_rb.velocity = new Vector2(m_rb.velocity.x, jumpTakeOffSpeed);
-//        Debug.Log(m_rb.velocity);
-//        jumpCount--;
-//        jumpPressed = false;//这算是手动重置按键吗
-//    }
-//    else if (jumpPressed && isJump && jumpCount > 0) //isJump限制这是第二段跳
-//    {
-//        m_rb.velocity = new Vector2(m_rb.velocity.x, jumpTakeOffSpeed);
-//        jumpCount--;
-//        jumpPressed = false;

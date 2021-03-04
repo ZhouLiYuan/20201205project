@@ -64,14 +64,14 @@ public class CirclePanel : MonoBehaviour
         {
             //生成元素
             var objTemp = Instantiate(elementPrefab, elementParent);
-
+            //objTemp.SetActive(false);
             //为rotation部分赋值
             objTemp.GetComponent<RectTransform>().rotation = Quaternion.Euler(0f, 0f, i * (360f / elementCount));
             //调用集合添加元素方法
             m_images.Add(objTemp.GetComponent<Image>());
 
         }
-  
+        
         SetPanelActive(false);
     }
 
@@ -107,7 +107,7 @@ public class CirclePanel : MonoBehaviour
                 
                //有效的选择，进入 已选择状态
             case State.Selecting:
-                //松开按键的时候
+                //松开按键时 记录最后鼠标位置的向量信息
                 if (!Input.GetKey(KeyCode.O))
                 //m_state是非空重载吗？为什么可以传布尔值
                 //==的执行优先级比=高
@@ -158,30 +158,41 @@ public class CirclePanel : MonoBehaviour
         //确认screen的点在Rect中,这个方法会受Rect的pivot（作为中心基准）的影响
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(circlePanelRect, Input.mousePosition, screenCam, out Vector2 localPoint))
         {
+            //我的计算方法
             //用于判断位置的角度
             float m_degree = ComputeMousePosition(localPoint);
             float intervalDegree = 360 / elementCount;
 
-            //初始元素的角度区间
-            float currentDegree = - intervalDegree*0.5f ;
-            float nextElementDegree = currentDegree + intervalDegree;
+            int elementIndex;
+            float temp;
+            float trueDegree = (float)(m_degree + intervalDegree * 0.5);
+            temp = trueDegree/ intervalDegree;
 
-            for (int i = 0; i < elementCount; i++)
-            {
-                
-                if (currentDegree < m_degree && m_degree < nextElementDegree)
-                {
-                    Debug.Log($"选中  第{i+1}个，范围：{currentDegree}~{nextElementDegree}");
+            elementIndex = (int)temp;
+            Debug.Log($"选中  第{elementIndex}个，角度{m_degree}");
+            return elementIndex;
 
-                    return i;
-                    //return会退出包含循环体的整个方法，这样在检测到鼠标所在角度范围的时候就会直接退出循环，节省性能
-                    //或者用break也能达到相同效
-                }
-                currentDegree += intervalDegree;
-                nextElementDegree = currentDegree + intervalDegree;
+            ////YUKI方法
+            ////初始元素的角度区间
+            //float currentDegree = - intervalDegree*0.5f ;
+            //float nextElementDegree = currentDegree + intervalDegree;
 
-                //else {  Debug.Log("无效选择范围"); }//这样就可以让区间 范围外的位置选择无效化
-            }
+            //for (int i = 0; i < elementCount; i++)
+            //{
+
+            //    if (currentDegree < m_degree && m_degree < nextElementDegree)
+            //    {
+            //        Debug.Log($"选中  第{i+1}个，范围：{currentDegree}~{nextElementDegree}");
+
+            //        return i;
+            //        //return会退出包含循环体的整个方法，这样在检测到鼠标所在角度范围的时候就会直接退出循环，节省性能
+            //        //或者用break也能达到相同效
+            //    }
+            //    currentDegree += intervalDegree;
+            //    nextElementDegree = currentDegree + intervalDegree;
+
+            //    //else {  Debug.Log("无效选择范围"); }//这样就可以让区间 范围外的位置选择无效化
+            //}
         }
         //可以有两个return？
         return -1;
@@ -221,7 +232,7 @@ public class CirclePanel : MonoBehaviour
         yield return new WaitForSeconds(1f);
         //也就是鼠标停留再image上两秒后由绿色变成红色？
         m_image.color = Color.red;
-        //yield return new WaitForSeconds(1f);
+        yield return new WaitForEndOfFrame();
         //重置m_index
         m_index = -1;
 
@@ -259,6 +270,20 @@ public class CirclePanel : MonoBehaviour
     {
         //把第三第四象限的角度变为正数
         return degree < 0 ? degree + 360f : degree;
+    }
+
+    /// <summary>
+    /// 绘制鼠标位置
+    /// </summary>
+    void OnDrawGizmos()
+    {
+        Vector3 v3;
+        v3 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        v3 = new Vector3(v3.x, v3.y, 0f);
+        Gizmos.color = Color.yellow;
+        //Gizmos.DrawCube(Vector3.zero, Vector3.one);
+        //Gizmos.DrawCube(v3, Vector3.one);
+        //Debug.Log($"标记{v3}");
     }
 
 }

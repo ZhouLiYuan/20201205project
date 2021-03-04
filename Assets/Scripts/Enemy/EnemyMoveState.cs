@@ -72,7 +72,7 @@ public class EnemyMoveState : StateMachineBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //重置trigger
-        //animator.ResetTrigger("Attack");
+        animator.ResetTrigger("Attack");
     }
 
 
