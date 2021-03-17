@@ -3,46 +3,96 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//分割线素材
+//------------------------------<TopBarPanel>-----------------------------------
+//--------------------------------<MapPanel>------------------------------------
+//--------------------------------<Skill面板>---------------------------------------
+//-------------------------------<任务QuestPanel>--------------------------------
+//--------------------------------<OptionPanel>-----------------------------------
+
+
 /// <summary>
 /// 暂停菜单
 /// </summary>
 public class PausePanel : Panel
 {
+    private GameObject mapPanel;
+    private GameObject skillPanel;
     private GameObject questPanel;
     private GameObject optionPanel;
+
+
+    //层级
     /// <summary>
     /// 第二层级面板
     /// </summary>
     private GameObject secondaryPanel;
-   
     /// <summary>
     /// level用来标记所在层级
     /// </summary>
     private int level;
 
     //按钮字段
+    //-------------------<TopBarPanel>----------------------
     private Button mapButton;
     private Button skillButton;
     private Button questButton;
     private Button optionButton;
+    //---------------------------------<MapPanel>------------------------------------
+    private Button filterButton;
+    private Button markButton;
+    private Button fastTravelButton;
+    //--------------------------------<Skill面板>---------------------------------------
+    private Button maskPowerButton;
+    private Button abilitiesButton;
 
+    //-----------------------------<任务QuestPanel>--------------------------------------
     private Button mainQuestButton;
     private Button secondaryQuestButton;
+    //--------------------------------<OptionPanel>-----------------------------------------
+    private Button difficultyButton;
+    private Button audioButton;
+    private Button videoButton;
+    private Button controllerButton;
+    private Button keyboardButton;
 
+    //Quest面板任务详情
     private Text detailText;
-
+    //Skill面板技能点数
+    private Text abilityPointText;
 
     /// <summary>
     /// 第一层级面板
     /// </summary>
-    enum TopBarSelect { None,Quest,Option };
+    enum TopBarSelect { None,Map,Skill,Quest,Option };
     TopBarSelect topBarSelect = TopBarSelect.None;
-    //TopBarSelect 的 Quest元素 对应着 整个QuestSelect（枚举的树状层级）
+
+    //------------<二级（枚举的树状层级）>------------
+
     /// <summary>
-    /// 第二层级面板
+    /// 第二层级面板MapPanel
+    /// </summary>
+    enum MapSelect { None, Filter, Mark, FastTravel }
+    MapSelect mapSelect = MapSelect.None;
+
+    /// <summary>
+    /// 第二层级Skill面板
+    /// </summary>
+    enum SkillSelect { None, Abilities, MaskPower }
+    SkillSelect skillSelect = SkillSelect.None;
+
+    /// <summary>
+    /// 第二层级面板Skill面板
     /// </summary>
     enum QuestSelect { None,Main,Secondary}
     QuestSelect questSelect = QuestSelect.None;
+
+    /// <summary>
+    /// 第二层级面板OptionPanel
+    /// </summary>
+    enum OptionSelect { None,Difficulty,Audio,Video, Controller, Keyboard }
+    OptionSelect optionSelect = OptionSelect.None;
+
 
 
     public override void OnOpen()
@@ -70,22 +120,49 @@ public class PausePanel : Panel
     }
 
     /// <summary>
-    /// 初始化储存 按钮 信息的字段
+    /// 初始化储存 按钮 信息的字段 ( m_transform是prefab topNode PausePanel的transform)
     /// </summary>
     private void InitUI() 
     {
+        //这里有没有办法优化成一个for循环，一口气把所有按钮初始化
+
+        //----------------------------------------------<TopBarPanel>------------------------------------------------------
+        //Btn  Button = m_transform.Find("Panel/Button").GetComponent<Button>();
         mapButton = m_transform.Find("TopBarPanel/MapButton").GetComponent<Button>();
         skillButton = m_transform.Find("TopBarPanel/SkillButton").GetComponent<Button>();
         questButton = m_transform.Find("TopBarPanel/QuestButton").GetComponent<Button>();
         optionButton = m_transform.Find("TopBarPanel/OptionButton").GetComponent<Button>();
 
+        //----------------------------------------------<MapPanel>------------------------------------------------------
+        mapPanel = m_transform.Find("MapPanel").gameObject;
+        //Btn
+        filterButton = m_transform.Find("MapPanel/FilterButton").GetComponent<Button>();
+        markButton = m_transform.Find("MapPanel/MarkButton").GetComponent<Button>();
+        fastTravelButton = m_transform.Find("MapPanel/FastTravelButton").GetComponent<Button>();
+        //----------------------------------------------<Skill面板>------------------------------------------------------
+        skillPanel = m_transform.Find("SkillPanel").gameObject;
+        //Btn
+        abilitiesButton = m_transform.Find("SkillPanel/AbilitiesButton").GetComponent<Button>();
+        maskPowerButton = m_transform.Find("SkillPanel/MaskPowerButton").GetComponent<Button>();
+        //Txt
+        abilityPointText = m_transform.Find("SkillPanel/AbilityPointText").GetComponent<Text>();
+
+        //----------------------------------------------<任务QuestPanel>------------------------------------------------------
+        questPanel = m_transform.Find("QuestPanel").gameObject;
+        //Btn
         mainQuestButton = m_transform.Find("QuestPanel/MainQuestButton").GetComponent<Button>();
         secondaryQuestButton = m_transform.Find("QuestPanel/SecondaryQuestButton").GetComponent<Button>();
-
+        //Txt
         detailText = m_transform.Find("QuestPanel/DetailPanel/Text").GetComponent<Text>();
 
-        questPanel = m_transform.Find("QuestPanel").gameObject;
+        //----------------------------------------------<OptionPanel>------------------------------------------------------
         optionPanel = m_transform.Find("OptionPanel").gameObject;
+        //Btn
+        difficultyButton = m_transform.Find("OptionPanel/DifficultyButton").GetComponent<Button>();
+        audioButton = m_transform.Find("OptionPanel/AudioButton").GetComponent<Button>();
+        videoButton = m_transform.Find("OptionPanel/VideoButton").GetComponent<Button>();
+        controllerButton = m_transform.Find("OptionPanel/ControllerButton").GetComponent<Button>();
+        keyboardButton = m_transform.Find("OptionPanel/KeyboardButton").GetComponent<Button>();
     }
 
     /// <summary>
@@ -93,20 +170,59 @@ public class PausePanel : Panel
     /// </summary>
     private void Register()
     {
-        //mapButton.onClick.AddListener();
+        //----------------------------------------------<TopBarPanel>------------------------------------------------------
+        mapButton.onClick.AddListener(OnMap);
+        skillButton.onClick.AddListener(OnSkill);
         questButton.onClick.AddListener(OnQuest);
         optionButton.onClick.AddListener(OnOption);
-
+        //----------------------------------------------<MapPanel>------------------------------------------------------
+        filterButton.onClick.AddListener(OnFilter);
+        markButton.onClick.AddListener(OnMark);
+        fastTravelButton.onClick.AddListener(OnFastTravel);
+        //--------------------------------<Skill面板>---------------------------------------
+        abilitiesButton.onClick.AddListener(OnAbilities);
+        maskPowerButton.onClick.AddListener(OnMaskPower);
+        //-------------------------------<任务QuestPanel>--------------------------------
         mainQuestButton.onClick.AddListener(OnMainQuest);
         secondaryQuestButton.onClick.AddListener(OnSecondaryQuest);
+        //--------------------------------<OptionPanel>-----------------------------------
+        difficultyButton.onClick.AddListener(OnDifficulty);
+       audioButton.onClick.AddListener(OnAudio);
+        videoButton.onClick.AddListener(OnVideo);
+       controllerButton.onClick.AddListener(OnController);
+        keyboardButton.onClick.AddListener(OnKeyboard);
     }
 
 
     #region 一级菜单(回调方法)
+    private void ResetSecondaryPanel() 
+    {
+        mapPanel.SetActive(false);
+        skillPanel.SetActive(false);
+        questPanel.SetActive(false);
+        optionPanel.SetActive(false);
+    }
+    private void OnMap()
+    {
+        level = 2;
+        ResetSecondaryPanel();
+        topBarSelect = TopBarSelect.Map;
+        secondaryPanel = mapPanel;
+        mapPanel.SetActive(true);
+    }
+    private void OnSkill()
+    {
+        level = 2;
+        ResetSecondaryPanel();
+        topBarSelect = TopBarSelect.Skill;
+        secondaryPanel = skillPanel;
+        skillPanel.SetActive(true);
+    }
     private void OnQuest() 
     {
         //当前层级变为2
         level = 2;
+        ResetSecondaryPanel();
         topBarSelect = TopBarSelect.Quest;
         secondaryPanel = questPanel;
         questPanel.SetActive(true);
@@ -114,6 +230,7 @@ public class PausePanel : Panel
     private void OnOption()
     {
         level = 2;
+        ResetSecondaryPanel();
         topBarSelect = TopBarSelect.Option;
         secondaryPanel = optionPanel;
         optionPanel.SetActive(true);
@@ -121,7 +238,16 @@ public class PausePanel : Panel
     #endregion
 
     #region 二级菜单(回调方法)
-    private void OnMainQuest() 
+
+    //--------------------------------<MapPanel>------------------------------------
+    private void OnFilter() { }
+    private void OnMark() { }
+    private void OnFastTravel() { }
+    //--------------------------------<Skill面板>---------------------------------------
+    private void OnAbilities() { }
+    private void OnMaskPower() { }
+    //-------------------------------<任务QuestPanel>--------------------------------
+    private void OnMainQuest()
     {
         questSelect = QuestSelect.Main;
         detailText.text = "主线";
@@ -131,6 +257,12 @@ public class PausePanel : Panel
         questSelect = QuestSelect.Secondary;
         detailText.text = "支线";
     }
+    //--------------------------------<OptionPanel>-----------------------------------
+    private void OnDifficulty() { }
+    private void OnAudio() { }
+    private void OnVideo() { }
+    private void OnController() { }
+    private void OnKeyboard() { }
 
     #endregion
 

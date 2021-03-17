@@ -16,7 +16,7 @@ public static class UIManager
     static UIManager()
     {
         // 使用prefab创建已经配置好的UI环境
-        var uiPrefab = Resources.Load<GameObject>("UI/UIEnvironment");
+        var uiPrefab = Resources.Load<GameObject>("Prefab/UI/UIEnvironment");
         var uiObj = UnityEngine.Object.Instantiate(uiPrefab);
 
         canvasTransform = uiObj.transform.Find("Canvas");
@@ -36,7 +36,7 @@ public static class UIManager
         var name = type.ToString();
         Debug.Log($"类型名称{name}");
         //根据 路径 名称加载 Panel UI的Prefab
-        var prefab = Resources.Load<GameObject>($"UI/Panel/{name}");
+        var prefab = Resources.Load<GameObject>($"Prefab/UI/Panel/{name}");
         var obj = UnityEngine.Object.Instantiate(prefab);
 
         Panel panel = new Tpanel();
