@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UItool 
+public static class UItool 
 {
     /// <summary>
     /// 当前激活的面板
     /// </summary>
-    GameObject activePanel;
+    private static GameObject activePanel;
 
-    /// <summary>
-    /// 新建实例时 构造函数 传参 初始化字段
-    /// </summary>
-    /// <param name="panel"></param>
-    public UItool(GameObject panel)
-    {
-        activePanel = panel;
-    }
+    ///// <summary>
+    ///// 新建实例时 构造函数 传参 初始化字段
+    ///// </summary>
+    ///// <param name="panel"></param>
+    //public static UItool(GameObject panel)
+    //{
+    //    activePanel = panel;
+    //}
+
+
+
 
     /// <summary>
     /// 通过 类型参数 获取当前面板一个组件 
@@ -24,7 +27,7 @@ public class UItool
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T GetOrAddComponent<T>() where T : Component 
+    public static T GetOrAddComponent<T>() where T : Component 
     {
         if (activePanel.GetComponent<T>() == null) { activePanel.AddComponent<T>(); }
 
@@ -36,7 +39,7 @@ public class UItool
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public GameObject FindChildGameObject(string name) 
+    public static GameObject FindChildGameObject(string name) 
     {
 
         //为什么不能用findGameObject根据具体名字来找子对象？
@@ -60,7 +63,7 @@ public class UItool
     /// <typeparam name="T"></typeparam>
     /// <param name="name"></param>
     /// <returns></returns>
-    public T GetOrAddComponentInChildren<T>(string name) where T : Component
+    public static T GetOrAddComponentInChildren<T>(string name) where T : Component
     {
         GameObject child = FindChildGameObject(name);
         if (child)
