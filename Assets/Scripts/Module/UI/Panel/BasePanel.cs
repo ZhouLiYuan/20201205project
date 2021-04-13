@@ -8,15 +8,18 @@ using UnityEngine;
 /// </summary>
 public class BasePanel
 {
-    public UIInfo UIInfo { get; private set; }
-    public UItool UItool { get; private set; }
+    //代替原本的UIInfo
+    public virtual string Path { get; }
 
-    public PanelManager PanelManager { get; private set; }
+    //public UIInfo UIInfo { get; private set; }
+    //public UItool UItool { get; private set; }
 
-    public BasePanel(UIInfo uiInfo) 
-    {
-        UIInfo = uiInfo;
-    }
+    //public PanelManager PanelManager { get; private set; }
+
+    //public BasePanel(UIInfo uiInfo) 
+    //{
+    //    UIInfo = uiInfo;
+    //}
 
     public string m_name;
     /// <summary>
@@ -53,7 +56,8 @@ public class BasePanel
     }
     public virtual void OnClose()
     {
-        UIManager.DestroyUI(UIInfo);
+        //UIManager.DestroyUI(UIInfo);
+        
     }
 }
 
