@@ -6,8 +6,18 @@ using UnityEngine;
 /// <summary>
 /// 用抽象类做通用 模版
 /// </summary>
-public class Panel
+public class BasePanel
 {
+    public UIInfo UIInfo { get; private set; }
+    public UItool UItool { get; private set; }
+
+    public PanelManager PanelManager { get; private set; }
+
+    public BasePanel(UIInfo uiInfo) 
+    {
+        UIInfo = uiInfo;
+    }
+
     public string m_name;
     /// <summary>
     /// 面板所在物体的 gameObject
@@ -33,6 +43,19 @@ public class Panel
 
     public virtual void OnOpen() { }
     public virtual void OnUpdate(float deltaTime) { }
-    public virtual void OnClose() { }
-
+    public virtual void OnPause()
+    {
+        UItool.GetOrAddComponent<CanvasGroup>().blocksRaycasts = false;
+    }
+    public virtual void OnResume()
+    {
+        UItool.GetOrAddComponent<CanvasGroup>().blocksRaycasts = true;
+    }
+    public virtual void OnClose()
+    {
+        UIManager.DestroyUI(UIInfo);
+    }
 }
+
+
+

@@ -12,10 +12,19 @@ using UnityEngine.UI;
 
 
 /// <summary>
-/// 暂停菜单
+/// 暂停菜单(按钮拆分 三步骤 详细版)
 /// </summary>
-public class PausePanel : Panel
+public class PausePanel : BasePanel
 {
+    static readonly string path = "Resources/Prefab/UI/Panel/PausePanel";
+
+    /// <summary>
+    /// 创建UIInfo实例时，会调用其 有参构造函数（需要传入string类型 数据）
+    /// </summary>
+    public PausePanel() : base(new UIInfo(path)) { }
+
+
+
     private GameObject mapPanel;
     private GameObject skillPanel;
     private GameObject questPanel;
@@ -102,13 +111,12 @@ public class PausePanel : Panel
         //当前处在第一层级
         level = 1;
     }
-
     public override void OnUpdate(float deltaTime)
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             //如果是在第二层的面板
-            if (level == 2) 
+            if (level == 2)
             {
                 //退回第一层面板（TopBarSelect），重置枚举状态
                 level = 1;
@@ -117,6 +125,19 @@ public class PausePanel : Panel
                 secondaryPanel.SetActive(false);
             }
         }
+    }
+    public override void OnPause()
+    {
+        base.OnPause();
+    }
+
+    public override void OnResume()
+    {
+        base.OnResume();
+    }
+    public override void OnClose()
+    {
+        base.OnClose();
     }
 
     /// <summary>
