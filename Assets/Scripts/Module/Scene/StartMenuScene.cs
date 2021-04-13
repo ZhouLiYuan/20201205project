@@ -18,6 +18,7 @@ public class StartMenuScene : BaseScene
         //如果没有激活的scene的Name叫 Start 的，就加载一个
         if (SceneManager.GetActiveScene().name != sceneName)
         {
+            panelManager = new PanelManager();
             SceneManager.LoadScene(sceneName);
             SceneManager.sceneLoaded += SceneLoaded;
         }
@@ -26,7 +27,7 @@ public class StartMenuScene : BaseScene
     //参数列表 必须与事件sceneLoaded一致
     private void SceneLoaded(Scene scene, LoadSceneMode loadSceneMode) 
     {
-        panelManager = new PanelManager();
+       
         panelManager.Push(new StartMenuPanel());
 
         SceneManager.SetActiveScene(scene);

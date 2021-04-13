@@ -28,6 +28,7 @@ public class PanelManager
 
             //递归为什么要用递归
             stackPanel.Push(nextPanel);
+            // panelGo有是干嘛的
             GameObject panelGo = UIManager.GetSingleUI(nextPanel.UIInfo);
         }
     }
