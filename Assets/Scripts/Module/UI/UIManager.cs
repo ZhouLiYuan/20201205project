@@ -6,7 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 
 /// <summary>
-/// 负责从project的Resources中传参（prefab）
+/// 负责UI的管理，加载和生成
 /// </summary>
 public static class UIManager
 {
