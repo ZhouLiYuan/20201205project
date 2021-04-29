@@ -124,7 +124,13 @@ public static class UIManager
         }
     }
 
-    public static void Close<TPanel>(TPanel panel) where TPanel : BasePanel, new()
+
+    /// <summary>
+    /// 面板专用关闭方法
+    /// </summary>
+    /// <typeparam name="TPanel"></typeparam>
+    /// <param name="panel"></param>
+    public static void ClosePanel<TPanel>(TPanel panel) where TPanel : BasePanel, new()
     {
         panel.OnClose();
         //UnityEngine和.Net的System里分别各有一个Object类，需要命名空间+成员访问符UnityEngine.来访问Object

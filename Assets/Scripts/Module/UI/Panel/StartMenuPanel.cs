@@ -9,23 +9,30 @@ using UnityEngine.UI;
 /// </summary>
 public class StartMenuPanel : BasePanel
 {
-    static readonly string path = "Resources/Prefab/UI/Panel/StartMenuPanel";
+    public override string Path => "Assets/AssetBundles_sai/UI/Panel/StartMenuPanel.prefab";
 
     /// <summary>
-    /// 创建UIInfo实例时，会调用其 有参构造函数（需要传入string类型 数据）
+    /// StartMenu面板打开时调用的函数
     /// </summary>
-    public StartMenuPanel() : base(new UIInfo(path)) { }
-
     public override void OnOpen()
     {
-        //链式调用 整合 初始化组件 与 注册事件 以及匿名回调方法(lambda) 三个步骤
-        //UItool.GetOrAddComponentInChildren<Button>("").onClick.AddListener(() => {    } );
-        UItool.GetOrAddComponentInChildren<Button>("NewGameButton").onClick.AddListener(() => { GameRoot.Instance.MySceneManager.SetScene(new GameScene());  } );
-        UItool.GetOrAddComponentInChildren<Button>("LoadSaveDateButton").onClick.AddListener(() => { } );
-        //入栈
-        UItool.GetOrAddComponentInChildren<Button>("OptionButton").onClick.AddListener(() => { PanelManager.Push(new OptionPanel()); });
-        //出栈
-        UItool.GetOrAddComponentInChildren<Button>("QuitButton").onClick.AddListener(() => { PanelManager.Pop(); });
-    }
+        ////链式调用 整合 初始化组件 与 注册事件 以及匿名回调方法(lambda) 三个步骤
+        ////UItool.GetOrAddComponentInChildren<Button>("").onClick.AddListener(() => {    } );
+        //UItool.GetOrAddComponentInChildren<Button>("NewGameButton").onClick.AddListener(() => { GameRoot.Instance.MySceneManager.SetScene(new GameScene());  } );
+        //UItool.GetOrAddComponentInChildren<Button>("LoadSaveDateButton").onClick.AddListener(() => { } );
+        ////入栈
+        //UItool.GetOrAddComponentInChildren<Button>("OptionButton").onClick.AddListener(() => { PanelManager.Push(new OptionPanel()); });
+        ////出栈
+        //UItool.GetOrAddComponentInChildren<Button>("QuitButton").onClick.AddListener(() => { PanelManager.Pop(); });
+        
 
+        Find<Button>("NewGameButton").onClick.AddListener(() => new GameController().StartGame(0));
+        //读取存档（还没写这个功能）
+        Find<Button>("LoadSaveDateButton").onClick.AddListener(() => new GameController().StartGame(0));
+        //协程版本的打开Option面板
+        Find<Button>("OptionButton").onClick.AddListener(() => UIManager.OpenByCoroutine<OptionPanel>());
+        //关闭面板
+        Find<Button>("QuitButton").onClick.AddListener(()=> { UIManager.ClosePanel(this); });
+
+    }
 }
