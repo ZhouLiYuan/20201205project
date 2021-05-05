@@ -16,12 +16,14 @@ using UnityEngine.UI;
 /// </summary>
 public class PausePanel : BasePanel
 {
-    static readonly string path = "Resources/Prefab/UI/Panel/PausePanel";
+    //static readonly string path = "Resources/Prefab/UI/Panel/PausePanel";
+    //改为addressable的Name
+    public override string Path => "Assets/AssetBundles_sai/UI/Panel/PausePanel.prefab";
 
-    /// <summary>
-    /// 创建UIInfo实例时，会调用其 有参构造函数（需要传入string类型 数据）
-    /// </summary>
-    public PausePanel() : base(new UIInfo(path)) { }
+    ///// <summary>
+    ///// 创建UIInfo实例时，会调用其 有参构造函数（需要传入string类型 数据）
+    ///// </summary>
+    //public PausePanel() : base(new UIInfo(path)) { }
 
 
 
