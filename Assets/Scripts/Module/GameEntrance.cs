@@ -7,11 +7,12 @@ using UnityEngine;
 /// </summary>
 public class GameEntrance : MonoBehaviour
 {
-    
 
-    void Start()
+
+    IEnumerator Start()
     {
-        UIManager.Open<PausePanel>();
+        yield return UIManager.Init();
+        yield return UIManager.OpenPanelByCoroutine<StartMenuPanel>();
     }
 
  
