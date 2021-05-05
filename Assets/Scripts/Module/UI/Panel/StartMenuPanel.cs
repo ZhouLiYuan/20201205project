@@ -30,7 +30,7 @@ public class StartMenuPanel : BasePanel
         //读取存档（还没写这个功能）
         Find<Button>("LoadSaveDateButton").onClick.AddListener(() => new GameController().StartGame(0));
         //协程版本的打开Option面板
-        Find<Button>("OptionButton").onClick.AddListener(() => UIManager.OpenByCoroutine<OptionPanel>());
+        Find<Button>("OptionButton").onClick.AddListener(() => UIManager.OpenPanelByCoroutine<OptionPanel>());
         //关闭面板
         Find<Button>("QuitButton").onClick.AddListener(()=> { UIManager.ClosePanel(this); });
 
