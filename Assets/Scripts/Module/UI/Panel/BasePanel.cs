@@ -59,6 +59,8 @@ public class BasePanel
         //UIManager.DestroyUI(UIInfo);
     }
 
+
+
     protected T Find<T>(string path)
     {
         var t = m_transform.Find(path);
