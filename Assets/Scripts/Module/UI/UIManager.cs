@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 /// </summary>
 public static class UIManager
 {
-    private static Transform canvasTransform;
+    public static Transform canvasTransform { get; private set; }
     //new的实例只会存在在内存中，不会在场景中
     private static List<BasePanel> m_panels = new List<BasePanel>();
 
@@ -19,8 +19,6 @@ public static class UIManager
     ///// 配合UIInfo查询对应的Gobj
     ///// </summary>
     //private static Dictionary<UIInfo, GameObject> dicUI = new Dictionary<UIInfo, GameObject>();
-
-
 
     /// <summary>
     ///  协程方法初始化UI环境canvas
@@ -38,52 +36,65 @@ public static class UIManager
 
     }
 
-
-
-
     /// <summary>
-    /// 获取一个 UI 实例
+    /// 创建并获取一个面板实例
+    /// 可选参数：面板类型的委托（事件，当面板被打开的时候）
     /// </summary>
     /// <param name="info"></param>
     /// <returns></returns>
-    public static IEnumerator OpenByCoroutine<TPanel>(TPanel panel = null) where TPanel : BasePanel, new()
+    public static WaitOpenPanel<TPanel> OpenPanelByCoroutine<TPanel>(System.Action<TPanel> onPanelOpened = null) where TPanel : BasePanel, new()
     {
         GameObject parent = GameObject.Find("Canvas");
 
         if (!parent)
         {
             Debug.LogError("淦！你是不是没在场景中放canvas！？");
-            yield return null;
+            return null;
         }
 
-        //panel并不作为component，只是需要一个地方存放脚本实例，用new不用AddComponent
-        panel = new TPanel();
+        //panel并不作为component，只是需要一个地方存放 脚本类实例，用new不用AddComponent
+        var panel = new TPanel();
 
-        //每个panel类中都有对应的prefab路径信息？
-        var handle = Addressables.LoadAssetAsync<GameObject>(panel.Path);
-        yield return handle;
-        GameObject ui_Gobj = null;
-
-        //如果异步加载已经完成，就可以把加载到内存中的实例赋值给字段了
-        if (handle.Status == AsyncOperationStatus.Succeeded)
-        {
-            var prefab = handle.Result;
-            ui_Gobj = Object.Instantiate(prefab, parent.transform);
-
-            //加载完面板后初始化面板脚本中的字段
-            //因为 类型名就是面板名，所以可以typeof(TPanel).Name
-            panel.Init(typeof(TPanel).Name, ui_Gobj);
-            panel.OnOpen();
-            ui_Gobj.name = typeof(TPanel).Name;
-        }
+        ////改成用协程方式加载
+        // var handle = Addressables.LoadAssetAsync<GameObject>(panel.Path);
+        // yield return handle;
+        var loadPrefabHandle = new WaitLoadAsset<GameObject>(panel.Path);
 
 
-        panel.m_transform.SetParent(canvasTransform, false);
-        //往界面 面板集合 中追加元素
-        m_panels.Add(panel);
 
+        ////如果异步加载已经完成，就可以把加载到内存中的实例赋值给字段了
+        //if (handle.Status == AsyncOperationStatus.Succeeded)
+        //{
+        //    var prefab = handle.Result;
+        //    ui_Gobj = Object.Instantiate(prefab, parent.transform);
 
+        //    //加载完面板后初始化面板脚本中的字段
+        //    //因为 类型名就是面板名，所以可以typeof(TPanel).Name
+        //    panel.Init(typeof(TPanel).Name, ui_Gobj);
+        //    panel.OnOpen();
+        //    ui_Gobj.name = typeof(TPanel).Name;
+        //}
+
+        //panel.m_transform.SetParent(canvasTransform, false);
+        ////往界面 面板集合 中追加元素
+        //m_panels.Add(panel);
+
+        //if 改成  在加载成功时 回调 委托中的方法的形式
+
+        System.Action<GameObject> openPanelAction = prefab =>
+         {
+             GameObject panelGobj = Object.Instantiate(prefab, parent.transform);
+             //加载完面板后初始化面板脚本中的字段
+             //因为 类型名就是面板名，所以可以typeof(TPanel).Name
+             panelGobj.name = typeof(TPanel).Name;
+             panel.Init(panelGobj.name, panelGobj);
+             panel.OnOpen();
+         };
+
+        return new WaitOpenPanel<TPanel>(loadPrefabHandle, openPanelAction, onPanelOpened);
     }
+
+
 
     ///// <summary>
     ///// 加载 界面 时的初始化操作
@@ -114,10 +125,12 @@ public static class UIManager
 
     //}
 
-    
-    public static void Update() 
+    /// <summary>
+    /// 刷新面板信息
+    /// </summary>
+    public static void Update()
     {
-        foreach (var panel in m_panels) 
+        foreach (var panel in m_panels)
         {
             //OnUpdate在pausePanel里被override过
             panel.OnUpdate(Time.deltaTime);
