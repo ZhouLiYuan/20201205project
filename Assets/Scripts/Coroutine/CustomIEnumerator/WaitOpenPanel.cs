@@ -27,7 +27,7 @@ public class WaitOpenPanel<Tpanel> : CustomYieldInstruction where Tpanel : BaseP
    
 
     /// <summary>
-    /// 等待面板打开
+    /// 等待面板打开(构造函数)
     /// 所需参数：
     /// 1 需要一个加载面板的协程  2 无返回值openPanel委托 3 ？？？
     /// </summary>
@@ -39,7 +39,6 @@ public class WaitOpenPanel<Tpanel> : CustomYieldInstruction where Tpanel : BaseP
         OnOpened += onOpended;
         loadPanelPrefabCoroutine.OnFinish += _ =>
         {
-
             openPanelAction?.Invoke(loadPanelPrefabCoroutine.m_asset);
             m_panel = new Tpanel();
             IsCompleted = true;

@@ -6,6 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 /// <summary>
 /// 等待资源加载完成
+/// 在构造函数中以协程方式调用 异步加载方法
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class WaitLoadAsset<T> : CustomYieldInstruction where T : Object
@@ -37,7 +38,7 @@ public class WaitLoadAsset<T> : CustomYieldInstruction where T : Object
     public event System.Action<T> OnLoadSucceed;
 
 
-
+    //构造函数，开启协程，传入地址进行协程版本的异步加载
     public WaitLoadAsset(string location, System.Action<T> onLoadSucceed = null)
     {
         m_coroutine = CoroutineManager.StartCoroutine(AsyncLoad(location, onLoadSucceed));
@@ -63,17 +64,6 @@ public class WaitLoadAsset<T> : CustomYieldInstruction where T : Object
             OnLoadSucceed?.Invoke(m_asset);
         }
         OnFinish?.Invoke(m_asset);
-    }
-
-
-    /// <summary>
-    /// 协程枚举器movenext完成时，把asset传出去（该方法未被调用）
-    /// </summary>
-    /// <param name="asset"></param>
-    public void Complete(T asset)
-    {
-        IsCompleted = true;
-        m_asset = asset;
     }
 
     /// <summary>
