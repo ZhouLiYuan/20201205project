@@ -27,7 +27,7 @@ public static class UIManager
     public static IEnumerator Init()
     {
         // 使用prefab创建已经配置好的UI环境
-        var handle = Addressables.LoadAssetAsync<GameObject>("Prefab/UI/UIEnvironment.prefab暂定路径名");
+        var handle = Addressables.LoadAssetAsync<GameObject>("UIEnvironment");
         yield return handle;
         var uiPrefab = handle.Result;
         var ui_Obj = Object.Instantiate(uiPrefab);
