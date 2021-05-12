@@ -26,11 +26,11 @@ public class StartMenuPanel : BasePanel
         //UItool.GetOrAddComponentInChildren<Button>("QuitButton").onClick.AddListener(() => { PanelManager.Pop(); });
         
 
-        Find<Button>("NewGameButton").onClick.AddListener(() => new GameController().StartGame(0));
+        Find<Button>("NewGameButton").onClick.AddListener(() => new GameMode1Controller().StartGame(0));
         //读取存档（还没写这个功能）
-        Find<Button>("LoadSaveDateButton").onClick.AddListener(() => new GameController().StartGame(0));
+        Find<Button>("LoadSaveDateButton").onClick.AddListener(() => new GameMode1Controller().StartGame(0));
         //协程版本的打开Option面板
-        Find<Button>("OptionButton").onClick.AddListener(() => UIManager.OpenPanelByCoroutine<OptionPanel>());
+        Find<Button>("OptionButton").onClick.AddListener(() => UIManager.OpenPanel<OptionPanel>());
         //关闭面板
         Find<Button>("QuitButton").onClick.AddListener(()=> { UIManager.ClosePanel(this); });
 

@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
         Debug.Log(hitTarget.name);
 
         //检测集中对象非空（）这段代码要根据自己情况修改下！！
-        BaseEnemy enemy = hitTarget.GetComponent<BaseEnemy>();
+        BaseEnemy enemy = hitTarget.GetComponent< BaseEnemy>();
         if(enemy != null)
         {
             hitTarget.GetComponent<EnemyGetDamage>().TakeDamage(b_atkValue);

@@ -257,6 +257,8 @@ public class PausePanel : BasePanel
         topBarSelect = TopBarSelect.Option;
         secondaryPanel = optionPanel;
         optionPanel.SetActive(true);
+
+        UIManager.OpenPanel<OptionPanel>();
     }
     #endregion
 
