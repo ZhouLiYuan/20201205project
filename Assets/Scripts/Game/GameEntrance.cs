@@ -9,15 +9,20 @@ public class GameEntrance : MonoBehaviour
 {
 
 
-    IEnumerator Start()
-    {
-        yield return UIManager.Init();
-        yield return UIManager.OpenPanelByCoroutine<StartMenuPanel>();
-    }
+    //IEnumerator Start()
+    //{
+    //    yield return UIManager.Init();
+    //    yield return UIManager.OpenPanelByCoroutine<StartMenuPanel>();
+    //}
 
+    void Start() 
+    {
+        UIManager.OpenPanel<StartMenuPanel>();
+    }
  
     void Update()
     {
+       
         UIManager.Update();
     }
 }
