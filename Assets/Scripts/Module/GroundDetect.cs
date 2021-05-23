@@ -1,10 +1,18 @@
 ﻿using UnityEngine;
 
-public class GroundDetect : MonoBehaviour
+
+
+public class GroundDetect 
 {
     public bool IsGrounded { get; private set; }
-    [SerializeField] private Transform groundCheckPosition;
+    private Transform groundCheckPosition;
+    ///需要用插件序列化的变量！！！
     [SerializeField] private float distance = 0.2f;
+
+    public GroundDetect(Transform groundDetectGobjTransform) 
+    {
+        groundCheckPosition = groundDetectGobjTransform;
+    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -25,6 +33,7 @@ public class GroundDetect : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + transform.up * -1f * distance, Color.red, 1f);
+        var characterTransform = GameObject.Find("character").transform;
+        Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + characterTransform.up * -1f * distance, Color.red, 1f);
     }
 }

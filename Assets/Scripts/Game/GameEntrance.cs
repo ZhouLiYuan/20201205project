@@ -7,8 +7,6 @@ using UnityEngine;
 /// </summary>
 public class GameEntrance : MonoBehaviour
 {
-
-
     //IEnumerator Start()
     //{
     //    yield return UIManager.Init();

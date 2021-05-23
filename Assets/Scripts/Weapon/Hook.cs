@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//迭代建议：直接修改position这种根本不能用，如果进入collider里就会被刚体脚本朝外部弹开，
+//然而position每帧又会继续修改，建议改成应该会直接用刚体和速度来移动
 public class Hook : MonoBehaviour
 {
     //钩锁持有者（player）

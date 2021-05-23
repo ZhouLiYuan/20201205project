@@ -181,6 +181,11 @@ PrefabInstance:
       propertyPath: m_MatchWidthOrHeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7321876964332372422, guid: 7ad2d177b23d5de42acba326b498cdd6,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 7991
+      objectReference: {fileID: 0}
     - target: {fileID: 7912630638966391516, guid: 7ad2d177b23d5de42acba326b498cdd6,
         type: 3}
       propertyPath: m_LocalPosition.x

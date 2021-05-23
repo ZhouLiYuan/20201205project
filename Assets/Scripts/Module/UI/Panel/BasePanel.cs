@@ -31,7 +31,7 @@ public class BasePanel
     /// </summary>
     public Transform m_transform;
 
-    //初始化方法  为什么是定义为程序集合内可访问？
+  
     /// <summary>
     /// 用传入的参数(scene中的具体Gobj) 初始化抽象类字段
     /// </summary>
