@@ -1,4 +1,6 @@
-﻿//using System.Collections;
+﻿//Unity Wiki状态机教程 Transition枚举和 相关处理画蛇添足
+
+//using System.Collections;
 //using System.Collections.Generic;
 //using UnityEngine;
 
