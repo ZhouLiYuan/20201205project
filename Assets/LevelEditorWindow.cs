@@ -42,6 +42,7 @@ public class LevelEditorWindow : EditorWindow
     private void SaveLevelConfig() 
     {
         var enemyList = GameObject.Find("EnemyList");
+        var platformList = GameObject.Find("PlatformList");
 
         //关卡信息
         LevelData levelData = ScriptableObject.CreateInstance<LevelData>();
@@ -55,7 +56,17 @@ public class LevelEditorWindow : EditorWindow
             //为Scene中EnemyList下的每个子Gobj创建EnemyInfo实例并初始化（表现层和逻辑层的联系）
             levelData.EnemyInfos.Add(new EnemyInfo { ID = enGobj_transform.name, Position = enGobj_transform.position });
         }
-       
+
+        //关卡中的平台信息
+        levelData.PlatformInfos = new List<PlatformInfo>();
+
+        for (int i = 0; i < platformList.transform.childCount; i++)
+        {
+            var pfGobj_transform = platformList.transform.GetChild(i);
+            //为Scene中EnemyList下的每个子Gobj创建EnemyInfo实例并初始化（表现层和逻辑层的联系）
+            levelData.PlatformInfos.Add(new PlatformInfo { ID = pfGobj_transform.name, Position = pfGobj_transform.position });
+        }
+
         levelAssetPath = $"Assets/AssetBundles_sai/Level/{level}.asset";
         CreateAsset(levelData,levelAssetPath);
         

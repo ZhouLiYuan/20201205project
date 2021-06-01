@@ -16,4 +16,7 @@ public class LevelData : ScriptableObject
     /// 关卡中的敌人列表
     /// </summary>
     public List<EnemyInfo> EnemyInfos = new List<EnemyInfo>();
+
+    public List<PlatformInfo> PlatformInfos = new List<PlatformInfo>();
+
 }
