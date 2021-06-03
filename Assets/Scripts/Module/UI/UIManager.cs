@@ -11,19 +11,20 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public static class UIManager
 {
     public static Transform canvasTransform { get; private set; }
+    public static Camera UICamera { get; private set; }
     //new的实例只会存在在内存中，不会在场景中
     private static List<BasePanel> m_panels = new List<BasePanel>();
 
     static UIManager()
     {
-        // 使用prefab创建已经配置好的UI环境
+        // prefab创建UI环境Gobj
         var handle = Addressables.LoadAssetAsync<GameObject>("UIEnvironment");
-
         var uiPrefab = handle.WaitForCompletion();
-
         var ui_Obj = Object.Instantiate(uiPrefab);
 
+        //建立表现层和逻辑层之间关系
         canvasTransform = ui_Obj.transform.Find("Canvas");
+        UICamera = ui_Obj.transform.Find("UICamera").GetComponent<Camera>();
     }
     /// <summary>
     ///  创建并获取一个面板实例(同步加载方法)
