@@ -1,18 +1,19 @@
-﻿using UnityEngine;
-
-
-
-public class GroundDetect 
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class GroundDetect : MonoBehaviour
 {
     public bool IsGrounded { get; private set; }
-    private Transform groundCheckPosition;
-    ///需要用插件序列化的变量！！！
+    [SerializeField] private Transform groundCheckPosition;
     [SerializeField] private float distance = 0.2f;
 
-    public GroundDetect(Transform groundDetectGobjTransform) 
-    {
-        groundCheckPosition = groundDetectGobjTransform;
-    }
+
+    ////不继承MONO的赋值版本
+    //public GroundDetect(Transform groundDetectGobjTransform) 
+    //{
+    //    groundCheckPosition = groundDetectGobjTransform;
+    //}
+    //  var characterTransform = GameObject.Find("character").transform;
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -33,7 +34,6 @@ public class GroundDetect
 
     private void OnDrawGizmos()
     {
-        var characterTransform = GameObject.Find("character").transform;
-        Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + characterTransform.up * -1f * distance, Color.red, 1f);
+        Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + transform.up * -1f * distance, Color.red, 1f);
     }
 }
