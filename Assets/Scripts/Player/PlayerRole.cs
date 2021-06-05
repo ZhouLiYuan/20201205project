@@ -1,159 +1,216 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
-public class PlayerRole 
+public class PlayerRole : Entity
 {
-    public GameObject m_Role;
-    Rigidbody2D ch_rigidbody2d;
+    private Updater updater;
+    private FSM hookFsm;
+    private FSM moveFsm;
+
     Transform ch_transform;
+    Rigidbody2D ch_rigidbody2d;
 
+    //重力
+    private float maxGravity = -10f;
+    private float gravity = 9.8f;
+    public bool canApplyGravity = true;
 
-    //public Vector2 velocity;
-    /// <summary>
-    /// x轴的max速度
-    /// </summary>
-    public float maxSpeed;
-    Vector3 dir = new Vector3(0, -1);
+    public bool canMoveHorizontal = true;
 
-    /// <summary>
-    /// 剩余可跳跃次数
-    /// </summary>
-    private int jumpCount;
-    ///需要用插件序列化的变量!!
-    [SerializeField] private float jumpSpeed;
-
-
-    //能力延伸
-    [SerializeField] private Hook m_hook;
-
-    //UI部分
-    [SerializeField] private GameObject weaponSelectCanvas;
-    [SerializeField] private GameObject weapon;
+    //刚体速度
+    Rigidbody2D rg2d;
+    public Vector2 Velocity
+    {
+        get { return rg2d.velocity; }
+        set { rg2d.velocity = value; }
+    }
 
     //地面检测
-    private GroundDetect m_groundDetect;
-    private bool IsGrounded { get { return m_groundDetect.IsGrounded; } }
+    public GroundDetect GroundDetect { get; private set; }
 
-    protected Vector2 targetVelocity;
-    protected Vector2 move;
+    //输入 一些trigger
+    public PlayerInput playerInput;
+    public Vector2 inputAxis;
+    public bool IsLockPressed { get; private set; }
+    public bool IsHookPressed { get; private set; }
+    public bool IsJumpPressed { get; private set; }
+
+    public event Action<GameObject> OnShowLockTarget;
+    public void LockTarget(GameObject target) { OnShowLockTarget?.Invoke(target); }
 
     /// <summary>
     ///初始化脚本实例字段（建立逻辑层和表现层联系） 
     /// </summary>
-    public PlayerRole(GameObject characterGobj) 
+    public PlayerRole(GameObject roleGobj) : base(roleGobj)
     {
-        m_Role = characterGobj;
-        ch_rigidbody2d = m_Role.GetComponent<Rigidbody2D>();
-        ch_transform = m_Role.GetComponent<Transform>();
-
-        move = Vector2.zero;
-        m_groundDetect = new GroundDetect(m_Role.transform.Find("groundChecker").transform);
+        ch_rigidbody2d = roleGobj.GetComponent<Rigidbody2D>();
+        ch_transform = roleGobj.GetComponent<Transform>();
+        GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
+        
+        //updater相关  
     }
 
     /// <summary>
-    ///角色反转功能
-    ///使用前提，动画中没有k scale或者rotation的帧
-    ///当Gobj scale和速度方向相反的时候反转
+    /// 按键绑定到物理输入
     /// </summary>
-    private void GraphicFlip()
+    /// <param name="inputHandler"></param>
+    public void BindInput(PlayerInput inputHandler) 
     {
-        //先判断非空
-        if (m_Role)
-        {
-            if (move.x > 0.01f && m_Role.transform.localScale.x == -1)
-            {
-                m_Role.transform.localScale = new Vector3(1, ch_transform.localScale.y, ch_transform.localScale.z);
-            }
-            else if (move.x < -0.01f && m_Role.transform.localScale.x == 1)
-            {
-                m_Role.transform.localScale = new Vector3(-1, ch_transform.localScale.y, ch_transform.localScale.z);
-            }
-        }
-    }
+        this.playerInput = inputHandler;
+        //move
+        inputHandler.Move.performed += context => inputAxis = context.ReadValue<Vector2>();
+        inputHandler.Move.started += context => inputAxis = context.ReadValue<Vector2>();
+        inputHandler.Move.canceled += context => inputAxis = Vector2.zero;
 
+        //trigger (判断按键有无按下)
+        inputHandler.Lock.started += context => IsLockPressed = true;
+        inputHandler.Lock.canceled += context => IsLockPressed =false;
 
-    private void Update()
-    {
+        inputHandler.Hook.started += context => IsHookPressed = true;
+        inputHandler.Hook.canceled += context => IsHookPressed = false;
 
-        //在自己类体里调用就不用声明实例
-        HandleInput();
-        GraphicFlip();
-
-    }
-    private void HandleInput()
-    {
-        //移动
-        move.x = Input.GetAxis("Horizontal");
-        HorizontalMovement();
-        //跳跃
-        if (Input.GetKeyDown(KeyCode.Space)) { Jump(); }
-        //钩锁
-        if (Input.GetKey(KeyCode.G))
-        {
-            Hook();
-        }
-    }
-
-
-
-
-    public void HorizontalMovement()
-    {
-        Debug.Log($"水平输入 = {move.x}");
-        ch_rigidbody2d.velocity = new Vector2(move.x * maxSpeed, ch_rigidbody2d.velocity.y);
+        inputHandler.Jump.started += context => IsJumpPressed = true;
+        inputHandler.Jump.canceled += context => IsJumpPressed = false;
     }
 
 
     /// <summary>
-    /// 一次跳跃，2段跳，浮空跳
+    ///  //配置每个功能的FSM，为每个状态传owner实例
     /// </summary>
-    private void Jump()
-
+    private void InitFSM() 
     {
-        if (IsGrounded)
-        {
-            jumpCount = 2;
-            ch_rigidbody2d.velocity = new Vector2(ch_rigidbody2d.velocity.x, jumpSpeed);
-            jumpCount--;
-            Debug.Log($"剩余跳跃次数{jumpCount}");
-        }
-        //
-        else if (Input.GetKeyDown(KeyCode.Space) && !IsGrounded && jumpCount > 0)
-        {
-            ch_rigidbody2d.velocity = new Vector2(ch_rigidbody2d.velocity.x, jumpSpeed);
-            jumpCount = 0;
-        }
+        hookFsm = new FSM();
+        hookFsm.AddState<IdleState>().SetPlayerRole(this);
+        hookFsm.AddState<LockState>().SetPlayerRole(this);
+        hookFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
+
+        moveFsm = new FSM();
+        moveFsm.AddState<MoveState>().SetPlayerRole(this);
     }
 
-
-    private void Hook()
+    private void OnUpdate(float deltaTime) 
     {
-
-        var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //所挂载Gobj坐标 到 鼠标坐标(实现实时变化的距离)
-        var direction = worldPosition - m_Role.transform.position;
-        Debug.DrawLine(m_Role.transform.position, worldPosition, Color.green);
-
-        //防止射线撞到挂载Gobj本身，需要设置忽略层,参数列表再追加多一个LayerMask
-        var result = Physics2D.Raycast(m_Role.transform.position, direction, direction.magnitude, LayerMask.GetMask("Platform"));
-
-        if (result.collider && result.collider.tag == "Platform")
-        {
-            Debug.Log("发射钩锁");
-            m_hook.Shoot(result.point);
-            //开按键才会飞过去
-        }
-
+        hookFsm.Update(deltaTime);
+        moveFsm.Update(deltaTime);
     }
 
-    //切换武器
-    public void ChangeWeapon(string weaponName)
+    //物理相关的刷新
+    private void OnFixedUpdate(float fixedDeltaTime)
     {
-        weapon = Resources.Load<GameObject>(weaponName);
-        Debug.Log($"武器切换到{ weaponName}");
-        weaponSelectCanvas.SetActive(false);
+        hookFsm.FixedUpdate(fixedDeltaTime);
+        moveFsm.FixedUpdate(fixedDeltaTime);
+        if (canApplyGravity) ApplyGravity(fixedDeltaTime);
     }
+
+    private void ApplyGravity(float fixedDeltaTime) 
+    {
+        //Mathf.Max返回两个指定数字中较大
+        Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
+    }
+
+    /////// <summary>
+    ///////角色反转功能
+    ///////使用前提，动画中没有k scale或者rotation的帧
+    ///////当Gobj scale和速度方向相反的时候反转
+    /////// </summary>
+    ////private void GraphicFlip()
+    ////{
+    ////    //先判断非空
+    ////    if (m_Role)
+    ////    {
+    ////        if (move.x > 0.01f && m_Role.transform.localScale.x == -1)
+    ////        {
+    ////            m_Role.transform.localScale = new Vector3(1, ch_transform.localScale.y, ch_transform.localScale.z);
+    ////        }
+    ////        else if (move.x < -0.01f && m_Role.transform.localScale.x == 1)
+    ////        {
+    ////            m_Role.transform.localScale = new Vector3(-1, ch_transform.localScale.y, ch_transform.localScale.z);
+    ////        }
+    ////    }
+    ////}
+
+
+    //private void Update()
+    //{
+
+    //    //在自己类体里调用就不用声明实例
+    //    HandleInput();
+    //    GraphicFlip();
+
+    //}
+    //private void HandleInput()
+    //{
+    //    //移动
+    //    move.x = Input.GetAxis("Horizontal");
+    //    HorizontalMovement();
+    //    //跳跃
+    //    if (Input.GetKeyDown(KeyCode.Space)) { Jump(); }
+    //    //钩锁
+    //    if (Input.GetKey(KeyCode.G))
+    //    {
+    //        Hook();
+    //    }
+    //}
+
+
+
+
+    //public void HorizontalMovement()
+    //{
+    //    Debug.Log($"水平输入 = {move.x}");
+    //    ch_rigidbody2d.velocity = new Vector2(move.x * maxSpeed, ch_rigidbody2d.velocity.y);
+    //}
+
+
+    ///// <summary>
+    ///// 一次跳跃，2段跳，浮空跳
+    ///// </summary>
+    //private void Jump()
+
+    //{
+    //    if (IsGrounded)
+    //    {
+    //        jumpCount = 2;
+    //        ch_rigidbody2d.velocity = new Vector2(ch_rigidbody2d.velocity.x, jumpSpeed);
+    //        jumpCount--;
+    //        Debug.Log($"剩余跳跃次数{jumpCount}");
+    //    }
+    //    //
+    //    else if (Input.GetKeyDown(KeyCode.Space) && !IsGrounded && jumpCount > 0)
+    //    {
+    //        ch_rigidbody2d.velocity = new Vector2(ch_rigidbody2d.velocity.x, jumpSpeed);
+    //        jumpCount = 0;
+    //    }
+    //}
+
+
+    //private void Hook()
+    //{
+
+    //    var worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    //所挂载Gobj坐标 到 鼠标坐标(实现实时变化的距离)
+    //    var direction = worldPosition - m_Role.transform.position;
+    //    Debug.DrawLine(m_Role.transform.position, worldPosition, Color.green);
+
+    //    //防止射线撞到挂载Gobj本身，需要设置忽略层,参数列表再追加多一个LayerMask
+    //    var result = Physics2D.Raycast(m_Role.transform.position, direction, direction.magnitude, LayerMask.GetMask("Platform"));
+
+    //    if (result.collider && result.collider.tag == "Platform")
+    //    {
+    //        Debug.Log("发射钩锁");
+    //        m_hook.Shoot(result.point);
+    //        //开按键才会飞过去
+    //    }
+
+    //}
+
+    ////切换武器
+    //public void ChangeWeapon(string weaponName)
+    //{
+    //    weapon = Resources.Load<GameObject>(weaponName);
+    //    Debug.Log($"武器切换到{ weaponName}");
+    //    weaponSelectCanvas.SetActive(false);
+    //}
 
 }
 
