@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: Assets/AssetBundles_sai/character.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 544adfaef1c31bb4b83deaa76de73784
+    m_Address: Assets/AssetBundles_sai/UI/Panel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 52a50aa9a4584624f86160fa43c6dbea, type: 2}
   m_SchemaSet:
