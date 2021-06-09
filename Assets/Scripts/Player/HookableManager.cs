@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//做一个抽象不可见的hookable Gobj来作为可抓取物的识别标签
+
 public class HookableManager
 {
     private static List<GameObject> entities = new List<GameObject>();

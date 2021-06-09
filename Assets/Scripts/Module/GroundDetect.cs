@@ -1,6 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+/// <summary>
+/// 只用碰撞事件通知不用其生命周期函数
+/// </summary>
 public class GroundDetect : MonoBehaviour
 {
     public bool IsGrounded { get; private set; }

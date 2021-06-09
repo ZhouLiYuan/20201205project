@@ -7,6 +7,7 @@ using UnityEngine;
 //泛型方法（类型参数），非泛型（多参数列表重载）
 
 /// <summary>
+/// FSM管理 所有的状态
 /// 需要精准的返回类型时推荐 泛型方法
 /// </summary>
 public class FSM

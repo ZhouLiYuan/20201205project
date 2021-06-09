@@ -11,6 +11,9 @@ public class PlayerRole : Entity
     Rigidbody2D ch_rigidbody2d;
 
     //重力
+    /// <summary>
+    /// 代指y轴速度最大可加速到maxGravity 
+    /// </summary>
     private float maxGravity = -10f;
     private float gravity = 9.8f;
     public bool canApplyGravity = true;
@@ -51,13 +54,13 @@ public class PlayerRole : Entity
     }
 
     /// <summary>
-    /// 按键绑定到物理输入
+    /// 安排每个Action会回调的方法（），具体修改rigidbody velocity之类的应该放在对应的State类里
     /// </summary>
     /// <param name="inputHandler"></param>
     public void BindInput(PlayerInput inputHandler) 
     {
         this.playerInput = inputHandler;
-        //move
+        //move(实际物理输入的值)
         inputHandler.Move.performed += context => inputAxis = context.ReadValue<Vector2>();
         inputHandler.Move.started += context => inputAxis = context.ReadValue<Vector2>();
         inputHandler.Move.canceled += context => inputAxis = Vector2.zero;
