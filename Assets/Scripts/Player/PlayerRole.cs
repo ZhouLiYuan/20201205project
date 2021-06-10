@@ -49,8 +49,15 @@ public class PlayerRole : Entity
         ch_rigidbody2d = roleGobj.GetComponent<Rigidbody2D>();
         ch_transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
-        
+
         //updater相关  
+        //为场景中叫Updater的Gobj添加逻辑层Updater组件
+        updater = Updater.AddUpdater();
+        //单一方法 作为 一个Action参数传入Action集合（之后再集中调用）
+        updater.AddUpdateFunction(OnUpdate);
+        updater.AddFixedUpdateFunction(OnFixedUpdate);
+
+        InitFSM();
     }
 
     /// <summary>
@@ -111,26 +118,26 @@ public class PlayerRole : Entity
         Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
     }
 
-    /////// <summary>
-    ///////角色反转功能
-    ///////使用前提，动画中没有k scale或者rotation的帧
-    ///////当Gobj scale和速度方向相反的时候反转
-    /////// </summary>
-    ////private void GraphicFlip()
-    ////{
-    ////    //先判断非空
-    ////    if (m_Role)
-    ////    {
-    ////        if (move.x > 0.01f && m_Role.transform.localScale.x == -1)
-    ////        {
-    ////            m_Role.transform.localScale = new Vector3(1, ch_transform.localScale.y, ch_transform.localScale.z);
-    ////        }
-    ////        else if (move.x < -0.01f && m_Role.transform.localScale.x == 1)
-    ////        {
-    ////            m_Role.transform.localScale = new Vector3(-1, ch_transform.localScale.y, ch_transform.localScale.z);
-    ////        }
-    ////    }
-    ////}
+    ///// <summary>
+    /////角色反转功能
+    /////使用前提，动画中没有k scale或者rotation的帧
+    /////当Gobj scale和速度方向相反的时候反转
+    ///// </summary>
+    //private void GraphicFlip()
+    //{
+    //    //先判断非空
+    //    if (m_Role)
+    //    {
+    //        if (move.x > 0.01f && m_Role.transform.localScale.x == -1)
+    //        {
+    //            m_Role.transform.localScale = new Vector3(1, ch_transform.localScale.y, ch_transform.localScale.z);
+    //        }
+    //        else if (move.x < -0.01f && m_Role.transform.localScale.x == 1)
+    //        {
+    //            m_Role.transform.localScale = new Vector3(-1, ch_transform.localScale.y, ch_transform.localScale.z);
+    //        }
+    //    }
+    //}
 
 
     //private void Update()
