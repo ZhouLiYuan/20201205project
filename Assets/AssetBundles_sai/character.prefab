@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 1002361865290977444}
   - component: {fileID: 1002361865290977451}
   - component: {fileID: 1002361865290977450}
-  - component: {fileID: 1002361865290977448}
   - component: {fileID: 1021348778}
   - component: {fileID: 1021348784}
   m_Layer: 10
@@ -309,25 +308,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.7341517}
   m_EdgeRadius: 0
---- !u!114 &1002361865290977448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1002361865290977454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06eb6d05ab2d0794088c51e670799884, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_character: {fileID: 1002361865290977454}
-  maxSpeed: 5
-  jumpSpeed: 3
-  rigidbody2d: {fileID: 1002361865290977451}
-  m_hook: {fileID: 2718219609555126609}
-  weaponSelectCanvas: {fileID: 0}
-  weapon: {fileID: 0}
 --- !u!114 &1021348778
 MonoBehaviour:
   m_ObjectHideFlags: 0
