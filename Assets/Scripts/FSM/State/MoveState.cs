@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 public class MoveState : PlayerRoleState
 {
-    //需要用odin序列化
-    private float jumpSpeed = 8f;
-    private float moveSpeed = 5f;
+    public float jumpSpeed = 8f;
+    public float moveSpeed = 5f;
 
     public override void OnUpdate(float deltaTime)
     {

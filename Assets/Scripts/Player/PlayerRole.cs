@@ -3,12 +3,14 @@ using System;
 
 public class PlayerRole : Entity
 {
+    public string RoleName =>PlayerManager.m_roleName;
+
     private Updater updater;
     private FSM hookFsm;
     private FSM moveFsm;
 
-    Transform ch_transform;
-    Rigidbody2D ch_rigidbody2d;
+    public MoveState m_moveState;
+
 
     //重力
     /// <summary>
@@ -17,9 +19,10 @@ public class PlayerRole : Entity
     private float maxGravity = -10f;
     private float gravity = 9.8f;
     public bool canApplyGravity = true;
-
     public bool canMoveHorizontal = true;
 
+
+    Transform ch_transform;
     //刚体速度
     Rigidbody2D rg2d;
     public Vector2 Velocity
@@ -46,7 +49,7 @@ public class PlayerRole : Entity
     /// </summary>
     public PlayerRole(GameObject roleGobj) : base(roleGobj)
     {
-        ch_rigidbody2d = roleGobj.GetComponent<Rigidbody2D>();
+        rg2d = roleGobj.GetComponent<Rigidbody2D>();
         ch_transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
 
@@ -95,7 +98,8 @@ public class PlayerRole : Entity
         hookFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
 
         moveFsm = new FSM();
-        moveFsm.AddState<MoveState>().SetPlayerRole(this);
+        m_moveState = moveFsm.AddState<MoveState>();
+        m_moveState.SetPlayerRole(this);
     }
 
     private void OnUpdate(float deltaTime) 

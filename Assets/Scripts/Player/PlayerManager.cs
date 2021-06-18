@@ -4,19 +4,25 @@ using UnityEngine;
 
 
 //支持多角色
+//可以通过odin序列化静态变量
 public static class PlayerManager
 {
     private static List<PlayerRole> m_Roles = new List<PlayerRole>();
+    public static PlayerRole m_Role;
+    public static string m_roleName = "character";
+    public static GameObject m_gobj;
 
     /// <summary>
     /// 加载并生成 主角Gobj，并创建 主角脚本实例
+    /// (根据AssetBundles_sai文件夹下prefab名)
     /// </summary>
     /// <returns></returns>
-    public static PlayerRole SpawnCharacter(string roleName) 
+    public static PlayerRole SpawnCharacter() 
     {
-        var prefab = AssetModule.LoadAsset<GameObject>($"Assets/AssetBundles_sai/{roleName}.prefab");
+        var prefab = AssetModule.LoadAsset<GameObject>($"Assets/AssetBundles_sai/{m_roleName}.prefab");
         //创建逻辑层和表现层实例
-        PlayerRole m_Role = new PlayerRole(Object.Instantiate(prefab));
+        m_gobj = Object.Instantiate(prefab);
+         m_Role = new PlayerRole(m_gobj);
         m_Roles.Add(m_Role);
         return m_Role;
     }

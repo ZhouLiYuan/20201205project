@@ -9,10 +9,10 @@ public class GameMode1Controller  : GameController
 
     private List<GameObject> enemyObjs = new List<GameObject>();
     private PlayerRole m_role;
-    
-    
+
+
     //需要序列化的敌人名（可能之后需要抽象成一个节点？）
-    private string enemyPrefabName;
+    public string enemyPrefabName;
 
 
     public override void StartGame(int level)
@@ -24,8 +24,8 @@ public class GameMode1Controller  : GameController
         PlayerInput m_playerInput = new PlayerInput();
         m_playerInput.InitInput();
 
-        //加载主角(根据AssetBundles_sai文件夹下prefab名)
-        m_role = PlayerManager.SpawnCharacter("character");
+        //加载主角
+        m_role = PlayerManager.SpawnCharacter();
         //控制器和角色耦合
         m_role.BindInput(m_playerInput);
 
@@ -68,7 +68,7 @@ public class GameMode1Controller  : GameController
     private void InitLevel(int level)
     {
 
-        PlayerManager.SpawnCharacter("character");
+        PlayerManager.SpawnCharacter();
         //加载关卡：场景，地形，敌人
         var levelGobj = Object.Instantiate(Resources.Load<GameObject>($"Prefab/Level/{level}"));
       
