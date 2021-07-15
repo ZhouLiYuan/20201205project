@@ -48,6 +48,30 @@ public static class UIManager
         return panel;
     }
 
+    public static Tpanel Open<Tpanel>() where Tpanel : BasePanel, new()
+    {
+        //获得name（需要用到的UI Prefab名称必须和 脚本中的 类名 一致）
+        //type.Name仅仅只是把Type类型转换为了string类型,ToString也可以实现相同效果，不过type.Name更精准（因为有时不知道ToString的重载是什么）
+        System.Type type = typeof(Tpanel);
+        var name = type.ToString();
+        Debug.Log($"类型名称{name}");
+        Tpanel panel = new Tpanel();
+
+        //根据 路径 名称加载 Panel UI的Prefab
+        var prefab = AssetModule.LoadAsset<GameObject>(panel.Path);
+        var obj = Object.Instantiate(prefab);
+        Object.DontDestroyOnLoad(obj);
+
+        panel.Init(name, obj);
+        panel.OnOpen();
+
+        //设置父类为Canvas
+
+        panel.m_transform.SetParent(canvasTransform, false);
+        //往界面 面板集合 中追加元素
+        m_panels.Add(panel);
+        return panel;
+    }
 
 
     /// <summary>

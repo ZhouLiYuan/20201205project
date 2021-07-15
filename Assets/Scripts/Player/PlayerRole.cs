@@ -40,6 +40,9 @@ public class PlayerRole : Entity
     public bool IsLockPressed { get; private set; }
     public bool IsHookPressed { get; private set; }
     public bool IsJumpPressed { get; private set; }
+    public bool IsJumpTriggered{ get; private set; }
+
+
 
     public event Action<GameObject> OnShowLockTarget;
     public void LockTarget(GameObject target) { OnShowLockTarget?.Invoke(target); }
@@ -69,21 +72,23 @@ public class PlayerRole : Entity
     /// <param name="inputHandler"></param>
     public void BindInput(PlayerInput inputHandler) 
     {
+        //换角色时 解绑输入需要用到playerInput 这个引用缓存
         this.playerInput = inputHandler;
-        //move(实际物理输入的值)
-        inputHandler.Move.performed += context => inputAxis = context.ReadValue<Vector2>();
-        inputHandler.Move.started += context => inputAxis = context.ReadValue<Vector2>();
-        inputHandler.Move.canceled += context => inputAxis = Vector2.zero;
+        //move(实际物理输入的值) 
+        playerInput.Move.performed += context => inputAxis = context.ReadValue<Vector2>();
+        playerInput.Move.started += context => inputAxis = context.ReadValue<Vector2>();
+        playerInput.Move.canceled += context => inputAxis = Vector2.zero;
 
         //trigger (判断按键有无按下)
-        inputHandler.Lock.started += context => IsLockPressed = true;
-        inputHandler.Lock.canceled += context => IsLockPressed =false;
+        playerInput.Lock.started += context => IsLockPressed = true;
+        playerInput.Lock.canceled += context => IsLockPressed =false;
 
-        inputHandler.Hook.started += context => IsHookPressed = true;
-        inputHandler.Hook.canceled += context => IsHookPressed = false;
+        playerInput.Hook.started += context => IsHookPressed = true;
+        playerInput.Hook.canceled += context => IsHookPressed = false;
 
-        inputHandler.Jump.started += context => IsJumpPressed = true;
-        inputHandler.Jump.canceled += context => IsJumpPressed = false;
+        playerInput.Jump.performed += context => IsJumpTriggered = true;
+        playerInput.Jump.started += context => IsJumpTriggered = IsJumpPressed = true;
+        playerInput.Jump.canceled += context => IsJumpPressed = false;
     }
 
 
@@ -104,6 +109,7 @@ public class PlayerRole : Entity
 
     private void OnUpdate(float deltaTime) 
     {
+        IsJumpTriggered = playerInput.Jump.triggered;
         hookFsm.Update(deltaTime);
         moveFsm.Update(deltaTime);
     }
