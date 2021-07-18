@@ -14,17 +14,23 @@ public class DialogSystem : MonoBehaviour
     //Dialog的行数
     public int m_index;
 
+    [Header("角色头像")]
+    public Sprite m_player, m_enemy;
+
+    [Header("文本输出速度")]
     public float m_inputSpeed;
 
     //数组第一个string元素的index是0
     List<string> m_textList = new List<string>();
+    private bool textOutputFinished = false;
 
     private void OnEnable()
     {
+        textOutputFinished = true;
         //textContent.text = m_textList[m_index];
         ////Debug.Log($"第一句台词行号{m_index}");
         //m_index++;
-        StartCoroutine(SetTextUI());
+        StartCoroutine(SetDialogUI());
     }
 
     void Awake()
@@ -66,11 +72,12 @@ public class DialogSystem : MonoBehaviour
             return;
         }
         //每按一次R，就逐行输出文本
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R)&&textOutputFinished)
         {
+            
             //textContent.text = m_textList[m_index];
             //m_index++;
-            StartCoroutine(SetTextUI());
+            StartCoroutine(SetDialogUI());
         }
     }
 
@@ -78,19 +85,38 @@ public class DialogSystem : MonoBehaviour
     /// 逐字输出台词
     /// </summary>
     /// <returns></returns>
-    IEnumerator SetTextUI() 
+    IEnumerator SetDialogUI() 
     {
+        textOutputFinished = false;
         //换行时对话框内text重置
         m_textContent.text = "";
 
+        //根据文本切换角色头像(若某一行文本全是 人名 则换头像并且前进一行)
+        switch (m_textList[m_index]) 
+        {
+            //执行不进来
+            case "煉獄":
+                m_charaterFace.sprite = m_player;
+                Debug.Log("能执行到switch语句但无法执行到case中");
+                m_index++;
+                break;
+            case "あかざ":
+                m_charaterFace.sprite = m_enemy;
+                Debug.Log("能执行到switch语句但无法执行到case中");
+                m_index++;
+                break;
+        }
+
         for (int i = 0; i < m_textList[m_index].Length; i++) 
         {
-            //m_textList[m_index][i] 第m_index行的第i个字符
+            //m_textList[m_index][i] 第m_index行的第i个字符 (按m_inputSpeed速度挨个+字符)
             m_textContent.text += m_textList[m_index][i];
             yield return new WaitForSeconds(m_inputSpeed);
         }
         //增加行数
         m_index++;
+
+        textOutputFinished = true;
     }
     
 

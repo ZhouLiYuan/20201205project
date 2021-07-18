@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4132320648394327221
 RectTransform:
   m_ObjectHideFlags: 0
@@ -92,7 +92,9 @@ MonoBehaviour:
   m_textContent: {fileID: 4132320648778556759}
   m_charaterFace: {fileID: 4132320648951399201}
   m_textFile: {fileID: 4900000, guid: cd3ad10387b01364b98cbcce028931de, type: 3}
-  m_index: 10
+  m_index: 100
+  m_player: {fileID: 21300000, guid: 98779dc2f54255241ab52da82fa0a4e7, type: 3}
+  m_enemy: {fileID: 21300000, guid: 9ea8d82ad87accf44a2f44c189b1606c, type: 3}
   m_inputSpeed: 0.1
 --- !u!1 &4132320648778556753
 GameObject:
