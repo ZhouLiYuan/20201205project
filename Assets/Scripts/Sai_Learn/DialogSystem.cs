@@ -22,7 +22,11 @@ public class DialogSystem : MonoBehaviour
 
     //数组第一个string元素的index是0
     List<string> m_textList = new List<string>();
+
+    //在下一句打印输出前判断上一句是否输出完成
     private bool textOutputFinished = false;
+    //取消逐字输出
+    private bool cancelTyping = false;
 
     private void OnEnable()
     {
@@ -72,12 +76,25 @@ public class DialogSystem : MonoBehaviour
             return;
         }
         //每按一次R，就逐行输出文本
-        if (Input.GetKeyDown(KeyCode.R)&&textOutputFinished)
+        //if (Input.GetKeyDown(KeyCode.R)&&textOutputFinished)
+        //{
+        //    //textContent.text = m_textList[m_index];
+        //    //m_index++;
+        //    StartCoroutine(SetDialogUI());
+        //}
+
+        if (Input.GetKeyDown(KeyCode.R)) 
         {
-            
-            //textContent.text = m_textList[m_index];
-            //m_index++;
-            StartCoroutine(SetDialogUI());
+            if (textOutputFinished && !cancelTyping)
+            {
+                StartCoroutine(SetDialogUI());
+            }
+            //当前句还未输出完成的时候，再次按下R键就会进入else if的判断
+            else if (!textOutputFinished) 
+            {
+                //把trigger true false互换的一种写法
+                cancelTyping = !cancelTyping;
+            }
         }
     }
 
@@ -107,16 +124,30 @@ public class DialogSystem : MonoBehaviour
                 break;
         }
 
-        for (int i = 0; i < m_textList[m_index].Length; i++) 
+        //for (int i = 0; i < m_textList[m_index].Length; i++) 
+        //{
+        //    //m_textList[m_index][i] 第m_index行的第i个字符 (按m_inputSpeed速度挨个+字符)
+        //    m_textContent.text += m_textList[m_index][i];
+        //    yield return new WaitForSeconds(m_inputSpeed);
+        //}
+        //for循环只能做计数循环，while循环可以自定义循环条件(当while的条件为 纯计数条件时两者可以互换)
+
+        int letter = 0;
+        //不取消的情况下才调用协程方法
+        while (!cancelTyping && letter < m_textList[m_index].Length)
         {
-            //m_textList[m_index][i] 第m_index行的第i个字符 (按m_inputSpeed速度挨个+字符)
-            m_textContent.text += m_textList[m_index][i];
+            m_textContent.text += m_textList[m_index][letter];
+            letter++;
             yield return new WaitForSeconds(m_inputSpeed);
         }
+
+        //直接赋值整行string
+        m_textContent.text = m_textList[m_index];
+
+        cancelTyping = false;
+        textOutputFinished = true;
         //增加行数
         m_index++;
-
-        textOutputFinished = true;
     }
     
 
