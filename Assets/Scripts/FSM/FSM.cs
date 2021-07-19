@@ -18,7 +18,7 @@ public class FSM
     protected readonly Dictionary<string, State> States = new Dictionary<string, State>();
 
     //------------------------------------------<添加状态>----------------------------------------
-    
+
     /// <summary>
     /// 用类型参数创建实例
     /// </summary>
@@ -32,7 +32,7 @@ public class FSM
 
         if (States.Count == 0)
         {
-            PreviousState = CurrentState = CurrentState;
+            PreviousState  = CurrentState;
             CurrentState = state;
             NextState = null;
         }
@@ -116,6 +116,9 @@ public class FSM
         return ChangeState(stateName) as TState;
     }
 
+
+    //TryGetValue和ContainKey 性能对比https://zhuanlan.zhihu.com/p/104681735
+    //查找不确定数据的时候应该用TryGetValue（且性能更好比ContainKey少调用一次FindEntry）
     public State ChangeState(string stateName)
     {
         State state = null;

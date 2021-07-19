@@ -2,7 +2,7 @@
 /// <summary>
 /// 状态方面，只有ChangeState方法（封装自FSM）
 /// </summary>
-public class State
+public abstract class State
 {
     public string Name { get; private set; }
     public FSM FSM { get; private set; }
