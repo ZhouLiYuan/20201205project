@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Level Group
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: Level Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 32ed40873f490bd40878d040698a96cf
+  m_GUID: d6e1db17b57565d4a9bfad0d11ec207c
   m_SerializeEntries:
-  - m_GUID: 1aa63a1d059c2444bafc70b64762151e
-    m_Address: Assets/AssetBundles_sai/character.prefab
+  - m_GUID: 7d787056ee4d5f44eba6d83756f04f0f
+    m_Address: Level
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 52a50aa9a4584624f86160fa43c6dbea, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 50c5d62bfd0145940bccc6bc86d68d5f, type: 2}
-    - {fileID: 11400000, guid: 9da3e8f16baeec84ebe38c9ffa215957, type: 2}
+    - {fileID: 11400000, guid: 004c6005283a35c4c98fcdc567f666b7, type: 2}
+    - {fileID: 11400000, guid: 1455cdb38ec5747418b31add3a494543, type: 2}

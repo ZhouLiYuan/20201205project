@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 1ab9faaae6bf6e14792ed63a45938e12
   m_SerializeEntries:
   - m_GUID: 45869eb92e6cf6e4c929c0536c857637
-    m_Address: Assets/AssetBundles_sai/Enemy
+    m_Address: Enemy
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
