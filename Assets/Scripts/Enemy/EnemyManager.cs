@@ -19,7 +19,7 @@ public static class EnemyManager
     /// <returns></returns>
     public static TEnemy SpawnEnemy<TEnemy>(string prefabName) where TEnemy : BaseEnemy,new()
     {
-        var prefab = AssetModule.LoadAsset<GameObject>($"Assets/AssetBundles_sai/Enemy/enemy_sword{prefabName}.prefab");
+        var prefab = AssetModule.LoadAsset<GameObject>($"Enemy/enemy_sword{prefabName}.prefab");
         var obj = Object.Instantiate(prefab);
         TEnemy enemy = new TEnemy();
 
