@@ -27,8 +27,8 @@ public class StartMenuScene : BaseScene
     //参数列表 必须与事件sceneLoaded一致
     private void SceneLoaded(Scene scene, LoadSceneMode loadSceneMode) 
     {
-       
-        UIManager.OpenPanelByCoroutine<StartMenuPanel>();
+        UIManager.OpenPanel<StartMenuPanel>();
+        //UIManager.OpenPanelByCoroutine<StartMenuPanel>();
 
         SceneManager.SetActiveScene(scene);
 

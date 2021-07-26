@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameMode2Controller
 {
     //沿用现有脚本(Mono)
-    private PlayerRole m_character;
+    //private PlayerRole m_character;
 
     private GameObject characterGo;
     private GameObject hookGo;
