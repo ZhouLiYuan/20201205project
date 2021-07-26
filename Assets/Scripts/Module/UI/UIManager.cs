@@ -41,6 +41,7 @@ public static class UIManager
         GameObject panelGobj = Object.Instantiate(prefab,canvasTransform);
 
         panelGobj.name = typeof(TPanel).Name;
+        Debug.Log($"类型名称{panelGobj.name}");
         //初始化panel脚本字段，调用打开时的回调方法
         panel.Init(panelGobj.name, panelGobj);
         panel.OnOpen();
@@ -48,20 +49,23 @@ public static class UIManager
         return panel;
     }
 
-    public static Tpanel Open<Tpanel>() where Tpanel : BasePanel, new()
+    //和上面的OpenPanel<TPanel>写法略有不同，除了上面有可选参数可提供，其他没有差别
+    public static TPanel Open<TPanel>() where TPanel : BasePanel, new()
     {
-        //获得name（需要用到的UI Prefab名称必须和 脚本中的 类名 一致）
-        //type.Name仅仅只是把Type类型转换为了string类型,ToString也可以实现相同效果，不过type.Name更精准（因为有时不知道ToString的重载是什么）
-        System.Type type = typeof(Tpanel);
-        var name = type.ToString();
-        Debug.Log($"类型名称{name}");
-        Tpanel panel = new Tpanel();
+        TPanel panel = new TPanel();
 
         //根据 路径 名称加载 Panel UI的Prefab
         var prefab = AssetModule.LoadAsset<GameObject>(panel.Path);
+        //var obj = Object.Instantiate(prefab, canvasTransform);
         var obj = Object.Instantiate(prefab);
         Object.DontDestroyOnLoad(obj);
 
+        //获得name（需要用到的UI Prefab名称必须和 脚本中的 类名 一致）
+        //type.Name仅仅只是把Type类型转换为了string类型
+        //ToString也可以实现相同效果，不过type.Name更精准（因为有时不知道ToString的重载是什么）
+        System.Type type = typeof(TPanel);
+        var name = type.ToString();
+        Debug.Log($"类型名称{name}");
         panel.Init(name, obj);
         panel.OnOpen();
 

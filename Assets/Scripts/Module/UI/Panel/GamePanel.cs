@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class GamePanel : BasePanel
 {
-    public override string Path => "Assets/AssetBundles_sai/UI/Panel/GamePanel.prefab";
+    public override string Path => "Panel/GamePanel.prefab";
     private GameObject lockUI;
 
     public override void OnOpen()
@@ -15,8 +15,9 @@ public class GamePanel : BasePanel
         Init();
     }
 
-    private void Init()
+    private void Init() 
     {
+        //好像是因为下面的命令是在LockUI Gobj生成前就调用到了（还是说和炼狱一样，是输入法问题？）(调试结果发现lockUI始终是null没有被赋值，并且调试程序没有继续执行)
         lockUI = Find<GameObject>("LockUI");
         lockUI.SetActive(false);
     }

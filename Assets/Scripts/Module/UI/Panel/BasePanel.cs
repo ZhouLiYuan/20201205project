@@ -59,6 +59,7 @@ public class BasePanel
         //UIManager.DestroyUI(UIInfo);
     }
 
+    public void Close() { UIManager.ClosePanel(this); }
 
 
     protected T Find<T>(string path)
