@@ -81,7 +81,7 @@ public static class UIManager
     /// <summary>
     /// 刷新面板信息
     /// </summary>
-    public static void Update()
+    public static void OnUpdate()
     {
         foreach (var panel in m_panels)
         {
