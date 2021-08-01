@@ -56,8 +56,8 @@ public static class UIManager
 
         //根据 路径 名称加载 Panel UI的Prefab
         var prefab = AssetModule.LoadAsset<GameObject>(panel.Path);
-        //var obj = Object.Instantiate(prefab, canvasTransform);
-        var obj = Object.Instantiate(prefab);
+        var obj = Object.Instantiate(prefab, canvasTransform);
+        //var obj = Object.Instantiate(prefab);
         Object.DontDestroyOnLoad(obj);
 
         //获得name（需要用到的UI Prefab名称必须和 脚本中的 类名 一致）

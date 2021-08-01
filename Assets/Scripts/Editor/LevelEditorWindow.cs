@@ -28,12 +28,14 @@ public class LevelEditorWindow : EditorWindow
 
     private void OnGUI()
     {
+        GUILayout.Label("再试试看？？");
         if (GUILayout.Button("保存关卡编辑信息"))
         {
             SaveLevelConfig();
         }
         //GUILayout.TextField创建一个可供用户编辑字符串的单行文本字段。
         level = int.Parse(GUILayout.TextField(level.ToString()));
+
     }
 
     /// <summary>
@@ -46,6 +48,8 @@ public class LevelEditorWindow : EditorWindow
 
         //关卡信息
         LevelData levelData = ScriptableObject.CreateInstance<LevelData>();
+        //LevelData levelData = new LevelData();之后再看有什么区别？
+
 
         //关卡中的敌人信息
         levelData.EnemyInfos = new List<EnemyInfo>();

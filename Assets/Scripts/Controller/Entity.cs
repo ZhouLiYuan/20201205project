@@ -5,8 +5,8 @@
 /// </summary>
 public class Entity
 {
-    public GameObject GameObject { get; private set;}
-    public Transform Transform { get; private set;}
+    public GameObject GameObject { get; protected set;}
+    public Transform Transform { get; protected set;}
 
     internal Entity(GameObject obj) 
     {

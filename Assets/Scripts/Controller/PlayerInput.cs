@@ -36,6 +36,4 @@ public class PlayerInput
         Jump = inputActionMap.FindAction("Jump");
         Jump.Enable();
     }
-
-
 }

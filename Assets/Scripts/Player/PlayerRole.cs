@@ -21,8 +21,6 @@ public class PlayerRole : Entity
     public bool canApplyGravity = true;
     public bool canMoveHorizontal = true;
 
-
-    Transform ch_transform;
     //刚体速度
     Rigidbody2D rg2d;
     public Vector2 Velocity
@@ -53,7 +51,7 @@ public class PlayerRole : Entity
     public PlayerRole(GameObject roleGobj) : base(roleGobj)
     {
         rg2d = roleGobj.GetComponent<Rigidbody2D>();
-        ch_transform = roleGobj.GetComponent<Transform>();
+        Transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
 
         //updater相关  
