@@ -51,7 +51,9 @@ public class DialogSystem : MonoBehaviour
         //'\n'是Split的其中一种指定 按 行 切割 的API
         // 以\n为分割符将文本分割为一个数组
         //text是TextAsset中的自带属性（功能：整个TextAsset中的text内容会被当做一个 string类型数据）
-        var lineDate = file.text.Split('\n');
+        //var lineDate = file.text.Split('\n');
+        var lineDate = file.text.Split(new char[] { '\n', '\r' });
+       
 
         foreach (var line in lineDate)
         {
@@ -61,6 +63,7 @@ public class DialogSystem : MonoBehaviour
 
     void Update()
     {
+        
         ActiveDialog();
     }
 
@@ -108,6 +111,11 @@ public class DialogSystem : MonoBehaviour
         //换行时对话框内text重置
         m_textContent.text = "";
 
+        if (m_textList[m_index].Contains("煉獄")) 
+        { }
+
+        Debug.Log($"{m_textList[m_index]}11111");
+        Debug.Log($"{m_textList[m_index]}"== "煉獄");
         //根据文本切换角色头像(若某一行文本全是 人名 则换头像并且前进一行)
         switch (m_textList[m_index]) 
         {
@@ -122,7 +130,12 @@ public class DialogSystem : MonoBehaviour
                 Debug.Log("能执行到switch语句但无法执行到case中");
                 m_index++;
                 break;
+            default:
+           
+                Debug.Log($"{m_textList[m_index]}22222");
+                break;
         }
+        
 
         //for (int i = 0; i < m_textList[m_index].Length; i++) 
         //{
