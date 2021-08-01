@@ -62,9 +62,11 @@ public class BasePanel
     public void Close() { UIManager.ClosePanel(this); }
 
 
-    protected T Find<T>(string path)
+    protected T Find<T>(string path) where T : Object
     {
         var t = m_transform.Find(path);
+        if (typeof(T) == typeof(Transform)) return t as T;
+        if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
         return t.GetComponent<T>();
     }
 }
