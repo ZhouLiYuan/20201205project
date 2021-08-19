@@ -23,10 +23,18 @@ public class DialogSystem : MonoBehaviour
     //数组第一个string元素的index是0
     List<string> m_textList = new List<string>();
 
-    //在下一句打印输出前判断上一句是否输出完成
+    /// <summary>
+    /// 在下一句打印输出前判断上一句是否输出完成
+    /// </summary>
     private bool textOutputFinished = false;
-    //取消逐字输出
+    /// <summary>
+    /// 取消逐字输出(或者理解为 跳过逐字打印)
+    /// </summary>
     private bool cancelTyping = false;
+
+    private Coroutine OnTypingCoroutine;
+
+
 
     private void OnEnable()
     {
@@ -88,9 +96,10 @@ public class DialogSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R)) 
         {
+            //当上一句输出完成 并且 没有 取消逐字输出时
             if (textOutputFinished && !cancelTyping)
             {
-                StartCoroutine(SetDialogUI());
+               OnTypingCoroutine = StartCoroutine(SetDialogUI());
             }
             //当前句还未输出完成的时候，再次按下R键就会进入else if的判断
             else if (!textOutputFinished) 
@@ -154,12 +163,14 @@ public class DialogSystem : MonoBehaviour
             yield return new WaitForSeconds(m_inputSpeed);
         }
 
+
+
         //直接赋值整行string
         m_textContent.text = m_textList[m_index];
 
         cancelTyping = false;
         textOutputFinished = true;
-        //增加行数
+        //进入下一行
         m_index++;
     }
     
