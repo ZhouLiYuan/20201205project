@@ -84,6 +84,11 @@ public class DialogSystem : MonoBehaviour
             gameObject.SetActive(false);
             //重置行号（重播）
             m_index = 0;
+
+            //终止协程写在这里合适吗？
+            StopCoroutine(OnTypingCoroutine);
+
+
             return;
         }
         //每按一次R，就逐行输出文本
@@ -128,20 +133,16 @@ public class DialogSystem : MonoBehaviour
         //根据文本切换角色头像(若某一行文本全是 人名 则换头像并且前进一行)
         switch (m_textList[m_index]) 
         {
-            //执行不进来
+            
             case "煉獄":
                 m_charaterFace.sprite = m_player;
-                Debug.Log("能执行到switch语句但无法执行到case中");
                 m_index++;
                 break;
             case "あかざ":
                 m_charaterFace.sprite = m_enemy;
-                Debug.Log("能执行到switch语句但无法执行到case中");
                 m_index++;
                 break;
             default:
-           
-                Debug.Log($"{m_textList[m_index]}22222");
                 break;
         }
         
@@ -162,7 +163,6 @@ public class DialogSystem : MonoBehaviour
             letter++;
             yield return new WaitForSeconds(m_inputSpeed);
         }
-
 
 
         //直接赋值整行string
