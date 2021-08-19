@@ -5,12 +5,12 @@
 /// </summary>
 public class Entity
 {
-    public GameObject GameObject { get; protected set;}
-    public Transform Transform { get; protected set;}
+    public GameObject GameObject { get; private set;}
+    public Transform Transform { get; private set;}
 
     internal Entity(GameObject obj) 
     {
-        this.GameObject = obj;
-        this.Transform = obj.transform;
+        GameObject = obj;
+        Transform = obj.transform;
     }
 }

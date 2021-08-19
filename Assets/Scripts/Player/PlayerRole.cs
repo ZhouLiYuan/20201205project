@@ -51,7 +51,7 @@ public class PlayerRole : Entity
     public PlayerRole(GameObject roleGobj) : base(roleGobj)
     {
         rg2d = roleGobj.GetComponent<Rigidbody2D>();
-        Transform = roleGobj.GetComponent<Transform>();
+        //Transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
 
         //updater相关  
