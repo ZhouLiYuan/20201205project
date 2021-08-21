@@ -28,6 +28,7 @@ public static class UIManager
     }
     /// <summary>
     ///  创建并获取一个面板实例(同步加载方法)
+    ///  建立面板表现层和逻辑层之间关系
     /// </summary>
     /// <typeparam name="TPanel"></typeparam>
     /// <returns></returns>

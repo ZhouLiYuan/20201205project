@@ -61,7 +61,12 @@ public class BasePanel
 
     public void Close() { UIManager.ClosePanel(this); }
 
-
+    /// <summary>
+    /// 提供需要找的元素的路径/名称
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <returns></returns>
     protected T Find<T>(string path) where T : Object
     {
         var t = m_transform.Find(path);

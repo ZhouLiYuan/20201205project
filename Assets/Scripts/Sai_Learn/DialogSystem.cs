@@ -35,7 +35,7 @@ public class DialogSystem : MonoBehaviour
     private Coroutine OnTypingCoroutine;
 
 
-
+       //第一次逐字输出
     private void OnEnable()
     {
         textOutputFinished = true;

@@ -67,7 +67,6 @@ public class LevelEditorWindow : EditorWindow
         for (int i = 0; i < platformList.transform.childCount; i++)
         {
             var pfGobj_transform = platformList.transform.GetChild(i);
-            //为Scene中EnemyList下的每个子Gobj创建EnemyInfo实例并初始化（表现层和逻辑层的联系）
             levelData.PlatformInfos.Add(new PlatformInfo { ID = pfGobj_transform.name, Position = pfGobj_transform.position });
         }
 
