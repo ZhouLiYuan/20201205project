@@ -157,10 +157,10 @@ public class DialogPanel : BasePanel
                 currentTime = 0;
                 letter++;
             }
-            
-            //for (int i = 0; i < m_inputWaitTime; i++)
+
+            //for (float i = 0; i < m_inputWaitTime; i++)
             //{
-            //   
+
             //}
         }
 
