@@ -13,4 +13,6 @@ public class Entity
         GameObject = obj;
         Transform = obj.transform;
     }
+
+    internal Entity() { }
 }
