@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogPanel : BasePanel
 {
+
 
     //文本输出速度(需要暴露的可调节值)
     public float m_inputWaitTime = 0.2f;
@@ -44,30 +46,34 @@ public class DialogPanel : BasePanel
     private Coroutine OnTypingCoroutine;
 
 
+
+    private event Action<string> OnDialogueCharacterIndexChanged;
+
+
     public override void OnOpen()
     {
-        Init();
+        InitSomething();
     }
 
-    private void Init()
+    private void InitSomething()
     {
-        m_gameObject.SetActive(false);
+        //m_gameObject.SetActive(false);
         //表现层逻辑层关联
-        DialogText = Find<GameObject>("DialogText");
-        HeadIcon = Find<GameObject>("HeadIcon");
+        DialogText = Find<GameObject>("Text");
+        HeadIcon = Find<GameObject>("Image");
 
         //这里只是Get到了，那以后怎么set呢？
         m_textContent = DialogText.GetComponent<Text>();
         m_characterFace = HeadIcon.GetComponent<Image>();
 
-        //这样可以从project中找到prefab赋值到变量m_textFile吗？
-        m_textFile = AssetModule.LoadAsset<TextAsset>("Text/DialogAsset.txt");
-        GetTextFromFile(m_textFile);
-        textOutputFinished = true;
+        ////这样可以从project中找到prefab赋值到变量m_textFile吗？
+        //m_textFile = AssetModule.LoadAsset<TextAsset>("Text/DialogAsset.txt");
+        //GetTextFromFile(m_textFile);
+        //textOutputFinished = true;
 
-        //只是load没有实例化的话下面的case能顺利赋值吗？
-        m_playerSprite = Resources.Load<Sprite>("Sprites/Box_character");
-        m_enemySprite = Resources.Load<Sprite>("Sprites/Box_enemy");
+        ////只是load没有实例化的话下面的case能顺利赋值吗？
+        //m_playerSprite = Resources.Load<Sprite>("Sprites/Box_character");
+        //m_enemySprite = Resources.Load<Sprite>("Sprites/Box_enemy");
     }
 
     void GetTextFromFile(TextAsset file)
@@ -157,10 +163,10 @@ public class DialogPanel : BasePanel
                 currentTime = 0;
                 letter++;
             }
-
-            //for (float i = 0; i < m_inputWaitTime; i++)
+            
+            //for (int i = 0; i < m_inputWaitTime; i++)
             //{
-
+            //   
             //}
         }
 
@@ -174,5 +180,8 @@ public class DialogPanel : BasePanel
         m_index++;
     }
 
-
+    public void SetText(string text)
+    {
+        m_textContent.text = text;
+    }
 }
