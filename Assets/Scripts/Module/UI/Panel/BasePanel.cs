@@ -30,8 +30,8 @@ public class BasePanel
     /// 面板所在物体的 transform
     /// </summary>
     public Transform m_transform;
+    public CanvasGroup m_canvasGroup;
 
-  
     /// <summary>
     /// 用传入的参数(scene中的具体Gobj) 初始化抽象类字段
     /// </summary>
@@ -39,9 +39,10 @@ public class BasePanel
     /// <param name="obj"></param>
     internal void Init(string name, GameObject obj)
     {
-        this.m_name = name;
+        m_name = name;
         m_gameObject = obj;
         m_transform = obj.transform;
+        m_canvasGroup = obj.AddComponent<CanvasGroup>();
     }
 
     public virtual void OnOpen() { }
@@ -60,6 +61,20 @@ public class BasePanel
     }
 
     public void Close() { UIManager.ClosePanel(this); }
+
+    public void Show() 
+    {
+        m_canvasGroup.alpha = 1f;
+        m_canvasGroup.interactable = true;
+    }
+    public void Hide() 
+    {
+        m_canvasGroup.alpha = 0f;
+        m_canvasGroup.interactable = false;
+    }
+
+
+
 
     /// <summary>
     /// 提供需要找的元素的路径/名称
