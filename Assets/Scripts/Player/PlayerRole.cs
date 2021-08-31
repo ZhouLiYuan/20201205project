@@ -87,6 +87,8 @@ public class PlayerRole : Entity
         playerInput.Jump.performed += context => IsJumpTriggered = true;
         playerInput.Jump.started += context =>    IsJumpPressed = true;
         playerInput.Jump.canceled += context => IsJumpPressed = false;
+
+        playerInput.Interact.performed += GlobalEvent.Interact;
     }
 
 

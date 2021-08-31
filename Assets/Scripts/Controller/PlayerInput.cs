@@ -11,7 +11,7 @@ public class PlayerInput
     public InputAction Lock;
     public InputAction Hook;
     public InputAction Jump;
-
+    public InputAction Interact;
 
     /// <summary>
     /// 初始化 输入事件
@@ -35,5 +35,9 @@ public class PlayerInput
         Hook.Enable();
         Jump = inputActionMap.FindAction("Jump");
         Jump.Enable();
+        
+        Interact = inputActionMap.FindAction("Interact");
+        Interact.Enable();
+       
     }
 }
