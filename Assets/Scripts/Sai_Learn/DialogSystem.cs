@@ -21,20 +21,7 @@ public class DialogSystem
     [Header("文本输出速度")]
     public float m_inputSpeed;
 
-    // 
-    //数组第一个string元素的index是0
 
-
-    /// <summary>
-    /// 在下一句打印输出前判断上一句是否输出完成
-    /// </summary>
-    private bool textOutputFinished = false;
-    /// <summary>
-    /// 取消逐字输出(或者理解为 跳过逐字打印)
-    /// </summary>
-    private bool cancelTyping = false;
-
-    private Coroutine OnTypingCoroutine;
 
     enum State { standby, print, waitForConfirm }
     private State state = State.standby;
@@ -43,7 +30,7 @@ public class DialogSystem
     private int dialogueIndex;
     private int characterIndex;
     private float elapsedTime = 0f;
-    private float interval = 0.8f;
+    private float interval = 0.2f;
     private DialogueData[] dialogues;
 
     public void Init()
@@ -66,7 +53,7 @@ public class DialogSystem
         dialogPanel.Show();
     }
 
-    public void Update(float deltaTime)
+    public void OnUpdate(float deltaTime)
     {
         switch (state)
         {
@@ -86,7 +73,7 @@ public class DialogSystem
                     elapsedTime -= interval;
                     characterIndex++;
                     dialogPanel.SetText(dialogue.Substring(0, characterIndex));
-                    if (characterIndex >= dialogue.Length - 1) state = State.waitForConfirm;
+                    if (characterIndex >= dialogue.Length) state = State.waitForConfirm;
                 }
                 break;
             default:

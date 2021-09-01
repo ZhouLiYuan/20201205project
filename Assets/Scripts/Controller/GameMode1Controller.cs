@@ -43,7 +43,7 @@ public class GameMode1Controller  : GameController
         var dialogueSystem = new DialogSystem();
         dialogueSystem.Init();
         updater = Updater.AddUpdater();
-        updater.AddUpdateFunction(dialogueSystem.Update);
+        updater.AddUpdateFunction(dialogueSystem.OnUpdate);
 
         interactableManager = new InteractableManager();
         interactableManager.Init();
@@ -52,7 +52,7 @@ public class GameMode1Controller  : GameController
     public override void ExitGame()
     {
         m_role.OnShowLockTarget -= gamePanel.LockHint;
-        updater.RemoveUpdateFunction(dialogueSystem.Update);
+        updater.RemoveUpdateFunction(dialogueSystem.OnUpdate);
     }
   
 }

@@ -17,7 +17,7 @@ public class InteractablePanel : BasePanel
         switch (interactableData)
         {
             case InteractableDialogueData interactableDialogueData:
-                dialogueText.text = $"与进行{interactableDialogueData.RoleName}对话";
+                dialogueText.text = $"与{interactableDialogueData.RoleName}进行对话";
                 storyId = interactableDialogueData.StoryId;
                 break;
         }
