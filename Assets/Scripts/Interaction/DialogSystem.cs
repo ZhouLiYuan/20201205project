@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// 用于控制 对话面板
+/// </summary>
 public class DialogSystem
 {
 
@@ -71,9 +75,7 @@ public class DialogSystem
                     characterIndex++;
                     //指定不断重新配置  m_textContent，从第0个字母开始 每循环一次多一个字
                     m_dialogPanel.SetText(dialogue.Substring(0,characterIndex));
-
-                    //当打印到最后一个字符的时候切换状态（为什么不是全部打完(characterIndex >= dialogue.Length)的时候??）
-                    if (characterIndex >= dialogue.Length - 1) m_typeState = TypeState.waitForConfirm;
+                    if (characterIndex >= dialogue.Length) m_typeState = TypeState.waitForConfirm;
                 }
                 break;
             default:

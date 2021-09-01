@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Panel一般只是负责储存一些面板成员的信息(或者赋值/或者初始化一些成员)
 public class DialogPanel : BasePanel
 {
 
