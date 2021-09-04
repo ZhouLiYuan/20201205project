@@ -2,12 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// 敌人规则命名 Enemy_ attacker名 
+/// 生成不同类型的敌人，并把敌人存入现有字典中
+/// </summary>
 public static class EnemyManager
 {
+    public static GameObject enemiesList;
+    public static Transform enemiesListTransform;
+
     /// <summary>
     /// string是EnemyObj名（表现层），GameObject是实例化敌人Gobj
     /// </summary>
     public static Dictionary<string, GameObject> enemyDic = new Dictionary<string, GameObject>();
+
+    static EnemyManager() 
+    {
+        enemiesList = new GameObject("EnemiesList");
+        enemiesListTransform = enemiesList.transform;
+    }
+
 
     /// <summary>
     /// TEnemy是脚本类型(逻辑层)，string是prefab名（表现层预制件）
@@ -20,7 +35,7 @@ public static class EnemyManager
     public static TEnemy SpawnEnemy<TEnemy>(string prefabName) where TEnemy : BaseEnemy,new()
     {
         var prefab = AssetModule.LoadAsset<GameObject>($"Enemy/enemy_sword{prefabName}.prefab");
-        var obj = Object.Instantiate(prefab);
+        var obj = Object.Instantiate(prefab,enemiesListTransform);
         TEnemy enemy = new TEnemy();
 
         //初始化脚本component变量
@@ -29,25 +44,4 @@ public static class EnemyManager
         enemyDic.Add(obj.name, obj);
         return enemy;
     }
-    //public static IEnumerator InstantiateEnemyByCoroutine<TEnemy>(System.Action<TEnemy> onInstantiated = null) where TEnemy : BaseEnemy, new() 
-    //{
-    //    //panel并不作为component，只是需要一个地方存放 脚本类实例，用new不用AddComponent
-    //    var enemy = new TEnemy();
-
-    //    ////用协程方式加载
-    //    var loadPrefabHandle = new WaitLoadAsset<GameObject>(enemy.Path);
-
-    //    System.Action<GameObject> instantiateEnemylAction = prefab =>
-    //    {
-    //        GameObject enemyGobj = Object.Instantiate(prefab);
-    //        //加载完面板后初始化面板脚本中的字段
-    //        //因为 类型名就是面板名，所以可以typeof(TPanel).Name
-    //        enemyGobj.name = typeof(TEnemy).Name;
-    //        enemy.Init(enemyGobj.name, enemyGobj);
-
-    //    };
-
-    //    yield return loadPrefabHandle;
-    //    //return new WaitInstantiateEnemy<TEnemy>(loadPrefabHandle, instantiateEnemylAction, onInstantiated);
-    //}
 }
