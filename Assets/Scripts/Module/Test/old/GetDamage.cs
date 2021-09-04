@@ -7,10 +7,10 @@ public class GetDamage : MonoBehaviour
     /// <summary>
     /// 和UI脚本HealthBar里的currentHealth通信值
     /// <summary>
-    private int m_health;
+    private float m_health;
 
     public Rigidbody2D rgbd2d;
-    public HealthBar healthBar;
+    public HealthBarOld healthBar;
     public GameObject hitEffect;
     /// <summary>
     /// 原理和攻击冷却时间一样
@@ -58,7 +58,7 @@ public class GetDamage : MonoBehaviour
     /// 传入收到的伤害数值
     /// </summary>
     /// <param name="getDamageValue"></param>
-    public void TakeDamage(int damageValue)
+    public void TakeDamage(float damageValue)
     {
         
         m_anim.SetTrigger("Hurt");
@@ -69,7 +69,7 @@ public class GetDamage : MonoBehaviour
         //Quaternion.identity就是不旋转
         Instantiate(hitEffect, transform.position, Quaternion.identity);
         m_health -= damageValue;
-        Debug.Log($"{this.name}剩余血量{m_health}");
+        Debug.Log($"{name}剩余血量{m_health}");
 
         //与表现层通信
         healthBar.SetHealthBar(m_health);

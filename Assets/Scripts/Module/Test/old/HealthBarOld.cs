@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 模块脚本 表现层和逻辑层的耦合为currenthealth变量
 /// </summary>
-public class HealthBar : MonoBehaviour
+public class HealthBarOld : MonoBehaviour
 {
     public Slider m_slider;
 
@@ -48,7 +48,7 @@ public class HealthBar : MonoBehaviour
     /// 逻辑层映射到表现层
     /// </summary>
     /// <param name="health"></param>
-    public void SetHealthBar(int health)
+    public void SetHealthBar(float health)
     {
         m_slider.value = health;
         //由于gradient的数据条渐变是0到1，所以需要把m_slider的数值归一化，换算成百分比

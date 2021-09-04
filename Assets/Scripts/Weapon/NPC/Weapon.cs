@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Weapon
 {
 
-    public class Projectile : MonoBehaviour
+    public class Projectile : BaseAttacker
     {
        
     }
@@ -21,7 +21,7 @@ namespace Weapon
     }
 
 
-    public class Melee : MonoBehaviour
+    public class Melee : BaseAttacker
     {
     
         

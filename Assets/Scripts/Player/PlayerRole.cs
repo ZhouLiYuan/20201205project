@@ -11,7 +11,8 @@ public class PlayerRole : Entity
 
     public MoveState m_moveState;
 
-
+    //需要序列化动态调节
+    public float health;
     //重力
     /// <summary>
     /// 代指y轴速度最大可加速到maxGravity 
@@ -50,6 +51,7 @@ public class PlayerRole : Entity
     /// </summary>
     public PlayerRole(GameObject roleGobj) : base(roleGobj)
     {
+        health = 100f;
         rg2d = roleGobj.GetComponent<Rigidbody2D>();
         //Transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
