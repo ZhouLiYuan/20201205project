@@ -10,6 +10,9 @@ public class GameMode1Controller  : GameController
     //private List<GameObject> enemyObjs = new List<GameObject>();
     private PlayerRole m_role;
 
+    Updater updater;
+    DialogSystem dialogueSystem;
+    InteractableManager interactableManager;
 
     //需要序列化的敌人名（可能之后需要抽象成一个节点？）
     //public string enemyPrefabName;
@@ -35,16 +38,21 @@ public class GameMode1Controller  : GameController
 
         //耦合Lock UI逻辑和 PlayerRole功能
         m_role.OnShowLockTarget += gamePanel.LockHint;
+
+        // 初始化对话系统
+        var dialogueSystem = new DialogSystem();
+        dialogueSystem.Init();
+        updater = Updater.AddUpdater();
+        updater.AddUpdateFunction(dialogueSystem.OnUpdate);
+
+        interactableManager = new InteractableManager();
+        interactableManager.Init();
     }
 
     public override void ExitGame()
     {
         m_role.OnShowLockTarget -= gamePanel.LockHint;
+        updater.RemoveUpdateFunction(dialogueSystem.OnUpdate);
     }
-
-
-
-
-
   
 }

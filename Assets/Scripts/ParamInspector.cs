@@ -14,8 +14,7 @@ public class ParamInspector : SerializedMonoBehaviour
     //获取玩家角色实例
     public PlayerRole Role
     {
-        get { return PlayerManager.m_Role; }
-        set {}
+        get { return PlayerManager.roles[this.gameObject]; }
     }
 
 

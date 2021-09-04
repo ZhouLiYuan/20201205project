@@ -1,7 +1,7 @@
 ﻿using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class PlayerInput 
+public class PlayerInput
 {
     private InputActionAsset inputActionAsset;
     private string inputActionAssetName => "Assets/AssetBundles_sai/Input/PlayerInput.inputactions";
@@ -11,12 +11,13 @@ public class PlayerInput
     public InputAction Lock;
     public InputAction Hook;
     public InputAction Jump;
+    public InputAction Interact;
 
 
     /// <summary>
     /// 初始化 输入事件
     /// </summary>
-    public void InitInput() 
+    public void InitInput()
     {
         inputActionAsset = Object.Instantiate(GameAssetManager.LoadInputActionAsset(inputActionAssetName));
 
@@ -35,5 +36,10 @@ public class PlayerInput
         Hook.Enable();
         Jump = inputActionMap.FindAction("Jump");
         Jump.Enable();
+        Interact = inputActionMap.FindAction("Interact");
+        Interact.Enable();
+        Interact.performed += GlobalEvent.Interact;
     }
+
+
 }

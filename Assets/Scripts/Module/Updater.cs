@@ -35,6 +35,7 @@ public class Updater : MonoBehaviour
     //由.Net调用，创建表现层
     static Updater()
     {
+        //建立updater Gobj逻辑层和表现层联系
         DontDestroyOnLoad(m_Gobj = new GameObject(nameof(Updater)));
     }
 
@@ -111,8 +112,10 @@ public class Updater : MonoBehaviour
     /// <returns></returns>
     public static Updater AddUpdater(bool isVisible = false, object target = null) 
     {
-        //建立表现层和逻辑层的耦合(为什么不在静态构造函数内作？)
+        //全局只有一个叫Updater的Gobj实例 但是 同一个Gobj上可以有多个 同名Updater的Component（对应不同target Gobj（看是否有传入target可选参数））
+        //因为component并不是全局唯一的，所以建立表现层和逻辑层的耦合 不在静态构造函数内进行
         Updater updater = m_Gobj.AddComponent<Updater>();
+        //建立Updater组件中Target成员 和对应TargetGobj（场景中需要参与Update（）的Gobj） 表现层和逻辑层的耦合
         updater.m_target = target;
         if (!isVisible) updater.hideFlags = HideFlags.HideInInspector;
         return updater;

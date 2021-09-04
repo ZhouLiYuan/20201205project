@@ -7,6 +7,7 @@ using UnityEngine;
 //可以通过odin序列化静态变量
 public static class PlayerManager
 {
+    public static Dictionary<GameObject, PlayerRole> roles = new Dictionary<GameObject, PlayerRole>();
     private static List<PlayerRole> m_Roles = new List<PlayerRole>();
     public static PlayerRole m_Role;
     public static string m_roleName = "character";
@@ -17,13 +18,14 @@ public static class PlayerManager
     /// (根据AssetBundles_sai文件夹下prefab名)
     /// </summary>
     /// <returns></returns>
-    public static PlayerRole SpawnCharacter() 
+    public static PlayerRole SpawnCharacter()
     {
         var prefab = AssetModule.LoadAsset<GameObject>($"Assets/AssetBundles_sai/{m_roleName}.prefab");
         //创建逻辑层和表现层实例
         m_gobj = Object.Instantiate(prefab);
-         m_Role = new PlayerRole(m_gobj);
+        m_Role = new PlayerRole(m_gobj);
         m_Roles.Add(m_Role);
+        roles[m_gobj] = m_Role;
         return m_Role;
     }
 

@@ -11,16 +11,6 @@ public class BasePanel
     //代替原本的UIInfo
     public virtual string Path { get; }
 
-    //public UIInfo UIInfo { get; private set; }
-    //public UItool UItool { get; private set; }
-
-    //public PanelManager PanelManager { get; private set; }
-
-    //public BasePanel(UIInfo uiInfo) 
-    //{
-    //    UIInfo = uiInfo;
-    //}
-
     public string m_name;
     /// <summary>
     /// 面板所在物体的 gameObject
@@ -30,8 +20,8 @@ public class BasePanel
     /// 面板所在物体的 transform
     /// </summary>
     public Transform m_transform;
+    public CanvasGroup canvasGroup;
 
-  
     /// <summary>
     /// 用传入的参数(scene中的具体Gobj) 初始化抽象类字段
     /// </summary>
@@ -42,6 +32,7 @@ public class BasePanel
         this.m_name = name;
         m_gameObject = obj;
         m_transform = obj.transform;
+        canvasGroup = obj.AddComponent<CanvasGroup>();
     }
 
     public virtual void OnOpen() { }
@@ -60,6 +51,16 @@ public class BasePanel
     }
 
     public void Close() { UIManager.ClosePanel(this); }
+    public void Show()
+    {
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+    }
+    public void Hide()
+    {
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false;
+    }
 
     /// <summary>
     /// 提供需要找的元素的路径/名称
