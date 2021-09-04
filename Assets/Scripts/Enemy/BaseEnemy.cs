@@ -14,6 +14,8 @@ public class BaseEnemy
     public GameObject player;
     public Transform playerTransform;
 
+    public BaseAttacker attacker;
+
     /// <summary>
     /// 参数(scene中的具体Gobj) 初始化抽象类 字段(泛型方法中无法调用构造函数用)
     /// </summary>
