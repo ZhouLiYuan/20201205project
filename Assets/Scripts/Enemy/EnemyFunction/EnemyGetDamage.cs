@@ -36,9 +36,9 @@ public class EnemyGetDamage : MonoBehaviour
     {
         //UI模块
         //和HealthBar实例的currentHealth通信
-        en_health = this.GetComponent<HealthBar>().currentHealth;
+        en_health = this.GetComponent<HealthBarOld>().currentHealth;
         //初始化血槽
-        this.GetComponent<HealthBar>().SetMaxHealth();
+        this.GetComponent<HealthBarOld>().SetMaxHealth();
 
         //动画模块
         en_anim = GetComponent<Animator>();
@@ -84,7 +84,7 @@ public class EnemyGetDamage : MonoBehaviour
         Debug.Log($"{this.name}敌人剩余血量{en_health}");
 
         //与表现层通信
-        this.GetComponent<HealthBar>().SetHealthBar(en_health);
+        this.GetComponent<HealthBarOld>().SetHealthBar(en_health);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class EnemyGetDamage : MonoBehaviour
             Destroy(gameObject, deathAnimPlayTime);
             Debug.Log($"{this.name}嗝屁了");
             //UI血槽清零
-            this.GetComponent<HealthBar>().SetHealthBar(0);
+            this.GetComponent<HealthBarOld>().SetHealthBar(0);
         }
     }
 }

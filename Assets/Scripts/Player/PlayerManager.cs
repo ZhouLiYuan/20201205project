@@ -5,6 +5,7 @@ using UnityEngine;
 
 //支持多角色
 //可以通过odin序列化静态变量
+//让PlayerRole实例成为全局唯一
 public static class PlayerManager
 {
     public static Dictionary<GameObject, PlayerRole> roles = new Dictionary<GameObject, PlayerRole>();
