@@ -2,44 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-//可以写成 CheckTargetToDamage<检测方法类型>的泛型类吗？这样是不是就可以实现所有检测方式了
-public class CheckTargetToDamage_MeleeOverlapCircle : MonoBehaviour
+public class Melee:BaseAttacker
 {
-    public float atkIntervalVolume;
+    /// 攻击范围中心点
+    public Transform attackPos;
+    //attackRange检测为切换攻击状态的范围（攻击的范围则是collider的运动面积范围）
     public float attackRange;
-    public int atkValue;
-    
+
+    ////攻击间隔
+    //public float atkInterval;
 
     public LayerMask targetsLayer;
-    /// <summary>
-    /// 攻击范围中心点
-    /// </summary>
-    public Transform attackPos;
-
-    ////下面是brackey定位武器中心点的方式
-    //public Vector3 attackOffset;
-    //public void Attack() 
-    //{
-
-    //    Vector3 atkPos = transform.position;
-    //    // transform.right 指的应该是 操作器（选中状态下的w键）红色轴的默认指向？
-    //    atkPos += transform.right * attackOffset.x;
-    //    atkPos += transform.up * attackOffset.y;
-    //}
 
 
-    /// <summary>
-    /// attackRange攻击范围
-    /// atkIntervalVolume 攻击间隔容量
-    /// attackPos攻击范围中心点
-    /// targetsLayer目标所在图层
-    /// </summary>
-    public void Atk(/*float attackRange, float atkIntervalVolume, Transform attackPos, LayerMask targetsLayer,int atkValue*/)
+
+
+    public void Atk()
     {
-        float atkInterval = 0 ;
+        float atkInterval = 0;
 
-        if (atkInterval <= 0) 
+        if (atkInterval <= 0)
         {
             //获取检测范围内所有敌人的碰撞体(Overlap系列)
             Collider2D[] targetsToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, targetsLayer);
@@ -59,15 +41,14 @@ public class CheckTargetToDamage_MeleeOverlapCircle : MonoBehaviour
                 }
 
                 //攻击结束后重置冷却时间
-                atkInterval = atkIntervalVolume;
+                //atkInterval = this.atkInterval;
                 //Debug.Log($"冷却时间重置为{atkInterval}");
             }
-         
         }
-        else
-        {   //继续恢复冷却时间
-            atkInterval -= Time.deltaTime;
-        }
+        //else
+        //{   //继续恢复冷却时间
+        //    atkInterval -= Time.deltaTime;
+        //}
     }
 
     /// <summary>
@@ -78,6 +59,5 @@ public class CheckTargetToDamage_MeleeOverlapCircle : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
-
 
 }
