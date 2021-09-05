@@ -11,19 +11,12 @@ using UnityEngine;
 /// 为场景中的所有对应名称的敌人加装逻辑层脚本(使用前提，场景中的敌人全都生成完毕)
 /// 和其他现成LoadAsset的资源不同 Attacker是敌人Gobj身体某个子物体，是现成的需要获得（控制层级一致）
 /// </summary>
-public static class AttackerManager
+public static class WeaponManager
 {
     private static List<GameObject> attackerGobjs = new List<GameObject>();
-    private static List<BaseAttacker> attackers = new List<BaseAttacker>();
+    private static List<BaseWeapon> attackers = new List<BaseWeapon>();
 
     private static int GobjIndex;
-
-   //这个方法有个问题：获得的Gobj大部分都是同名的，这样会有问题吗？
-   public static void FindAttackers() 
-    {
-        var Gobjs = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("Attacker"));
-        attackerGobjs.AddRange(Gobjs);
-    }
 
     private static Type StringToType(GameObject attacker)
     {
@@ -46,7 +39,9 @@ public static class AttackerManager
         }
     }
 
-    public static TAttacker InitAttacker<TAttacker>() where TAttacker : BaseAttacker, new()
+
+
+    public static TAttacker InitWeapon<TAttacker>() where TAttacker : BaseWeapon, new()
     {
         TAttacker attacker = new TAttacker();
         attacker.Init(attackerGobjs[GobjIndex]);

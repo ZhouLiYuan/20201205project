@@ -4,7 +4,7 @@ using UnityEngine;
 using Weapon;
 
 //教程https://www.youtube.com/watch?v=AD4JIXQDw0s 15分40秒
-public class Sword : BaseAttacker/*LightMelee*/
+public class Sword : BaseWeapon/*LightMelee*/
 {
     public Sword() 
     {

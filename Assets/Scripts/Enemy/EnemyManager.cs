@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public static class EnemyManager
 {
+
     public static GameObject enemiesList;
     public static Transform enemiesListTransform;
 
@@ -33,14 +34,16 @@ public static class EnemyManager
     /// <returns></returns>
     public static TEnemy SpawnEnemy<TEnemy>(string prefabName) where TEnemy : BaseEnemy,new()
     {
-        var prefab = AssetModule.LoadAsset<GameObject>($"Enemy/enemy_sword{prefabName}.prefab");
+        var prefab = AssetModule.LoadAsset<GameObject>($"Enemy/{prefabName}.prefab");
         var obj = Object.Instantiate(prefab,enemiesListTransform);
         TEnemy enemy = new TEnemy();
 
         //初始化脚本component变量
         //传入的参数name只是prefab名（一个兵种的名称），但会有多个同种兵（所以就用场景中生成的Gobj命名）
         enemy.Init(obj.name,obj);
-        enemyDic.Add(obj.name, obj);
+        //enemyDic.Add(obj.name, obj);
+        // 设置受击框collider
+        // hitCollider = 
         return enemy;
     }
 }

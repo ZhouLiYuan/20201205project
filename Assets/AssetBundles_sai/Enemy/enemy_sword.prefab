@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 198494381621232188}
   - component: {fileID: 2337818297299627662}
   - component: {fileID: 8318316665300556400}
-  - component: {fileID: 5583866713858876061}
   m_Layer: 11
   m_Name: Sword
   m_TagString: Weapon
@@ -109,18 +108,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.09054636, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5583866713858876061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7169460306688685018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7af9532ba2441d54f91680396885c340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7787634668039111662
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,8 +120,6 @@ GameObject:
   - component: {fileID: 7787634668039111659}
   - component: {fileID: 7787634668039111661}
   - component: {fileID: 4111443686064560149}
-  - component: {fileID: 4111443686064560148}
-  - component: {fileID: 4111443685441974121}
   m_Layer: 11
   m_Name: animator_top
   m_TagString: Enemy
@@ -253,37 +238,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4111443686064560148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7787634668039111662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7dedd2c3ddf8a945ab4b9238d17bf30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4111443685441974121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7787634668039111662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cec1e186f58eb2647a6b90869ef1e2eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  atkIntervalVolume: 100
-  attackRange: 0.3
-  atkValue: 20
-  targetsLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  attackPos: {fileID: 198494381621232188}
 --- !u!1 &7787634668392255314
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +280,7 @@ GameObject:
   - component: {fileID: 7787634668713913021}
   - component: {fileID: 7787634668713913022}
   m_Layer: 11
-  m_Name: enemy
+  m_Name: enemy_sword
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

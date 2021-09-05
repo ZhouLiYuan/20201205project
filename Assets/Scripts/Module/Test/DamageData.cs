@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class DamageData
 {
-    BaseAttacker atkInfo;
+    BaseWeapon atkInfo;
     public float damageParam =5f;
    
   /// <summary>

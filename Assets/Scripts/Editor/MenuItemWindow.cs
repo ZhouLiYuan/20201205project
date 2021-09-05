@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuItemWindow
 {
-    [MenuItem("调试游戏/直接开始战斗场景")]
+    [MenuItem("调试游戏/开始游戏")]
     private static void StartBattleScene() 
     {
         //bool 如果选择保存此类场景，则返回 true，如果按下 Cancel，则返回 false。
@@ -17,7 +17,7 @@ public class MenuItemWindow
         EditorApplication.isPlaying = true;
     }
 
-    [MenuItem("调试游戏/开始游戏")]
+    [MenuItem("调试游戏/直接开始战斗场景")]
     private static void StartGame()
     {
 

@@ -57,8 +57,6 @@ public class GameMode1Controller  : GameController
         m_dialogueSystem = new DialogSystem();
         m_dialogueSystem.Init();
         m_updater.AddUpdateFunction(m_dialogueSystem.OnUpdate);
-      
-
 
         interactableManager = new InteractableManager();
         interactableManager.Init();

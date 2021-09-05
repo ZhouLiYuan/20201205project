@@ -27,6 +27,8 @@ public static class PlayerManager
         m_Role = new PlayerRole(m_gobj);
         m_Roles.Add(m_Role);
         roles[m_gobj] = m_Role;
+        // 设置受击框collider
+        // hitCollider = 
         return m_Role;
     }
 

@@ -19,6 +19,23 @@ public static class LevelManager
         //获取场景中所有名字带有Hookable的Gobj
         HookableManager.Init(Object.FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("Hookable")));
 
+        var levelConfig = ResourcesLoader.LoadLevelConfig(level);
+        for (int i = 0; i < levelConfig.EnemyInfos.Count; i++)
+        {
+            var enemyInfo = levelConfig.EnemyInfos[i];
+            var enemyConfig = ResourcesLoader.LoadEnemyConfigByID(enemyInfo.ID);
+            var enemy = EnemyManager.SpawnEnemy<BaseEnemy>(enemyConfig.AssetPath);
+            enemy.InitProperties(enemyConfig);
+            var weaponConfig = ResourcesLoader.LoadWeaponConfigByID(enemyInfo.ID);
+            enemy.EquipWeapon(weaponConfig);
+            //WeaponManager.InitWeapon<BaseWeapon>();
+        }
+        int enemyConfigID = 0;
+        int weaponConfigID = 0;
+
+
+
+
         //换成addressable版本
 
         ////加载并生成血槽实例  尝试换成异步加载的形式

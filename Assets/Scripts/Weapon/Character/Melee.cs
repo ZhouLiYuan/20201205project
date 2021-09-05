@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Melee:BaseAttacker
+public class Melee:BaseWeapon
 {
     /// 攻击范围中心点
     public Transform attackPos;

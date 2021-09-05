@@ -25,6 +25,18 @@ MonoBehaviour:
     m_Address: dialogueSample
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 45869eb92e6cf6e4c929c0536c857637
+    m_Address: Enemy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2ef6e7f1773e8a345b3e34792ec8137b
+    m_Address: Config
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dc0b5da935286e14f967ea53a4c51836
+    m_Address: Weapon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 52a50aa9a4584624f86160fa43c6dbea, type: 2}
   m_SchemaSet:

@@ -41,7 +41,7 @@ public class LevelEditorWindow : EditorWindow
     /// <summary>
     /// 记录场景中的配置(编辑信息)
     /// </summary>
-    private void SaveLevelConfig() 
+    private void SaveLevelConfig()
     {
         var enemyList = GameObject.Find("EnemyList");
         var platformList = GameObject.Find("PlatformList");
@@ -57,8 +57,9 @@ public class LevelEditorWindow : EditorWindow
         for (int i = 0; i < enemyList.transform.childCount; i++)
         {
             var enGobj_transform = enemyList.transform.GetChild(i);
+            var enemyInfoInspector = enGobj_transform.GetComponent<EnemyInfoInspector>();
             //为Scene中EnemyList下的每个子Gobj创建EnemyInfo实例并初始化（表现层和逻辑层的联系）
-            levelData.EnemyInfos.Add(new EnemyInfo { ID = enGobj_transform.name, Position = enGobj_transform.position });
+            levelData.EnemyInfos.Add(new EnemyInfo { ID = enemyInfoInspector.ID, Position = enGobj_transform.position, WeaponID = enemyInfoInspector.WeaponID });
         }
 
         //关卡中的平台信息
@@ -71,8 +72,8 @@ public class LevelEditorWindow : EditorWindow
         }
 
         levelAssetPath = $"Assets/AssetBundles_sai/Level/{level}.asset";
-        CreateAsset(levelData,levelAssetPath);
-        
+        CreateAsset(levelData, levelAssetPath);
+
     }
 
     /// <summary>
@@ -80,13 +81,13 @@ public class LevelEditorWindow : EditorWindow
     /// </summary>
     /// <param name="data"></param>
     /// <param name="path"></param>
-    private void CreateAsset(Object data,string path)
+    private void CreateAsset(Object data, string path)
     {
         //这里主要都是针对project下操作的 API
         if (!data) throw new System.Exception("保存失败，拿个空场景也好意思让我保存？！");
         //确保保存关卡的目录已被创建
         if (!File.Exists(path)) { Directory.CreateDirectory(Directory.GetParent(path).FullName); }
-        
+
         //只能使用工程相对路径
         AssetDatabase.CreateAsset(data, path);
         AssetDatabase.SaveAssets();

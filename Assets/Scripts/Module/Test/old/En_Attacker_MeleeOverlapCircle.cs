@@ -16,7 +16,7 @@ using UnityEngine;
 /// <summary>
 /// 对应每个攻击武器的逻辑层
 /// </summary>
-public class En_Attacker_MeleeOverlapCircle : BaseAttacker
+public class En_Attacker_MeleeOverlapCircle : BaseWeapon
 {
     /// 攻击范围中心点
     public Transform attackPos;
@@ -42,7 +42,18 @@ public class En_Attacker_MeleeOverlapCircle : BaseAttacker
             //若集中对象集合非空，则对敌人造成伤害
             if (targetToDamage != null)
             {
-        
+            BaseEnemy 被打的人 = EnemyManager.通过COllider2D找到Enemy[targetToDamage];
+
+            for (int i = 0; i < 所有单位; i++)
+            {
+                BaseEnemy enemy;
+                if (enemy.HitCollider == targetToDamage)
+                {
+                    GlobalEvent.Damage(new DamageData() { });
+                    break;
+                }
+            }
+
                     targetToDamage.GetComponent<GetDamage>().TakeDamage(atkValue);
             Debug.Log($" kick's ass!!");
 

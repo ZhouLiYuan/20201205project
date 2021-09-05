@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Weapon
 {
 
-    public class Projectile : BaseAttacker
+    public class Projectile : BaseWeapon
     {
        
     }
@@ -21,7 +21,7 @@ namespace Weapon
     }
 
 
-    public class Melee : BaseAttacker
+    public class Melee : BaseWeapon
     {
     
         

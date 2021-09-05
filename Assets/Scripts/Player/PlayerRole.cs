@@ -32,6 +32,8 @@ public class PlayerRole : Entity
 
     //地面检测
     public GroundDetect GroundDetect { get; private set; }
+    // 受击框
+    public Collider2D HitCollider;
 
     //输入 一些trigger
     public PlayerInput playerInput;

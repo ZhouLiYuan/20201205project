@@ -1,0 +1,8 @@
+[
+  {
+    "ID": 0,
+    "Name": "测试敌人",
+    "HP": 100,
+    "AssetPath": "enemy_sword"
+  }
+]

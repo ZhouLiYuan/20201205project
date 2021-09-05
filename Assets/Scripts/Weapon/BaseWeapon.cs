@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AtkType { normal, fired, poison, friendSide }
 //NPC攻击用的part 命名以Attacker_开头
-public class BaseAttacker
+public class BaseWeapon
 {
     public float atkValue;
-    public enum AtkType { normal, fired, poison, friendSide }
     public AtkType atkType;
 
     public GameObject owner;
+    public GameObject gameObject;
     public Transform transform;
 
     internal void Init(GameObject obj)
     {
-        owner = obj;
-        transform = owner.transform;
+        gameObject = obj;
+        transform = gameObject.transform;
     }
 
+    public void SetOwner(GameObject owner)
+    {
+        this.owner = owner;
+    }
 }
