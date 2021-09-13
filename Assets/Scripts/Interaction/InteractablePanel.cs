@@ -13,7 +13,7 @@ public class InteractablePanel:BasePanel
         GlobalEvent.OnPressInteract += OnPressInteract;
     }
 
-    //这种偏逻辑的方法放在 面板脚本里会不会有些不太合适？
+
     private void OnPressInteract(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext) 
     {
         GlobalEvent.ShowDialogue(storyId);

@@ -70,7 +70,8 @@ public class DialogSystem
                 //当消逝时间大于间隔时间时才可以进入
                 if (elapsedTime > interval)
                 {
-                    //没看懂这里面是什么原理？是为了自动重置elapsedTime？elapsedTime = 0放在循环末尾也可以起到同样效果？
+                    //自动重置elapsedTime
+                    //elapsedTime = 0放在循环末尾也可以起到同样效果？
                     elapsedTime -= interval;
                     characterIndex++;
                     //指定不断重新配置  m_textContent，从第0个字母开始 每循环一次多一个字

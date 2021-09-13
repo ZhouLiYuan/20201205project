@@ -34,6 +34,9 @@ public class PlayerRole : Entity
 
     //输入 一些trigger
     public PlayerInput playerInput;
+    /// <summary>
+    /// 作为修改playerRole速度的一个变量
+    /// </summary>
     public Vector2 inputAxis;
     public bool IsLockPressed { get; private set; }
     public bool IsHookPressed { get; private set; }
