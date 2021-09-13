@@ -11,7 +11,7 @@ public static class CameraManager
         //设置Main相机参数
         var mainCameraObj = new GameObject("MainCamera");
         var mainCamera = mainCameraObj.AddComponent<Camera>();
-        mainCamera.clearFlags = CameraClearFlags.Depth;
+        mainCamera.clearFlags = CameraClearFlags.Skybox;
         mainCamera.tag = "MainCamera";
         mainCamera.orthographic = true;
         mainCamera.orthographicSize = 5.4f;

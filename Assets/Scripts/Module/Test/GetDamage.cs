@@ -29,9 +29,9 @@ public class GetDamage : MonoBehaviour
         //UI模块
         //和HealthBar实例的currentHealth通信
         //FindAPI 只能找直属一级子物体
-        m_health =healthBar.currentHealth;
+        //m_health =healthBar.currentHealth;
         //初始化血槽
-        healthBar.SetMaxHealth();
+        //healthBar.SetMaxHealth();
 
         //动画模块
         m_anim = GetComponent<Animator>();
