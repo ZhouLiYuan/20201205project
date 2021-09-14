@@ -28,6 +28,7 @@ public class DialogSystem
 
     private DialogPanel dialogPanel;
     private int dialogueIndex;
+    //这里的character和letter都是字母的意思
     private int characterIndex;
     private float elapsedTime = 0f;
     private float interval = 0.2f;
