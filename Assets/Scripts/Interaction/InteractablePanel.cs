@@ -1,31 +1,32 @@
-﻿using UnityEngine.UI;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class InteractablePanel : BasePanel
 {
-    public override string Path => "Panel/InteractablePanel.prefab";
-    private Text dialogueText;
-    private int storyId;
+    //向下三角箭头
+    protected GameObject interactableHint;
+    protected Sprite hintSprite;
+    public virtual string hintUIName { get; }
 
     public override void OnOpen()
     {
-        dialogueText = Find<Text>("Text");
+        interactableHint = Find<GameObject>("InteractableHint");
+        hintSprite = interactableHint.GetComponent<SpriteRenderer>().sprite;
         GlobalEvent.OnPressInteract += OnPressInteract;
     }
 
-    public void Init(InteractableData interactableData)
+    public void Init(InteractableData interactableData) 
     {
-        switch (interactableData)
-        {
-            case InteractableDialogueData interactableDialogueData:
-                dialogueText.text = $"与{interactableDialogueData.RoleName}进行对话";
-                storyId = interactableDialogueData.StoryId;
-                break;
-        }
     }
 
-    private void OnPressInteract(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext)
+    protected void SetHintUI(string hintName)
     {
-        GlobalEvent.ShowDialogue(storyId);
-        Close();
+        hintSprite = AssetModule.LoadAsset<Sprite>($"UI/Sprites/{hintName}.png");
+    }
+
+    protected virtual void OnPressInteract(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext)
+    {
+       
     }
 }
