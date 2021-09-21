@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //做一个抽象不可见的hookable Gobj来作为可抓取物的识别标签
-public class HookableManager
+public class SceneObjManager
 {
-    private static List<GameObject> entities = new List<GameObject>();
+    private static List<GameObject> HookableEntities = new List<GameObject>();
+    private static List<GameObject> InteractableEntities = new List<GameObject>();
 
-    public static void Init(IEnumerable<GameObject> objs)
+    public static void InitHookableEntities(IEnumerable<GameObject> objs)
     {
-        entities.AddRange(objs);
+        HookableEntities.AddRange(objs);
     }
 
+    public static void InitInteractableEntities(IEnumerable<GameObject> objs)
+    {
+        HookableEntities.AddRange(objs);
+    }
 
     /// <summary>
     /// 获取最近目标
@@ -20,16 +25,16 @@ public class HookableManager
     /// <returns></returns>
     public static GameObject GetNearest(Vector3 position)
     {
-        if (entities.Count == 0) return null;
+        if (HookableEntities.Count == 0) return null;
         //用集合中的第一个元素 初始化 result
-        GameObject result = entities[0];
+        GameObject result = HookableEntities[0];
         //SqrMagnitude取模的平方(相减得出的向量是 玩家 和 最近敌人的距离)
         //同样用第一个元素 到玩家的距离 初始化 minDistance
         float minDistance = Vector3.SqrMagnitude(position - result.transform.position);
        
-        for (int i = 1; i < entities.Count;i++ ) 
+        for (int i = 1; i < HookableEntities.Count;i++ ) 
         {
-            var Gobj = entities[i];
+            var Gobj = HookableEntities[i];
             var currentDistance = Vector3.SqrMagnitude(position - Gobj.transform.position);
             //如果新的距离比当前较小，就覆盖上一个result
             //注意这里的本地变量位置的放置设计（本地变量声明周期出不了自己所在的{}），result的声明周期比Gobj长
