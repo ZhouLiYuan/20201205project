@@ -16,6 +16,7 @@ public static class EnemyManager
     /// string是EnemyObj名（表现层），GameObject是实例化敌人Gobj
     /// </summary>
     public static Dictionary<string, GameObject> enemyDic = new Dictionary<string, GameObject>();
+    public static Dictionary<Collider2D,GameObject> en_colliderDic = new Dictionary<Collider2D, GameObject>();
 
     static EnemyManager() 
     {
@@ -34,16 +35,15 @@ public static class EnemyManager
     /// <returns></returns>
     public static TEnemy SpawnEnemy<TEnemy>(string prefabName) where TEnemy : BaseEnemy,new()
     {
-        var prefab = AssetModule.LoadAsset<GameObject>($"Enemy/{prefabName}.prefab");
+        var prefab = ResourcesLoader.LoadEnemyPrefab(prefabName);
         var obj = Object.Instantiate(prefab,enemiesListTransform);
         TEnemy enemy = new TEnemy();
 
         //初始化脚本component变量
         //传入的参数name只是prefab名（一个兵种的名称），但会有多个同种兵（所以就用场景中生成的Gobj命名）
         enemy.Init(obj.name,obj);
-        //enemyDic.Add(obj.name, obj);
-        // 设置受击框collider
-        // hitCollider = 
+       
+     
         return enemy;
     }
 }

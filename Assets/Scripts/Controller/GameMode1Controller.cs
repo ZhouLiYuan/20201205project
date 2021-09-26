@@ -14,7 +14,7 @@ public class GameMode1Controller  : GameController
 
     Updater m_updater;
     DialogSystem m_dialogueSystem;
-    InteractableManager interactableManager;
+    //InteractableManager interactableManager;
 
     //需要序列化的敌人名（可能之后需要抽象成一个节点？）
     //public string enemyPrefabName;
@@ -49,22 +49,30 @@ public class GameMode1Controller  : GameController
         m_updater.AddUpdateFunction(m_damageSystem.OnUpdate);
        
 
-
         //耦合Lock UI逻辑和 PlayerRole功能
-        m_role.OnShowLockTarget += gamePanel.LockHint;
+        m_role.OnShowLockTarget += gamePanel.SetLockHint;
+      
+
 
         // 初始化对话系统
         m_dialogueSystem = new DialogSystem();
         m_dialogueSystem.Init();
         m_updater.AddUpdateFunction(m_dialogueSystem.OnUpdate);
 
-        interactableManager = new InteractableManager();
-        interactableManager.Init();
+        //interactableManager = new InteractableManager();
+        //interactableManager.Init();
+
+        //测试代码
+        var enemy = EnemyManager.SpawnEnemy<BaseEnemy>("enemy_sword");
+        var en_config = ResourcesLoader.LoadEnemyConfigByName("持剑敌人");/*"en_config_name"*/
+        var weapon_config = ResourcesLoader.LoadWeaponConfigByName("小牙签");/*"weapon_config_name"*/
+        enemy.InitProperties(en_config);
+        enemy.EquipWeapon(weapon_config);
     }
 
     public override void ExitGame()
     {
-        m_role.OnShowLockTarget -= gamePanel.LockHint;
+        m_role.OnShowLockTarget -= gamePanel.SetLockHint;
         m_updater.RemoveUpdateFunction(m_dialogueSystem.OnUpdate);
     }
 

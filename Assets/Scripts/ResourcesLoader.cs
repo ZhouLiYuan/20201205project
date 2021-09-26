@@ -20,9 +20,9 @@ public static class ResourcesLoader
         return results.ToArray();
     }
 
-    public static void LoadPrefab(string name)
+    public static GameObject LoadPrefab(string name)
     {
-        AssetModule.LoadAsset<GameObject>($"Prefab/{name}");
+        return AssetModule.LoadAsset<GameObject>($"Prefab/{name}.prefab");
     }
 
     public static EnemyConfig LoadEnemyConfigByID(int id)
@@ -53,9 +53,9 @@ public static class ResourcesLoader
         return null;
     }
 
-    public static void LoadEnemyPrefab(string name)
+    public static GameObject LoadEnemyPrefab(string name)
     {
-        AssetModule.LoadAsset<GameObject>($"Enemy/{name}.prefab");
+        return AssetModule.LoadAsset<GameObject>($"Enemy/{name}.prefab");
     }
 
     public static WeaponConfig LoadWeaponConfigByID(int id)
@@ -72,6 +72,20 @@ public static class ResourcesLoader
         return null;
     }
 
+    public static WeaponConfig LoadWeaponConfigByName(string name)
+    {
+        if (weaponConfigs == null)
+        {
+            var json = AssetModule.LoadAsset<TextAsset>($"Config/WeaponConfig.json").text;
+            weaponConfigs = Newtonsoft.Json.JsonConvert.DeserializeObject<WeaponConfig[]>(json);
+        }
+        for (int i = 0; i < weaponConfigs.Length; i++)
+        {
+            if (weaponConfigs[i].Name== name) return weaponConfigs[i];
+        }
+        return null;
+    }
+
     public static GameObject LoadWeaponPrefab(string name)
     {
         return AssetModule.LoadAsset<GameObject>($"Weapon/{name}.prefab");
@@ -81,4 +95,15 @@ public static class ResourcesLoader
     {
         return AssetModule.LoadAsset<LevelData>($"Level/{level}.asset");
     }
+
+
+
+    //--------------<泛型版本尝试>----------------
+
+    //public static GameObject LoadPrefab<Tprefab>(string name)
+    //{
+    //    string root = Tprefab.ToString();
+    //    return AssetModule.LoadAsset<GameObject>($"Prefab/{name}.prefab");
+    //}
+
 }

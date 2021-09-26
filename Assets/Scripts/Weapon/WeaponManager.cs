@@ -13,39 +13,61 @@ using UnityEngine;
 /// </summary>
 public static class WeaponManager
 {
-    private static List<GameObject> attackerGobjs = new List<GameObject>();
-    private static List<BaseWeapon> attackers = new List<BaseWeapon>();
-
-    private static int GobjIndex;
-
-    private static Type StringToType(GameObject attacker)
+    //可以先通过weapon找到owner，再通过owner找到 List<BaseWeapon>，暂时看不出这个 字典 有什么用。。
+    public static Dictionary<BaseEnemy, List<BaseWeapon>> en_weaponsDic = new Dictionary<BaseEnemy, List<BaseWeapon>>();
+    
+    public static BaseWeapon SpawnEnemyWeapon(BaseEnemy enemy,WeaponConfig weaponConfig)
     {
-        string typeName = attacker.name.Substring(8);
-        var AttackerType = Type.GetType(typeName);
-        return AttackerType;
-    }
+        BaseWeapon weapon = new BaseWeapon(); /*{ AtkType = (AtkType)weaponConfig.Type, AtkValue = weaponConfig.Damage };*/
+       
+        var weaponObj = ResourcesLoader.LoadWeaponPrefab(weaponConfig.AssetPath);
+        weapon.Init(weaponObj);
+        weapon.SetOwner(enemy.en_gameObject);
+        enemy.availableWeapons.Add(weapon);
+        
 
-    public static void AddAttackers() 
-    {
-        if (attackers.Count == 0) return;
-
-        for (GobjIndex = 0;GobjIndex < attackers.Count; GobjIndex++)
+        //避免重复添加相同的key
+        if (en_weaponsDic.TryGetValue(enemy, out var Weapons))
         {
-            var AttackeType = StringToType(attackerGobjs[GobjIndex]);
 
-            //或者到这里采用一个switch语句的形式？
-            var attackerInstance = AttackeType.GetMethod("InitAttackerScript").MakeGenericMethod(new Type[] {AttackeType});
-            //attackers.Add(attackerInstance);
+            return weapon;
         }
+       en_weaponsDic.Add(enemy, enemy.availableWeapons);
+        return weapon;
     }
+        //private static List<GameObject> attackerGobjs = new List<GameObject>();
+        //private static List<BaseWeapon> attackers = new List<BaseWeapon>();
+
+        //private static int GobjIndex;
+
+        //private static Type StringToType(GameObject attacker)
+        //{
+        //    string typeName = attacker.name.Substring(8);
+        //    var AttackerType = Type.GetType(typeName);
+        //    return AttackerType;
+        //}
+
+        //public static void AddAttackers() 
+        //{
+        //    if (attackers.Count == 0) return;
+
+        //    for (GobjIndex = 0;GobjIndex < attackers.Count; GobjIndex++)
+        //    {
+        //        var AttackeType = StringToType(attackerGobjs[GobjIndex]);
+
+        //        //或者到这里采用一个switch语句的形式？
+        //        var attackerInstance = AttackeType.GetMethod("InitAttackerScript").MakeGenericMethod(new Type[] {AttackeType});
+        //        //attackers.Add(attackerInstance);
+        //    }
+        //}
 
 
 
-    public static TAttacker InitWeapon<TAttacker>() where TAttacker : BaseWeapon, new()
-    {
-        TAttacker attacker = new TAttacker();
-        attacker.Init(attackerGobjs[GobjIndex]);
-        return attacker;
-    }
+        //public static TAttacker InitWeapon<TAttacker>() where TAttacker : BaseWeapon, new()
+        //{
+        //    TAttacker attacker = new TAttacker();
+        //    attacker.Init(attackerGobjs[GobjIndex]);
+        //    return attacker;
+        //}
 }
 

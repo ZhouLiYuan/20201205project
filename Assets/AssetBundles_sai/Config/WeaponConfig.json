@@ -1,7 +1,7 @@
 [
   {
     "ID": 0,
-    "Name": "测试武器",
+    "Name": "小牙签",
     "Damage": 100,
     "Type": 0,
     "AssetPath": "Sword"
