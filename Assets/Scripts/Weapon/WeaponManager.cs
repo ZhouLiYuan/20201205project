@@ -13,27 +13,38 @@ using UnityEngine;
 /// </summary>
 public static class WeaponManager
 {
-    //可以先通过weapon找到owner，再通过owner找到 List<BaseWeapon>，暂时看不出这个 字典 有什么用。。
-    public static Dictionary<BaseEnemy, List<BaseWeapon>> en_weaponsDic = new Dictionary<BaseEnemy, List<BaseWeapon>>();
+    //可以先通过weapon找到owner，再通过owner找到 Dictionary<Collider2D, BaseWeapon>
+    public static Dictionary<BaseEnemy, Dictionary<Collider2D, BaseWeapon>> en_weaponsDic = new Dictionary<BaseEnemy, Dictionary<Collider2D, BaseWeapon>>();
     
     public static BaseWeapon SpawnEnemyWeapon(BaseEnemy enemy,WeaponConfig weaponConfig)
     {
         BaseWeapon weapon = new BaseWeapon(); /*{ AtkType = (AtkType)weaponConfig.Type, AtkValue = weaponConfig.Damage };*/
-       
-        var weaponObj = ResourcesLoader.LoadWeaponPrefab(weaponConfig.AssetPath);
-        weapon.Init(weaponObj);
+
+        var Prefab = ResourcesLoader.LoadWeaponPrefab(weaponConfig.AssetPath);
+
+        //暂时把武器装备点写死
+        //3d向量转化为欧拉角
+        var rotationVector3 = new Vector3(0, 0, 270);
+        var rotation = Quaternion.Euler(rotationVector3);
+        //double=>float
+        //这里的Transform是world的而不是local的
+        //由于transform会按照世界坐标自动偏移抵消父级的移动量所以需要再加回来
+        var equipPoint = new Vector3((float)0.2, (float)-0.25, 0) + enemy.en_topNodeTransform.position;
+        Transform parentTransform = enemy.Find<Transform>("animator_top");
+
+
+        var obj = UnityEngine.Object.Instantiate(Prefab, equipPoint, rotation, parentTransform);
+        weapon.Init(obj);
+        weapon.InitProperties(weaponConfig);
         weapon.SetOwner(enemy.en_gameObject);
-        enemy.availableWeapons.Add(weapon);
-        
-
-        //避免重复添加相同的key
-        if (en_weaponsDic.TryGetValue(enemy, out var Weapons))
+        enemy.availableWeapons[weapon.collider2D] = weapon;
+        //避免重复添加相同的key(并不是为了获得value)
+        if (en_weaponsDic.TryGetValue(enemy, out var weapons)){ return weapon;}
+        else 
         {
-
+            en_weaponsDic.Add(enemy, enemy.availableWeapons);
             return weapon;
         }
-       en_weaponsDic.Add(enemy, enemy.availableWeapons);
-        return weapon;
     }
         //private static List<GameObject> attackerGobjs = new List<GameObject>();
         //private static List<BaseWeapon> attackers = new List<BaseWeapon>();

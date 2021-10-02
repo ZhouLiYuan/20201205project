@@ -1,8 +1,20 @@
 [
   {
+    "ID": 0,
+    "Name": "测试敌人",
+    "HP": 100,
+    "AssetPath": "enemy",
+    "Speed": 1,
+    "AttackRange ": 1,
+    "ChaseRange ": 5
+  },
+  {
     "ID": 1,
     "Name": "持剑敌人",
     "HP": 120,
-    "AssetPath": "enemy_sword"
+    "AssetPath": "enemy_sword",
+    "Speed": 3,
+    "AttackRange ": 2,
+    "ChaseRange ": 10
   }
 ]

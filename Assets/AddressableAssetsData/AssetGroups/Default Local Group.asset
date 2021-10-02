@@ -37,6 +37,10 @@ MonoBehaviour:
     m_Address: Weapon
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 9da38392a9b4d02428cdb2c2479ebd1e
+    m_Address: Effect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 52a50aa9a4584624f86160fa43c6dbea, type: 2}
   m_SchemaSet:

@@ -15,6 +15,7 @@ using UnityEditor;
 /// </summary>
 public class LevelEditorWindow : EditorWindow
 {
+    
     private int level;
     private string levelAssetPath;
 
@@ -26,9 +27,10 @@ public class LevelEditorWindow : EditorWindow
         window.Show();
     }
 
-    private void OnGUI()
+    private void OnGUI()    
     {
-        GUILayout.Label("再试试看？？");
+        GUILayout.Label("对应场景");
+
         if (GUILayout.Button("保存关卡编辑信息"))
         {
             SaveLevelConfig();
@@ -47,32 +49,38 @@ public class LevelEditorWindow : EditorWindow
         var platformList = GameObject.Find("PlatformList");
 
         //关卡信息
-        LevelData levelData = ScriptableObject.CreateInstance<LevelData>();
-        //LevelData levelData = new LevelData();之后再看有什么区别？
+        LevelConfig levelConfig = ScriptableObject.CreateInstance<LevelConfig>();
+        //LevelData levelConfig = new LevelConfig();也可以
+        //姑且认为ScriptableObject的实例用 ScriptableObject配套API创建比较好（就像AddComponent）
 
 
         //关卡中的敌人信息
-        levelData.EnemyInfos = new List<EnemyInfo>();
+        levelConfig.EnemyInfos = new List<EnemyInfo>();
         //transform.childCount来直接获取子物体数量
         for (int i = 0; i < enemyList.transform.childCount; i++)
         {
             var enGobj_transform = enemyList.transform.GetChild(i);
             var enemyInfoInspector = enGobj_transform.GetComponent<EnemyInfoInspector>();
             //为Scene中EnemyList下的每个子Gobj创建EnemyInfo实例并初始化（表现层和逻辑层的联系）
-            levelData.EnemyInfos.Add(new EnemyInfo { ID = enemyInfoInspector.ID, Position = enGobj_transform.position, WeaponID = enemyInfoInspector.WeaponID });
+            levelConfig.EnemyInfos.Add(new EnemyInfo 
+            {Position = enGobj_transform.position, 
+             ID = enemyInfoInspector.ID, 
+             WeaponID = enemyInfoInspector.WeaponID });
         }
 
         //关卡中的平台信息
-        levelData.PlatformInfos = new List<PlatformInfo>();
+        levelConfig.PlatformInfos = new List<PlatformInfo>();
 
         for (int i = 0; i < platformList.transform.childCount; i++)
         {
             var pfGobj_transform = platformList.transform.GetChild(i);
-            levelData.PlatformInfos.Add(new PlatformInfo { ID = pfGobj_transform.name, Position = pfGobj_transform.position });
+            levelConfig.PlatformInfos.Add(new PlatformInfo { ID = pfGobj_transform.name, Position = pfGobj_transform.position });
         }
 
+
+
         levelAssetPath = $"Assets/AssetBundles_sai/Level/{level}.asset";
-        CreateAsset(levelData, levelAssetPath);
+        CreateAsset(levelConfig, levelAssetPath);
 
     }
 

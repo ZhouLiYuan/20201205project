@@ -12,16 +12,16 @@ public static class EnemyManager
     public static GameObject enemiesList;
     public static Transform enemiesListTransform;
 
-    /// <summary>
-    /// string是EnemyObj名（表现层），GameObject是实例化敌人Gobj
-    /// </summary>
-    public static Dictionary<string, GameObject> enemyDic = new Dictionary<string, GameObject>();
-    public static Dictionary<Collider2D,GameObject> en_colliderDic = new Dictionary<Collider2D, GameObject>();
+    //提供不同的查询获得敌人的方式
+    //public static Dictionary<string, BaseEnemy> en_nameDic = new Dictionary<string, BaseEnemy>();
+    public static Dictionary<Collider2D, BaseEnemy> en_hitColliderDic = new Dictionary<Collider2D, BaseEnemy>();
 
     static EnemyManager() 
     {
         enemiesList = new GameObject("EnemiesList");
         enemiesListTransform = enemiesList.transform;
+        enemiesListTransform.position = Vector3.zero; 
+        enemiesListTransform.rotation = new Quaternion(0, 0, 0, 0);
     }
 
 
@@ -33,17 +33,35 @@ public static class EnemyManager
     /// <typeparam name="TEnemy"></typeparam>
     /// <param name="prefabName"></param>
     /// <returns></returns>
-    public static TEnemy SpawnEnemy<TEnemy>(string prefabName) where TEnemy : BaseEnemy,new()
+    public static TEnemy SpawnEnemy<TEnemy>(string prefabName,Vector3 bornPoint) where TEnemy : BaseEnemy,new()
     {
+        Quaternion rotation = new Quaternion(0, 0, 0, 0);
         var prefab = ResourcesLoader.LoadEnemyPrefab(prefabName);
-        var obj = Object.Instantiate(prefab,enemiesListTransform);
+        var obj = Object.Instantiate(prefab,bornPoint,rotation,enemiesListTransform);
         TEnemy enemy = new TEnemy();
-
         //初始化脚本component变量
-        //传入的参数name只是prefab名（一个兵种的名称），但会有多个同种兵（所以就用场景中生成的Gobj命名）
-        enemy.Init(obj.name,obj);
-       
-     
+        enemy.Init(obj);
         return enemy;
     }
+
+    public static BaseEnemy GetEnemyByCollider(Collider2D instanceCollider)
+    {
+        if (en_hitColliderDic.TryGetValue(instanceCollider, out var enemyInstance))
+        {
+            return enemyInstance;
+        }
+        return null;
+    }
+
+
+    //public static BaseEnemy GetEnemyByName(string instanceName)
+    //{
+    //    if (en_nameDic.TryGetValue(instanceName, out var enemyInstance))
+    //    {
+    //        return enemyInstance;
+    //    }
+    //    return null;
+    //}
+
+
 }

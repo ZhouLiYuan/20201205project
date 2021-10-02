@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//封装路径
 public static class ResourcesLoader
 {
     private static EnemyConfig[] enemyConfigs;
@@ -58,6 +59,15 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<GameObject>($"Enemy/{name}.prefab");
     }
 
+
+
+    public static GameObject LoadEffectPrefab(string name)
+    {
+        return AssetModule.LoadAsset<GameObject>($"Effect/{name}.prefab");
+    }
+
+
+    //用json配置
     public static WeaponConfig LoadWeaponConfigByID(int id)
     {
         if (weaponConfigs == null)
@@ -91,9 +101,14 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<GameObject>($"Weapon/{name}.prefab");
     }
 
-    public static LevelData LoadLevelConfig(int level)
+
+
+
+    //用scriptable asset配置
+    public static LevelConfig LoadLevelConfig(int level)
     {
-        return AssetModule.LoadAsset<LevelData>($"Level/{level}.asset");
+        //project中的scriptable asset其实就是 LevelConfig(继承自scriptable类型) 的实例了
+        return AssetModule.LoadAsset<LevelConfig>($"Level/{level}.asset");
     }
 
 

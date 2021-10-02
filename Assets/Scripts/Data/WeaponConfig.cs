@@ -1,19 +1,15 @@
-﻿//
-// Auto Generated Code By excel2json
-// https://neil3d.gitee.io/coding/excel2json.html
-// 1. 每个 Sheet 形成一个 Struct 定义, Sheet 的名称作为 Struct 的名称
-// 2. 表格约定：第一行是变量名称，第二行是变量类型
-
-// Generate From D:\UnityProject\20201205project\工具\配置表\WeaponConfig.xlsx.xlsx
+﻿using UnityEngine;
 
 public class WeaponConfig
 {
-    public int ID; // ID
-    public string Name; // 名称
-    public int Damage; // 伤害
-    public int Type; // 类型
-    public string AssetPath; // 资源路径
+	public int ID; // ID
+	public string Name; // 名称
+	public int Damage; // 伤害
+	public int Type; // 类型
+	public string AssetPath; // 资源路径
+	//public Vector3 EquipPoint; // 装备位置
+	//public Quaternion Rotation; // 装备角度
 }
 
 
-// End of Auto Generated Code
+

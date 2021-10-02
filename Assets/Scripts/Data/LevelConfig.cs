@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 关卡信息
 /// </summary>
-public class LevelData : ScriptableObject
+public class LevelConfig : ScriptableObject
 {
     /// <summary>
     /// 场景序号
@@ -18,5 +18,6 @@ public class LevelData : ScriptableObject
     public List<EnemyInfo> EnemyInfos = new List<EnemyInfo>();
 
     public List<PlatformInfo> PlatformInfos = new List<PlatformInfo>();
+
 
 }

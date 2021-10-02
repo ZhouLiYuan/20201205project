@@ -1,6 +1,27 @@
 [
   {
     "ID": 0,
+    "Name": "测试武器",
+    "Damage": 10,
+    "Type": 3,
+    "AssetPath": "TestWeapon"
+  },
+  {
+    "ID": 1,
+    "Name": "拳套",
+    "Damage": 200,
+    "Type": 1,
+    "AssetPath": "Punch"
+  },
+  {
+    "ID": 2,
+    "Name": "小手枪",
+    "Damage": 20,
+    "Type": 2,
+    "AssetPath": "Gun"
+  },
+  {
+    "ID": 3,
     "Name": "小牙签",
     "Damage": 100,
     "Type": 0,
