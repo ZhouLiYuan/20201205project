@@ -30,7 +30,7 @@ public class StartMenuPanel : BasePanel
         startGameButton.onClick.AddListener(() =>
         {
             //0是对话系统测试 1是战斗测试
-            SAIGameManager.StartGame<GameMode1Controller>(1);
+            SAIGameManager.StartGame<GameMode1Controller>(0);
             Close();
         });
         

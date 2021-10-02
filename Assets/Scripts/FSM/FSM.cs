@@ -137,6 +137,7 @@ public class FSM
 
     public void Update(float deltaTime)
     {
+        //如果当前State不为空 又已经有下一个准备转换的NextState
         if (NextState != null && CurrentState != null)
         {
             CurrentState.OnExit();

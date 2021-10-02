@@ -31,7 +31,7 @@ public class Melee:BaseWeapon
                 for (int i = 0; i < targetsToDamage.Length; i++)
                 {
                     //通过collder组件 访问 所挂载Gobj的 其他组件
-                    targetsToDamage[i].GetComponent<GetDamage>().TakeDamage(atkValue);
+                    //targetsToDamage[i].GetComponent<GetDamage>().TakeDamage(atkValue);
                 }
 
                 foreach (Collider2D target in targetsToDamage)

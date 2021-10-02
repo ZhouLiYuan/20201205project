@@ -33,41 +33,41 @@ public class En_Attacker_MeleeOverlapCircle : BaseWeapon
     {
     }
     
-
+    //在 播放攻击动画时 同步 调用该方法
     public void Atk()
     {
 
-            //获取检测范围内所有敌人的碰撞体(Overlap系列)
-            Collider2D targetToDamage = Physics2D.OverlapCircle(attackPos.position, attackRange, targetsLayer);
-            //若集中对象集合非空，则对敌人造成伤害
-            if (targetToDamage != null)
-            {
-            BaseEnemy 被打的人 = EnemyManager.通过COllider2D找到Enemy[targetToDamage];
+        ////获取检测范围内所有敌人的碰撞体(Overlap系列)
+        //Collider2D targetToDamage = Physics2D.OverlapCircle(attackPos.position, attackRange, targetsLayer);
+        ////若集中对象集合非空，则对敌人造成伤害
+        //if (targetToDamage != null)
+        //{
+        //    BaseEnemy 被打的人 = EnemyManager.通过COllider2D找到Enemy[targetToDamage];
 
-            for (int i = 0; i < 所有单位; i++)
-            {
-                BaseEnemy enemy;
-                if (enemy.HitCollider == targetToDamage)
-                {
-                    GlobalEvent.Damage(new DamageData() { });
-                    break;
-                }
-            }
+        //    for (int i = 0; i < 所有单位; i++)
+        //    {
+        //        BaseEnemy enemy;
+        //        if (enemy.HitCollider == targetToDamage)
+        //        {
+        //            GlobalEvent.Damage(new DamageData() { });
+        //            break;
+        //        }
+        //    }
 
-                    targetToDamage.GetComponent<GetDamage>().TakeDamage(atkValue);
-            Debug.Log($" kick's ass!!");
+        //    targetToDamage.GetComponent<GetDamage>().TakeDamage(atkValue);
+        //    Debug.Log($" kick's ass!!");
 
-            }
+        //    }
         }
 
     /// <summary>
     /// 可视化验证攻击区域
     /// </summary>
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos.position, attackRange);
-    }
+    //void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(attackPos.position, attackRange);
+    //}
 
 
 }

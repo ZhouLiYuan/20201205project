@@ -31,16 +31,9 @@ public class GamePanel : BasePanel
     /// 将目标位置转换成UICamera中的位置 并设置 激活LockUI的position为目标位置
     /// </summary>
     /// <param name="target"></param>
-    public void LockHint(GameObject target)
+    public void SetLockHint(GameObject target)
     {
-        lockUI.SetActive(target != null);
-        if (target)
-        {
-            //Postion赋值过程：target =>MainCamera =>UICamera =>lockUI
-            var screenPosition = Camera.main.WorldToScreenPoint(target.transform.position);
-            lockUI.transform.position = UIManager.UICamera.ScreenToWorldPoint(screenPosition);
-        }
-
+        UIManager.SetInteractUI(target, lockUI);
     }
 
 }

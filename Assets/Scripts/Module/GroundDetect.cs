@@ -4,26 +4,23 @@ using UnityEngine;
 
 
 /// <summary>
-/// 只用碰撞事件通知不用其生命周期函数
+/// 只用 碰撞事件通知 不用 生命周期函数
 /// </summary>
 public class GroundDetect : MonoBehaviour
 {
     public bool IsGrounded { get; private set; }
-    [SerializeField] private Transform groundCheckPosition;
-    [SerializeField] private float distance = 0.2f;
+    //[SerializeField] private float distance = 0.2f;
+    //[SerializeField] private GameObject groundCheckGobj;
 
-
-    ////不继承MONO的赋值版本
-    //public GroundDetect(Transform groundDetectGobjTransform) 
+    //public GroundDetect(GameObject Gobj)
     //{
-    //    groundCheckPosition = groundDetectGobjTransform;
+    //    groundCheckGobj = Gobj;
     //}
-    //  var characterTransform = GameObject.Find("character").transform;
+   
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        // 碰到符合条件的Collider，认为落地
-        if (collision.gameObject.tag == "Platform")
+       if (collision.gameObject.tag == "Platform")
         {
             IsGrounded = true;
         }
@@ -39,6 +36,6 @@ public class GroundDetect : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Debug.DrawLine(groundCheckPosition.position, groundCheckPosition.position + transform.up * -1f * distance, Color.red, 1f);
+        Debug.DrawLine(transform.position, transform.position + transform.up * -0.2f/* * distance*/, Color.blue, 1f);
     }
 }

@@ -162,6 +162,15 @@ public static class UIManager
         return new WaitOpenPanel<TPanel>(loadPrefabHandle, openPanelAction, onPanelOpened);
     }
 
-
+    public static void SetInteractUI(GameObject target, GameObject UIGobj)
+    {
+        UIGobj.SetActive(target != null);
+        if (target)
+        {
+            //Postion赋值过程：target =>MainCamera =>UICamera =>lockUI
+            var screenPosition = Camera.main.WorldToScreenPoint(target.transform.position);
+            UIGobj.transform.position = UICamera.ScreenToWorldPoint(screenPosition);
+        }
+    }
 
 }

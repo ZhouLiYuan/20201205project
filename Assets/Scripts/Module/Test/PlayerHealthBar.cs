@@ -24,7 +24,7 @@ public class PlayerHealthBar : Entity
         m_slider = GameObject.GetComponent<Slider>();
         m_fill = GameObject.GetComponentInChildren<Image>();
 
-        maxHealth = PlayerManager.m_Role.health;
+        maxHealth = PlayerManager.m_Role.HP;
         currentHealth = maxHealth;
         m_slider.maxValue = maxHealth;
         m_slider.value = maxHealth;
