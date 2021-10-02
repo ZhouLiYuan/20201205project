@@ -13,6 +13,8 @@ public static class PlayerManager
     public static PlayerRole m_Role;
     public static string m_roleName = "character";
     public static GameObject m_gobj;
+    public static Collider2D pl_HitCollider;
+
 
     /// <summary>
     /// 加载并生成 主角Gobj，并创建 主角脚本实例
@@ -27,8 +29,9 @@ public static class PlayerManager
         m_Role = new PlayerRole(m_gobj);
         m_Roles.Add(m_Role);
         roles[m_gobj] = m_Role;
+
         // 设置受击框collider
-        // hitCollider = 
+        pl_HitCollider = m_gobj.GetComponent<BoxCollider2D>();
         return m_Role;
     }
 

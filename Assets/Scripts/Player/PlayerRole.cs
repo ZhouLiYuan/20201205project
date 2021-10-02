@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System;
 
 public class PlayerRole : Entity
 {
     public string RoleName =>PlayerManager.m_roleName;
+
 
     private Updater updater;
     private FSM hookFsm;
@@ -11,8 +13,20 @@ public class PlayerRole : Entity
 
     public MoveState m_moveState;
 
+
     //需要序列化动态调节
-    public float health;
+    public int maxHP = 1000;
+    private int hp;
+    public int HP
+    {
+        get { return hp; }
+        set
+        {
+            if (0 <= value && value <= maxHP) { hp = value; }
+            else if (value < 0) { hp = 0; }
+            else { hp = maxHP; }
+        }
+    }
     //重力
     /// <summary>
     /// 代指y轴速度最大可加速到maxGravity 
@@ -22,6 +36,13 @@ public class PlayerRole : Entity
     public bool canApplyGravity = true;
     public bool canMoveHorizontal = true;
 
+
+
+   public Transform topNodeTransform;
+    public Transform animatorTransform;
+    public Animator animator;
+
+    Rigidbody2D rg2dtest;
     //刚体速度
     Rigidbody2D rg2d;
     public Vector2 Velocity
@@ -43,18 +64,59 @@ public class PlayerRole : Entity
     public bool IsJumpPressed { get; private set; }
     public bool IsJumpTriggered{ get; private set; }
 
+    //逻辑相关trigger
+    public float invincibleInterval = 1f;
+    private float invincibleTime;
+    public float InvincibleTime
+    {
+        get { return invincibleTime; }
+        set
+        {
+            if (0 <= value ) { invincibleTime = value; }
+            else if (value < 0) { invincibleTime = 0; }
+        }
+    }
+    public bool isAttacked = false;
 
+  
+    //当前装备的武器
+    public BaseWeapon currentWeapon;
+    public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();
+    public KeyValuePair<Collider2D, BaseWeapon> currentWeaponPair;
 
+    //和Player声明周期相关的 Player内部event
     public event Action<GameObject> OnShowLockTarget;
     public void LockTarget(GameObject target) { OnShowLockTarget?.Invoke(target); }
+
+    public event Action<GameObject> OnInteract;
+    public void Interact(GameObject target) { OnInteract?.Invoke(target); }
+
+    public event Func<DamageData> OnAttacked;
+    public void GetDamage()
+    { 
+        var data = OnAttacked?.Invoke();
+        float realDamageValue = DamageSystem.CalculateDamage(data);
+       HP -= (int)realDamageValue;
+    }
+
 
     /// <summary>
     ///初始化脚本实例字段（建立逻辑层和表现层联系） 
     /// </summary>
     public PlayerRole(GameObject roleGobj) : base(roleGobj)
     {
-        health = 100f;
+       
+        hp = maxHP;
         rg2d = roleGobj.GetComponent<Rigidbody2D>();
+
+        topNodeTransform = roleGobj.transform;
+        animator = Find<Animator>("animator_top");
+        animatorTransform = animator.transform;
+        rg2dtest = animator.transform.GetComponent<Rigidbody2D>();
+
+       
+
+
         //Transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
 
@@ -104,9 +166,16 @@ public class PlayerRole : Entity
         hookFsm.AddState<LockState>().SetPlayerRole(this);
         hookFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
 
+
         moveFsm = new FSM();
+        moveFsm.AddState<IdleState>().SetPlayerRole(this);
+        moveFsm.AddState<JumpState>().SetPlayerRole(this);
         m_moveState = moveFsm.AddState<MoveState>();
         m_moveState.SetPlayerRole(this);
+
+        moveFsm.AddState<DamagedState>().SetPlayerRole(this);
+        moveFsm.AddState<InteractState>().SetPlayerRole(this);
+        
     }
 
     private void OnUpdate(float deltaTime) 
@@ -114,6 +183,11 @@ public class PlayerRole : Entity
         IsJumpTriggered = playerInput.Jump.triggered;
         hookFsm.Update(deltaTime);
         moveFsm.Update(deltaTime);
+
+        //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）
+        rg2dtest.velocity = rg2d.velocity;
+        //修复滞后
+        rg2dtest.position = rg2d.position;
     }
 
     //物理相关的刷新
@@ -130,52 +204,19 @@ public class PlayerRole : Entity
         Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
     }
 
-    ///// <summary>
-    /////角色反转功能
-    /////使用前提，动画中没有k scale或者rotation的帧
-    /////当Gobj scale和速度方向相反的时候反转
-    ///// </summary>
-    //private void GraphicFlip()
-    //{
-    //    //先判断非空
-    //    if (m_Role)
-    //    {
-    //        if (move.x > 0.01f && m_Role.transform.localScale.x == -1)
-    //        {
-    //            m_Role.transform.localScale = new Vector3(1, ch_transform.localScale.y, ch_transform.localScale.z);
-    //        }
-    //        else if (move.x < -0.01f && m_Role.transform.localScale.x == 1)
-    //        {
-    //            m_Role.transform.localScale = new Vector3(-1, ch_transform.localScale.y, ch_transform.localScale.z);
-    //        }
-    //    }
-    //}
-
-
-    //private void Update()
-    //{
-
-    //    //在自己类体里调用就不用声明实例
-    //    HandleInput();
-    //    GraphicFlip();
-
-    //}
-    //private void HandleInput()
-    //{
-    //    //移动
-    //    move.x = Input.GetAxis("Horizontal");
-    //    HorizontalMovement();
-    //    //跳跃
-    //    if (Input.GetKeyDown(KeyCode.Space)) { Jump(); }
-    //    //钩锁
-    //    if (Input.GetKey(KeyCode.G))
-    //    {
-    //        Hook();
-    //    }
-    //}
-
-
-
+    /// <summary>
+    /// 只能查找子物体，以及子物体的component
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public T Find<T>(string path) where T : UnityEngine.Object
+    {
+        var t = topNodeTransform.Find(path);
+        if (typeof(T) == typeof(Transform)) return t as T;
+        if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
+        return t.GetComponent<T>();
+    }
 
     //public void HorizontalMovement()
     //{
