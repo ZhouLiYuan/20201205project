@@ -12,6 +12,9 @@ public class PlayerRoleState:State
 
     protected Vector2 InputAxis => Role.inputAxis;
 
+    public float jumpSpeed = 8f;
+    public float moveSpeed = 5f;
+
     //消灭 空引用
     public void SetPlayerRole(PlayerRole role)
     {

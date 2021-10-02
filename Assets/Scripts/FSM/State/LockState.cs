@@ -9,7 +9,7 @@ public class LockState : PlayerRoleState
         //没有按下锁定键，就返回Idle状态
         if (!Role.IsLockPressed) ChangeState<IdleState>();
         //传入玩家角色position
-        var target_Gobj = SceneObjManager.GetNearest(role_Gobj.transform.position);
+        var target_Gobj = SceneObjManager.GetNearest(role_Gobj.transform.position,SceneObjManager.HookableEntities);
         Role.LockTarget(target_Gobj);
 
     }
