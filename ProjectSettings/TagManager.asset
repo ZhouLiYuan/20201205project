@@ -9,6 +9,7 @@ TagManager:
   - Weapon
   - Enemy
   - Attacker
+  - Interact
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Player
   - Enemy
   - groundChecker
-  - Traps
+  - Attacker
   - Attackable
   - 
   - 
