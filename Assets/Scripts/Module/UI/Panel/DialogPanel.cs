@@ -6,14 +6,7 @@ using UnityEngine.UI;
 
 public class DialogPanel : BasePanel
 {
-
-
-    //文本输出速度(需要暴露的可调节值)
-    public float m_inputWaitTime = 0.2f;
-
     public override string Path => "Panel/DialogPanel.prefab";
-
-    
     private GameObject DialogText;
     private GameObject HeadIcon;
 
@@ -22,22 +15,21 @@ public class DialogPanel : BasePanel
     private Text m_textContent;
     private Image m_characterFace;
 
+   // //对话角色头像
+   //private Sprite m_playerSprite, m_enemySprite;
 
-    //对话角色头像
-   private Sprite m_playerSprite, m_enemySprite;
+    ////数组第一个string元素的index是0
+    //List<string> m_textList = new List<string>();
 
-    //数组第一个string元素的index是0
-    List<string> m_textList = new List<string>();
-
-    private event Action<string> OnDialogueCharacterIndexChanged;
+    //private event Action<string> OnDialogueCharacterIndexChanged;
 
 
     public override void OnOpen()
     {
-        InitSomething();
+        Init();
     }
 
-    private void InitSomething()
+    private void Init()
     {
         //m_gameObject.SetActive(false);
         //表现层逻辑层关联

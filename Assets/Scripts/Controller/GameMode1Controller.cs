@@ -7,7 +7,7 @@ public class GameMode1Controller  : GameController
 {
     private GamePanel gamePanel;
     private PlayerHealthBar m_healthBar;
-    private DamageSystem m_damageSystem;
+    //private DamageSystem m_damageSystem;
 
     //private List<GameObject> enemyObjs = new List<GameObject>();
     private PlayerRole m_role;
@@ -41,33 +41,27 @@ public class GameMode1Controller  : GameController
         gamePanel = UIManager.Open<GamePanel>();
         m_healthBar = new PlayerHealthBar(gamePanel.healthBar);
 
-        //初始化伤害系统
-        m_damageSystem = new DamageSystem();
-        m_damageSystem.Init();
-        GlobalEvent.OnDamaged += SetDamageReceiverHealth;
+        ////初始化伤害系统
+        //m_damageSystem = new DamageSystem();
+        //m_damageSystem.Init();
+        
         //需要在mono Update()中处理的，加多下面的操作
-        m_updater.AddUpdateFunction(m_damageSystem.OnUpdate);
+        m_updater.AddUpdateFunction(DamageSystem.OnUpdate);
        
 
         //耦合Lock UI逻辑和 PlayerRole功能
         m_role.OnShowLockTarget += gamePanel.SetLockHint;
-      
+        
 
 
-        // 初始化对话系统
-        m_dialogueSystem = new DialogSystem();
+          // 初始化对话系统
+          m_dialogueSystem = new DialogSystem();
         m_dialogueSystem.Init();
         m_updater.AddUpdateFunction(m_dialogueSystem.OnUpdate);
 
         //interactableManager = new InteractableManager();
         //interactableManager.Init();
 
-        //测试代码
-        var enemy = EnemyManager.SpawnEnemy<BaseEnemy>("enemy_sword");
-        var en_config = ResourcesLoader.LoadEnemyConfigByName("持剑敌人");/*"en_config_name"*/
-        var weapon_config = ResourcesLoader.LoadWeaponConfigByName("小牙签");/*"weapon_config_name"*/
-        enemy.InitProperties(en_config);
-        enemy.EquipWeapon(weapon_config);
     }
 
     public override void ExitGame()
@@ -80,7 +74,7 @@ public class GameMode1Controller  : GameController
     public void SetDamageReceiverHealth(DamageData data)
     {
         if (m_healthBar.currentHealth < 0) return;
-        else {m_healthBar.currentHealth -= m_damageSystem.CalculateDamage(data);
+        //else {m_healthBar.currentHealth -= m_damageSystem.CalculateDamage(data);
         }
-    }
+  
 }

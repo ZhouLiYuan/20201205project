@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Attacker
   - Interact
+  - Collectable
   layers:
   - Default
   - TransparentFX

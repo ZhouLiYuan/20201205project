@@ -84,12 +84,13 @@ public class PlayerRole : Entity
     public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();
     public KeyValuePair<Collider2D, BaseWeapon> currentWeaponPair;
 
+    //交互模块
+    public InteractableController interactableController;
+
+
     //和Player声明周期相关的 Player内部event
     public event Action<GameObject> OnShowLockTarget;
     public void LockTarget(GameObject target) { OnShowLockTarget?.Invoke(target); }
-
-    public event Action<GameObject> OnInteract;
-    public void Interact(GameObject target) { OnInteract?.Invoke(target); }
 
     public event Func<DamageData> OnAttacked;
     public void GetDamage()
@@ -98,6 +99,9 @@ public class PlayerRole : Entity
         float realDamageValue = DamageSystem.CalculateDamage(data);
        HP -= (int)realDamageValue;
     }
+
+    public event Action<GameObject> OnInteract;
+    public void Interact(GameObject target) { OnInteract?.Invoke(target); }
 
 
     /// <summary>
@@ -114,8 +118,7 @@ public class PlayerRole : Entity
         animatorTransform = animator.transform;
         rg2dtest = animator.transform.GetComponent<Rigidbody2D>();
 
-       
-
+        interactableController = new InteractableController();
 
         //Transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
@@ -155,6 +158,10 @@ public class PlayerRole : Entity
         playerInput.Jump.canceled += context => IsJumpPressed = false;
     }
 
+    public void Interact() 
+    {
+        //interactableController
+    }
 
     /// <summary>
     ///  //配置每个功能的FSM，为每个状态传owner实例
@@ -203,6 +210,8 @@ public class PlayerRole : Entity
         //Mathf.Max返回两个指定数字中较大
         Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
     }
+
+    private void Collect() { }
 
     /// <summary>
     /// 只能查找子物体，以及子物体的component

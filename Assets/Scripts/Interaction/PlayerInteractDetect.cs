@@ -9,13 +9,17 @@ public class PlayerInteractDetect : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer != LayerMask.NameToLayer("Player")) return;
-        //InteractableManager.Init<>
-        GlobalEvent.EnterInteractArea(data);
+
+        SceneObjManager.InteractableEntities.Add(transform.gameObject);
+
+        PlayerManager.m_Role.interactableController.EnterInteractArea(data);
+        //GlobalEvent.EnterInteractArea(data);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.layer != LayerMask.NameToLayer("Player")) return;
-        GlobalEvent.ExitInteractArea(data);
+        PlayerManager.m_Role.interactableController.ExitInteractArea(data);
+
     }
 }

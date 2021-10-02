@@ -6,22 +6,20 @@ using UnityEngine.UI;
 
 public class DialogSystem
 {
-    [Header("UI组件")]
-    public Text m_textContent;
-    public Image m_charaterFace;
+    //[Header("UI组件")]
+    //public Text m_textContent;
+    //public Image m_charaterFace;
 
-    [Header("文本文件")]
-    public TextAsset m_textFile;
-    //Dialog的行数
-    public int m_index;
+    //[Header("文本文件")]
+    //public TextAsset m_textFile;
+    ////Dialog的行数
+    //public int m_index;
 
-    [Header("角色头像")]
-    public Sprite m_player, m_enemy;
+    //[Header("角色头像")]
+    //public Sprite m_player, m_enemy;
 
-    [Header("文本输出速度")]
-    public float m_inputSpeed;
-
-
+    //[Header("文本输出速度")]
+    //public float m_inputSpeed;
 
     enum State { standby, print, waitForConfirm }
     private State state = State.standby;
@@ -31,6 +29,7 @@ public class DialogSystem
     //这里的character和letter都是字母的意思
     private int characterIndex;
     private float elapsedTime = 0f;
+    //文本输出速度
     private float interval = 0.2f;
     private DialogueData[] dialogues;
 
@@ -56,6 +55,22 @@ public class DialogSystem
 
     public void OnUpdate(float deltaTime)
     {
+        //switch (m_textList[m_index])
+        //{
+
+        //    case "煉獄":
+        //        m_charaterFace.sprite = m_player;
+        //        m_index++;
+        //        break;
+        //    case "あかざ":
+        //        m_charaterFace.sprite = m_enemy;
+        //        m_index++;
+        //        break;
+        //    default:
+        //        break;
+        //}
+
+
         switch (state)
         {
             // 按下确定键，继续对话或关闭
