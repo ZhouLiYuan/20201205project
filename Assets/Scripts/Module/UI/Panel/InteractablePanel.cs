@@ -7,6 +7,8 @@ public class InteractablePanel : BasePanel
     //向下三角箭头
     protected GameObject interactableHint;
     protected Sprite hintSprite;
+
+    //根据角色不同的交互状态显示不同UI 比如 任务-惊叹号 普通状态-向下箭头
     public virtual string hintUIName { get; }
 
     public override void OnOpen()
@@ -20,9 +22,11 @@ public class InteractablePanel : BasePanel
     {
     }
 
-    protected void SetHintUI(string hintName)
+    public void SetHintUI(GameObject target)
     {
-        hintSprite = AssetModule.LoadAsset<Sprite>($"UI/Sprites/{hintName}.png");
+        hintSprite = AssetModule.LoadAsset<Sprite>($"UI/Sprites/{hintUIName}.png");
+
+        UIManager.SetInteractUI(target, interactableHint);
     }
 
     protected virtual void OnPressInteract(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext)

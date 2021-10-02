@@ -7,7 +7,8 @@ public class NPCInteractablePanel : InteractablePanel
     private Text dialogueText;
     private int storyId;
 
-
+    public enum State { None,Talk,Trade,Quest,Finish }
+    public State state = State.None;
 
     public override void OnOpen()
     {
