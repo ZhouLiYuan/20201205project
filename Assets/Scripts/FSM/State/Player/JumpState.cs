@@ -6,7 +6,7 @@ public class JumpState : PlayerRoleState
     {
         Role.animator.SetTrigger("Jump");
         //垂直方向 跳跃速度
-        Velocity = new Vector2(Velocity.x, jumpSpeed);
+        Velocity = new Vector2(Velocity.x, JumpSpeed);
 
     }
 

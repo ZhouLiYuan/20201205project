@@ -24,7 +24,6 @@ public class DamagedState : PlayerRoleState
 
         //获取动画所在的层
         AnimatorStateInfo animatorInfo = Role.animator.GetCurrentAnimatorStateInfo(0);
-
         //进行判断指定的动画是否播放完成 cube是指动画的名称
         if ((animatorInfo.normalizedTime >= 1.0f) && (animatorInfo.IsName("damage")))//normalizedTime: 范围0 – 1, 0是动作开始，1是动作结束
         {
@@ -37,7 +36,6 @@ public class DamagedState : PlayerRoleState
 
     public override void OnExit()
     {
-        Role.isAttacked = false;
         //Role.animator.ResetTrigger("Damaged");
     }
 }
