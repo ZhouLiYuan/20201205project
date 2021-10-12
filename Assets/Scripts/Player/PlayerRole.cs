@@ -6,12 +6,11 @@ public class PlayerRole : Entity
 {
     public string RoleName =>PlayerManager.m_roleName;
 
-
     private Updater updater;
-    private FSM hookFsm;
-    private FSM moveFsm;
 
-    public MoveState m_moveState;
+    //状态机分层
+    private FSM hookFsm;
+    private FSM generalFsm;
 
 
     //需要序列化动态调节
@@ -33,38 +32,47 @@ public class PlayerRole : Entity
     /// </summary>
     private float maxGravity = -10f;
     private float gravity = 9.8f;
-    public bool canApplyGravity = true;
-    public bool canMoveHorizontal = true;
 
+    //自身属性
 
+    //物理
+    public float jumpSpeed = 8f;
+    public float moveSpeed = 5f;
 
+    public int money;
+
+    //层级
    public Transform topNodeTransform;
     public Transform animatorTransform;
     public Animator animator;
 
-    Rigidbody2D rg2dtest;
-    //刚体速度
+    Rigidbody2D rg2dtest;//临时工
     Rigidbody2D rg2d;
     public Vector2 Velocity
     {
         get { return rg2d.velocity; }
         set { rg2d.velocity = value; }
-    }
+    } //刚体速度
 
-    //地面检测
-    public GroundDetect GroundDetect { get; private set; }
-    // 受击框
-    public Collider2D HitCollider;
 
-    //输入 一些trigger
+
+    public GroundDetect GroundDetect { get; private set; } //地面检测
+    public Collider2D HitCollider; // 受击框
+
+    //输入trigger
     public PlayerInput playerInput;
     public Vector2 inputAxis;
     public bool IsLockPressed { get; private set; }
     public bool IsHookPressed { get; private set; }
+    public bool IsInteractPressed { get; private set; }
     public bool IsJumpPressed { get; private set; }
     public bool IsJumpTriggered{ get; private set; }
 
-    //逻辑相关trigger
+    //逻辑trigger
+    public bool canApplyGravity = true;
+    public bool canMoveHorizontal = true;
+ 
+    //damage相关
     public float invincibleInterval = 1f;
     private float invincibleTime;
     public float InvincibleTime
@@ -78,14 +86,47 @@ public class PlayerRole : Entity
     }
     public bool isAttacked = false;
 
-  
-    //当前装备的武器
-    public BaseWeapon currentWeapon;
-    public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();
-    public KeyValuePair<Collider2D, BaseWeapon> currentWeaponPair;
+    //交互相关
+    public bool isInInteractArea = false;
+    public bool IsInteracting = false;//当前不在交互状态才能和其他对象交互
+    public List<GameObject> GobjsInInteractArea = new List<GameObject>();
+    public GameObject nearestInteractableGobj;
+    public NPC currentInteractingNPC;
+    //public InteractableType currentInteractingType;
+    //public InteractableData interactingData;
 
-    //交互模块
-    public InteractableController interactableController;
+    public string currentPlaceName;//角色当前所处的位置
+
+
+    public BaseWeapon currentWeapon;  //当前装备的武器
+    public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();  //因为一般也不会用string去查找和切换武器，所以用List直接用index顺序查找
+
+
+
+    //public event Action<GameObject> OnInteract;
+    public void Interact(/*GameObject target*/)//target玩家决定交互的对象 
+    {
+        switch (nearestInteractableGobj.tag)
+        {
+            case "Collectable":
+                //不用打开面板
+                break;
+            case "Item":
+                var item= ItemManager.nameDic[nearestInteractableGobj.name];
+                break;
+            case "NPC":
+                //currentInteractingType = InteractableType.NPC;
+                currentInteractingNPC = NPCManager.nameDic[nearestInteractableGobj.name];
+                StoryManager.InteractingNPCName = currentInteractingNPC.name;
+                //通知 NPCInteractablePanel持有者 进入交互状态
+                currentInteractingNPC.isInteractingWithPlayer = true;
+                break;
+            default:
+                Debug.Log("无法判断交互对象tag");
+                break;
+        }
+        //OnInteract?.Invoke(target);
+    }
 
 
     //和Player声明周期相关的 Player内部event
@@ -96,20 +137,17 @@ public class PlayerRole : Entity
     public void GetDamage()
     { 
         var data = OnAttacked?.Invoke();
-        float realDamageValue = DamageSystem.CalculateDamage(data);
-       HP -= (int)realDamageValue;
+        float finalDamageValue = DamageSystem.CalculateDamage(data);
+       HP -= (int)finalDamageValue;
     }
 
-    public event Action<GameObject> OnInteract;
-    public void Interact(GameObject target) { OnInteract?.Invoke(target); }
-
+   
 
     /// <summary>
     ///初始化脚本实例字段（建立逻辑层和表现层联系） 
     /// </summary>
     public PlayerRole(GameObject roleGobj) : base(roleGobj)
     {
-       
         hp = maxHP;
         rg2d = roleGobj.GetComponent<Rigidbody2D>();
 
@@ -118,14 +156,13 @@ public class PlayerRole : Entity
         animatorTransform = animator.transform;
         rg2dtest = animator.transform.GetComponent<Rigidbody2D>();
 
-        interactableController = new InteractableController();
 
         //Transform = roleGobj.GetComponent<Transform>();
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
 
         //updater相关  
         //为场景中叫Updater的Gobj添加逻辑层Updater组件
-        updater = Updater.AddUpdater();
+        updater = Updater.AddUpdater(roleGobj);
         //单一方法 作为 一个Action参数传入Action集合（之后再集中调用）
         updater.AddUpdateFunction(OnUpdate);
         updater.AddFixedUpdateFunction(OnFixedUpdate);
@@ -147,49 +184,57 @@ public class PlayerRole : Entity
         playerInput.Move.canceled += context => inputAxis = Vector2.zero;
 
         //trigger (判断按键有无按下)
+        playerInput.Jump.performed += context => IsJumpTriggered = true;
+        playerInput.Jump.started += context => IsJumpPressed = true;
+        playerInput.Jump.canceled += context => IsJumpPressed = false;
+
         playerInput.Lock.started += context => IsLockPressed = true;
         playerInput.Lock.canceled += context => IsLockPressed =false;
 
         playerInput.Hook.started += context => IsHookPressed = true;
         playerInput.Hook.canceled += context => IsHookPressed = false;
 
-        playerInput.Jump.performed += context => IsJumpTriggered = true;
-        playerInput.Jump.started += context =>    IsJumpPressed = true;
-        playerInput.Jump.canceled += context => IsJumpPressed = false;
+        playerInput.Interact.started += context => IsInteractPressed = true;
+        playerInput.Interact.canceled += context => IsInteractPressed = false;
+        
     }
 
-    public void Interact() 
-    {
-        //interactableController
-    }
+
 
     /// <summary>
     ///  //配置每个功能的FSM，为每个状态传owner实例
     /// </summary>
     private void InitFSM() 
     {
-        hookFsm = new FSM();
+        hookFsm = new HookFSM();
         hookFsm.AddState<IdleState>().SetPlayerRole(this);
         hookFsm.AddState<LockState>().SetPlayerRole(this);
         hookFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
 
+        //临时工，待删
+        hookFsm.AddState<InteractState>().SetPlayerRole(this);
 
-        moveFsm = new FSM();
-        moveFsm.AddState<IdleState>().SetPlayerRole(this);
-        moveFsm.AddState<JumpState>().SetPlayerRole(this);
-        m_moveState = moveFsm.AddState<MoveState>();
-        m_moveState.SetPlayerRole(this);
+        //分不同的FSM其实就是分层处理
+        generalFsm = new FSM();
+        generalFsm.AddState<IdleState>().SetPlayerRole(this);
+        generalFsm.AddState<MoveState>().SetPlayerRole(this);
+        generalFsm.AddState<JumpState>().SetPlayerRole(this);
 
-        moveFsm.AddState<DamagedState>().SetPlayerRole(this);
-        moveFsm.AddState<InteractState>().SetPlayerRole(this);
-        
+        generalFsm.AddState<DamagedState>().SetPlayerRole(this);
+        generalFsm.AddState<InteractState>().SetPlayerRole(this);
+
+
+
     }
 
     private void OnUpdate(float deltaTime) 
     {
         IsJumpTriggered = playerInput.Jump.triggered;
+        generalFsm.Update(deltaTime);
         hookFsm.Update(deltaTime);
-        moveFsm.Update(deltaTime);
+     
+
+        if(GobjsInInteractArea != null) nearestInteractableGobj = SceneObjManager.GetNearest(topNodeTransform.position, GobjsInInteractArea);
 
         //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）
         rg2dtest.velocity = rg2d.velocity;
@@ -200,8 +245,9 @@ public class PlayerRole : Entity
     //物理相关的刷新
     private void OnFixedUpdate(float fixedDeltaTime)
     {
+        generalFsm.FixedUpdate(fixedDeltaTime);
         hookFsm.FixedUpdate(fixedDeltaTime);
-        moveFsm.FixedUpdate(fixedDeltaTime);
+
         if (canApplyGravity) ApplyGravity(fixedDeltaTime);
     }
 
@@ -211,21 +257,19 @@ public class PlayerRole : Entity
         Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
     }
 
-    private void Collect() { }
-
-    /// <summary>
-    /// 只能查找子物体，以及子物体的component
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="path"></param>
-    /// <returns></returns>
-    public T Find<T>(string path) where T : UnityEngine.Object
+    private void Collect() 
     {
-        var t = topNodeTransform.Find(path);
-        if (typeof(T) == typeof(Transform)) return t as T;
-        if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
-        return t.GetComponent<T>();
+
     }
+
+
+    //public T Find<T>(string path) where T : UnityEngine.Object
+    //{
+    //    var t = topNodeTransform.Find(path);
+    //    if (typeof(T) == typeof(Transform)) return t as T;
+    //    if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
+    //    return t.GetComponent<T>();
+    //}
 
     //public void HorizontalMovement()
     //{
