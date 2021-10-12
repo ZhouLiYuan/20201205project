@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class NPCState<TRole> : State where TRole : NPC
 {
-    public TRole Role { get; private set; }
+    public TRole NPCRole { get; private set; }
     //lambda表达式写get访问器
-    protected GameObject role_Gobj => Role.GameObject;
+    protected GameObject role_Gobj => NPCRole.GameObject;
 
     public void SetRole(TRole role)
     {
-        Role = role;
+        NPCRole = role;
     }
 }

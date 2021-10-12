@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC_InteractState : NPCState<NPC>
+public class NPCInteractState : NPCState<NPC>
 {
-
     public override void OnEnter()
     {
-        Role.animator.SetTrigger("");
+        Debug.Log("NPC进入交互状态");
+        NPCRole.animator.SetTrigger("Interact");
         //NPC打开面板
-        Role.Interact();
+        NPCRole.Interact(NPCRole.GameObject);
     }
 
     public override void OnUpdate(float deltaTime)
     {
-
         //结束交互时返回(比如在每个InteractPanel里都放一个对应的State或者写一个事件通知) 待机状态
-        if (Role.interactingPanel.state == InteractablePanel.InteractState.Finish) ChangeState<NPC_IdleState>();
+        //if (NPCRole.interactingPanel.state == InteractablePanel.InteractState.Finish) ChangeState<NPCIdleState>();
     }
 
 
     public override void OnExit()
     {
-        Role.isInteractingWithPlayer = false;
-        Role.animator.ResetTrigger("");
+        NPCRole.isInteractingWithPlayer = false;
+        NPCRole.animator.ResetTrigger("Interact");
     }
 }
