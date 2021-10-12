@@ -18,7 +18,6 @@ public class IdleState : PlayerRoleState
     }
     public override void OnExit()
     {
-      
         Role.animator.ResetTrigger("Idle");
     }
 }
