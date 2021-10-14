@@ -35,7 +35,7 @@ public class BaseEnemy/* : Entity*/
     }
 
 
-    public string chineseName;
+    public string assetName;
     public float speed; // 移动速度
     public float attackRange; // 攻击范围
     public float chaseRange;// 追踪范围
@@ -116,14 +116,13 @@ public class BaseEnemy/* : Entity*/
     public void InitProperties(EnemyConfig enemyConfig)
     {
         HP = maxHP = enemyConfig.HP;
-        id = enemyConfig.ID;
-        chineseName = enemyConfig.Name;
-        path = enemyConfig.AssetPath;
+        id = enemyConfig.AssetID;
+        assetName = enemyConfig.AssetName;
         speed = enemyConfig.Speed;
         attackRange = enemyConfig.AttackRange;
         chaseRange = enemyConfig.ChaseRange;
 
-        en_infoInspector.ID = enemyConfig.ID;
+        en_infoInspector.AssetID = enemyConfig.AssetID;
     }
 
     /// <summary>
@@ -147,7 +146,7 @@ public class BaseEnemy/* : Entity*/
 
         //enemy武器切换成当前武器
         this.currentWeapon = weapon;
-        en_infoInspector.WeaponID = weaponConfig.ID;
+        en_infoInspector.WeaponID = weaponConfig.AssetID;
         //currentWeaponPair = new KeyValuePair<Collider2D, BaseWeapon>(weapon.collider2D, weapon);
         
     }

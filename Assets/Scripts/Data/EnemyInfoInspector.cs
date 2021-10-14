@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class EnemyInfoInspector : MonoBehaviour 
 { 
-    public int ID;
+    public int AssetID;
     public int WeaponID;
 }

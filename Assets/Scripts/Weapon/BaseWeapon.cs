@@ -14,9 +14,8 @@ public class BaseWeapon
     public Collider2D collider2D;
     //public Rigidbody2D rg2d;
 
-    public int ID { get; private set; }
-    public string ChineseName { get; private set; }
-    public string Path { get; private set; }
+    public int AssetID { get; private set; }
+    public string AssetName { get; private set; }
     public float AtkValue { get; private set; }
     public int AtkType { get; private set; }
 
@@ -31,14 +30,14 @@ public class BaseWeapon
 
     public void InitProperties(WeaponConfig weaponConfig) 
     {
-        ID = weaponConfig.ID;
-        ChineseName = weaponConfig.Name;
-        Path = weaponConfig.AssetPath;
+        AssetID = weaponConfig.AssetID;
+        AssetName = weaponConfig.AssetName;
+ 
         AtkValue = weaponConfig.Damage;
         AtkType = weaponConfig.Type;
 
         //为了动画层级
-        weaponGobj.name = Path;
+        weaponGobj.name = AssetName;
     }
 
 
