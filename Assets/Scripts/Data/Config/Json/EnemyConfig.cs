@@ -1,10 +1,10 @@
-﻿public class EnemyConfig : Config
+﻿public class EnemyConfig
 {
-    new public int ID; // ID
-    new public string Name; // 类型名称
-    new public string AssetPath; // 资源路径
-    public int HP; // 生命值
-    public float Speed; // 移动速度
-    public float AttackRange; // 攻击范围
+	public int AssetID; // 资源ID
+	public int HP; // 生命值
+	public string AssetName; // 资源名称
+	public float Speed; // 移动速度
+	public float AttackRange; // 攻击范围
 	public float ChaseRange; // 追踪范围
 }
+

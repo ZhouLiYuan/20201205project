@@ -1,7 +1,6 @@
 [
   {
-    "ID": 0,
-    "Name": "NPC",
-    "AssetPath": "NPC"
+    "AssetID": 0,
+    "AssetName": "NPC"
   }
 ]
