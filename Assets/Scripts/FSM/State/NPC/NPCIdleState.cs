@@ -6,14 +6,13 @@ public class NPCIdleState :NPCState<NPC>
 {
     public override void OnEnter() 
     {
-      NPCRole.animator.SetTrigger("Idle");
+        base.OnEnter();
     }
     public override void OnUpdate(float deltaTime)
     {
-        if(NPCRole.isInteractingWithPlayer) ChangeState<NPCInteractState>();
+        if (PlayerManager.m_Role.nearestInteractableGobj == NPCRole.GameObject) ChangeState<NPCPreInteractState>();
     }
     public override void OnExit()
     {
-        NPCRole.animator.ResetTrigger("Idle");
     }
 }

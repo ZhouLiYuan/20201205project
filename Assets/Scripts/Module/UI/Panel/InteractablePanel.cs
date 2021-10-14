@@ -1,35 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class InteractablePanel : BasePanel
 {
-    //向下三角箭头
-    protected GameObject interactableHint;
-    protected Sprite hintSprite;
+    public enum InteractState { None,Interact,Finish }
+    public InteractState state = InteractState.None;
+
+
+    //面板持有者
+    public GameObject owner;
+
+
+
 
     //根据角色不同的交互状态显示不同UI 比如 任务-惊叹号 普通状态-向下箭头
-    public virtual string hintUIName { get; }
+    public string hintUIName = "Arrow";
 
     public override void OnOpen()
     {
-        interactableHint = Find<GameObject>("InteractableHint");
-        hintSprite = interactableHint.GetComponent<SpriteRenderer>().sprite;
-        GlobalEvent.OnPressInteract += OnPressInteract;
+        //interactableHint = Find<GameObject>("InteractableHint");
+        //guider = interactableHint.GetComponent<GameObject>().sprite;
+        //GlobalEvent.OnPressInteract += OnPressInteract;
     }
 
-    public void Init(InteractableData interactableData) 
+    public virtual void SetOwner(GameObject owner)
     {
+        this.owner = owner;
     }
 
-    public void SetHintUI(GameObject target)
-    {
-        hintSprite = AssetModule.LoadAsset<Sprite>($"UI/Sprites/{hintUIName}.png");
 
-        UIManager.SetInteractUI(target, interactableHint);
-    }
 
-    protected virtual void OnPressInteract(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext)
+    protected virtual void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext)
     {
        
     }

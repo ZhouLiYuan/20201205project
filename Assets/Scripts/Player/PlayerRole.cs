@@ -87,7 +87,7 @@ public class PlayerRole : Entity
     public bool isAttacked = false;
 
     //交互相关
-    public bool isInInteractArea = false;
+    public bool isInInteractArea => GobjsInInteractArea != null;
     public bool IsInteracting = false;//当前不在交互状态才能和其他对象交互
     public List<GameObject> GobjsInInteractArea = new List<GameObject>();
     public GameObject nearestInteractableGobj;
@@ -102,10 +102,16 @@ public class PlayerRole : Entity
     public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();  //因为一般也不会用string去查找和切换武器，所以用List直接用index顺序查找
 
 
-
-    //public event Action<GameObject> OnInteract;
-    public void Interact(/*GameObject target*/)//target玩家决定交互的对象 
+    public  void OnEnterInteractArea(GameObject target)
     {
+        Debug.Log($"进入{target.name}的交互区域");
+        GobjsInInteractArea.Add(target);
+    }
+
+    public void Interact()
+    {
+        if (nearestInteractableGobj == null) return;
+        IsInteracting = true;
         switch (nearestInteractableGobj.tag)
         {
             case "Collectable":
@@ -119,15 +125,32 @@ public class PlayerRole : Entity
                 currentInteractingNPC = NPCManager.nameDic[nearestInteractableGobj.name];
                 StoryManager.InteractingNPCName = currentInteractingNPC.name;
                 //通知 NPCInteractablePanel持有者 进入交互状态
-                currentInteractingNPC.isInteractingWithPlayer = true;
+                currentInteractingNPC.isInteractingWithPlayer = true;//trigger
                 break;
             default:
                 Debug.Log("无法判断交互对象tag");
                 break;
         }
-        //OnInteract?.Invoke(target);
+        //禁用交互键以外的所有按键
+       playerInput.DisableInput();
+       playerInput.Interact.Enable();
     }
 
+    public void ExitInteract() 
+    {
+        //一切Interact有关的都需要被重置
+        IsInteracting = false;
+        currentInteractingNPC = null;
+        //恢复所有按键
+        playerInput.EnableInput();
+    }
+
+    //离开交互区域 和 结束交互 是两回事
+    public void ExitInteractArea(GameObject target)
+    {
+        Debug.Log($"离开{target.name}的交互区域");
+        GobjsInInteractArea.Remove(target);
+    }
 
     //和Player声明周期相关的 Player内部event
     public event Action<GameObject> OnShowLockTarget;
@@ -232,9 +255,12 @@ public class PlayerRole : Entity
         IsJumpTriggered = playerInput.Jump.triggered;
         generalFsm.Update(deltaTime);
         hookFsm.Update(deltaTime);
-     
 
-        if(GobjsInInteractArea != null) nearestInteractableGobj = SceneObjManager.GetNearest(topNodeTransform.position, GobjsInInteractArea);
+
+        if (isInInteractArea) 
+        {
+            nearestInteractableGobj = SceneObjManager.GetNearest(topNodeTransform.position, GobjsInInteractArea);
+         }
 
         //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）
         rg2dtest.velocity = rg2d.velocity;

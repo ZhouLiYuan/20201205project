@@ -7,24 +7,23 @@ public class InteractState : PlayerRoleState
     public override void OnEnter()
     {
         Debug.Log("玩家进入交互状态");
-        Animator.SetTrigger($"{triggerName}");
+        base.OnEnter();
         Role.Interact();
-        //禁用交互键以外的所有按键
-        Role.playerInput.DisableInput();
-        Role.playerInput.Interact.Enable();
+    
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        Role.IsInteracting = true;
-        //if (Role.currentInteractingNPC.interactingPanel.state == InteractablePanel.InteractState.Finish) ChangeState<IdleState>();
+        if (Role.currentInteractingNPC.interactingPanel == null) return;//防报错：player的交互OnUpdate()执行时机比NPC OnEnter()还早一帧
+        if (Role.currentInteractingNPC.interactingPanel.state == InteractablePanel.InteractState.Finish) 
+        { 
+            ChangeState<IdleState>(); 
+        }
+       
     }
 
     public override void OnExit()
     {
-        Animator.ResetTrigger($"{triggerName}");
-        Role.IsInteracting = false;
-        //恢复所有按键
-        Role.playerInput.EnableInput();
+        Role.ExitInteract();
     }
 }

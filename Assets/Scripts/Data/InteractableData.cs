@@ -1,5 +1,5 @@
 ﻿
-public enum InteractableType {NPC, Item}
+public enum InteractableType {None,NPC, Item}
 //这里面的类也许都会  ！！！！！！作废！！！！！！！！
 [System.Serializable]
 public class InteractableData
