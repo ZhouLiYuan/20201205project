@@ -14,12 +14,16 @@ public class DamageReceiver : MonoBehaviour
     public Collider2D ownerCollider;
     public LayerMask ownerLayer;
 
+    private BaseWeapon attackerWeapon;
+    //根据武器 攻击类型 或者角色 盔甲类型生成不同种类（倾向于前者）
+    private string hitEffectName;
+
     private void OnEnable()
     {
         //根据BaseDamageReceiver所在层级换API获取
         ownerGobj = transform.parent.gameObject;
         ownerCollider = transform.GetComponent<Collider2D>();
-        //ownerLayer = ownerGobj.layer;
+        //ownerLayer = LayerMask.NameToLayer(LayerMask.LayerToName(ownerGobj.layer));
 
     }
 
@@ -27,6 +31,8 @@ public class DamageReceiver : MonoBehaviour
     //只有Attacker和attackble可以相互碰撞
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag != TagManager.Player && collision.gameObject.tag != TagManager.Enemy) return;
+
         //获取武器
         GameObject weaponGobj = collision.gameObject;
         LayerMask colliderLayer = weaponGobj.layer;
@@ -41,14 +47,10 @@ public class DamageReceiver : MonoBehaviour
             if (attackerLayer == LayerMask.NameToLayer("Enemy"))
             {
                 var attackerCollider = attackerGobj.transform.Find("animator_top").GetComponent<Collider2D>();
-                var attacker = EnemyManager.GetEnemyByCollider(attackerCollider);
-                var weapon = attacker.availableWeapons[collision];
-                PlayerManager.m_Role.OnAttacked += weapon.ATK;
+                var attacker = EnemyManager.GetInstanceByCollider(attackerCollider);
+                attackerWeapon = attacker.availableWeapons[collision];
+                PlayerManager.m_Role.OnAttacked += attackerWeapon.ATK;
                 PlayerManager.m_Role.isAttacked = true;
-
-                //var hitEffectPrefab = ResourcesLoader.LoadEffectPrefab("ef_hit01");
-                ////Quaternion.identity 不旋转
-                //var hitEffectGobj = Object.Instantiate(hitEffectPrefab, PlayerManager.m_Role.Transform.position, Quaternion.identity);
             }
 
             //当攻击者是 Player
@@ -56,15 +58,35 @@ public class DamageReceiver : MonoBehaviour
             {
                 //从receiver出发找
                 var enemyCollider = transform.gameObject.GetComponent<Collider2D>();
-                var enemy = EnemyManager.GetEnemyByCollider(enemyCollider);
+                var enemy = EnemyManager.GetInstanceByCollider(enemyCollider);
                 if(enemy.IsCurrentHitOver)enemy.en_animator.SetTrigger("Damaged");
             }
             else { }
+
+            var spawnPos = (collision.transform.position + transform.position) / 2;//希望特效更靠近受击方
+            spawnPos.y = transform.position.y;
+            GenerateEffect(spawnPos);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-       
+        if (collision.gameObject.tag != TagManager.Player && collision.gameObject.tag != TagManager.Enemy) return;
+        PlayerManager.m_Role.OnAttacked -= attackerWeapon.ATK;
+        //这里不知道为啥没调用到，导致角色一直处于可以被伤害的状态
+        PlayerManager.m_Role.isAttacked = false;
     }
+
+    private void GenerateEffect(Vector3 spawnPos) 
+    {
+        //特效生成  
+        var hitEffectPrefab = ResourcesLoader.LoadEffectPrefab("ef_hit01");
+        var hitEffectGobj = Object.Instantiate(hitEffectPrefab, spawnPos, Quaternion.identity);
+    }
+
+    //private void OnDestroy()
+    //{
+    //    PlayerManager.m_Role.OnAttacked -= attackerWeapon.ATK;
+    //    //PlayerManager.m_Role.isAttacked = false;
+    //}
 }
