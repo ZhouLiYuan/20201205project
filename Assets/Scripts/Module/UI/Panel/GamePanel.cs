@@ -33,7 +33,7 @@ public class GamePanel : BasePanel
     /// <param name="target"></param>
     public void SetLockHint(GameObject target)
     {
-        UIManager.SetInteractUI(target, lockUI);
+        UIManager.SetInteractUIPosition(target, lockUI);
     }
 
 }
