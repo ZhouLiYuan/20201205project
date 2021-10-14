@@ -8,6 +8,10 @@ public static class ResourcesLoader
     private static EnemyConfig[] enemyConfigs;
     private static WeaponConfig[] weaponConfigs;
 
+    private static NPCConfig[] NPCConfigs;
+
+
+
     public static DialogueData[] LoadDialogue(int storyId)
     {
         var json = AssetModule.LoadAsset<TextAsset>($"dialogueSample").text;
@@ -26,6 +30,19 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<GameObject>($"Prefab/{name}.prefab");
     }
 
+    //Panel
+    public static GameObject LoadPanelPrefab(string name)
+    {
+        return AssetModule.LoadAsset<GameObject>($"Panel/{name}.prefab");
+    }
+
+    //Effect
+    public static GameObject LoadEffectPrefab(string name)
+    {
+        return AssetModule.LoadAsset<GameObject>($"Effect/{name}.prefab");
+    }
+
+    //Enemy json配置
     public static EnemyConfig LoadEnemyConfigByID(int id)
     {
         if (enemyConfigs == null)
@@ -35,11 +52,10 @@ public static class ResourcesLoader
         }
         for (int i = 0; i < enemyConfigs.Length; i++)
         {
-            if (enemyConfigs[i].ID == id) return enemyConfigs[i];
+            if (enemyConfigs[i].AssetID == id) return enemyConfigs[i];
         }
         return null;
     }
-
     public static EnemyConfig LoadEnemyConfigByName(string name)
     {
         if (enemyConfigs == null)
@@ -49,25 +65,16 @@ public static class ResourcesLoader
         }
         for (int i = 0; i < enemyConfigs.Length; i++)
         {
-            if (enemyConfigs[i].Name == name) return enemyConfigs[i];
+            if (enemyConfigs[i].AssetName == name) return enemyConfigs[i];
         }
         return null;
     }
-
     public static GameObject LoadEnemyPrefab(string name)
     {
         return AssetModule.LoadAsset<GameObject>($"Enemy/{name}.prefab");
     }
 
-
-
-    public static GameObject LoadEffectPrefab(string name)
-    {
-        return AssetModule.LoadAsset<GameObject>($"Effect/{name}.prefab");
-    }
-
-
-    //用json配置
+    //Weapon json配置
     public static WeaponConfig LoadWeaponConfigByID(int id)
     {
         if (weaponConfigs == null)
@@ -77,11 +84,10 @@ public static class ResourcesLoader
         }
         for (int i = 0; i < weaponConfigs.Length; i++)
         {
-            if (weaponConfigs[i].ID == id) return weaponConfigs[i];
+            if (weaponConfigs[i].AssetID == id) return weaponConfigs[i];
         }
         return null;
     }
-
     public static WeaponConfig LoadWeaponConfigByName(string name)
     {
         if (weaponConfigs == null)
@@ -91,17 +97,33 @@ public static class ResourcesLoader
         }
         for (int i = 0; i < weaponConfigs.Length; i++)
         {
-            if (weaponConfigs[i].Name== name) return weaponConfigs[i];
+            if (weaponConfigs[i].AssetName== name) return weaponConfigs[i];
         }
         return null;
     }
-
     public static GameObject LoadWeaponPrefab(string name)
     {
         return AssetModule.LoadAsset<GameObject>($"Weapon/{name}.prefab");
     }
 
-
+    //NPC json配置
+    public static NPCConfig LoadNPCConfigByName(string name)
+    {
+        if (NPCConfigs == null)
+        {
+            var json = AssetModule.LoadAsset<TextAsset>($"Config/NPCConfig.json").text;
+            NPCConfigs = Newtonsoft.Json.JsonConvert.DeserializeObject<NPCConfig[]>(json);
+        }
+        for (int i = 0; i < NPCConfigs.Length; i++)
+        {
+            if (NPCConfigs[i].AssetName == name) return NPCConfigs[i];
+        }
+        return null;
+    }
+    public static GameObject LoadNPCPrefab(string name)
+    {
+        return AssetModule.LoadAsset<GameObject>($"NPC/{name}.prefab");
+    }
 
 
     //用scriptable asset配置
@@ -112,13 +134,50 @@ public static class ResourcesLoader
     }
 
 
+    //Guider
+    public static GameObject LoadGuiderPrefab(string name)
+    {
+        return AssetModule.LoadAsset<GameObject>($"Guider/{name}.prefab");
+    }
+
+
+    //public static Sprite LoadSprite(string name)
+    //{
+    //    return AssetModule.LoadAsset<Sprite>($"Sprite/{name}.png");
+    //}
+
+    
+    public static Material LoadMaterial(string name)
+    {
+        return AssetModule.LoadAsset<Material>($"Material/{name}.mat");
+    }
+
 
     //--------------<泛型版本尝试>----------------
 
-    //public static GameObject LoadPrefab<Tprefab>(string name)
-    //{
-    //    string root = Tprefab.ToString();
-    //    return AssetModule.LoadAsset<GameObject>($"Prefab/{name}.prefab");
-    //}
+    //需要文件夹名和类型名统一
+    public static GameObject LoadTPrefab<Tprefab>(string name)
+    {
+        string TypeName = typeof(Tprefab).Name;
+        return AssetModule.LoadAsset<GameObject>($"{TypeName}/{name}.prefab");
+    }
+
+    //缺点 无法set外部configs字段
+    public static TConfig LoadConfigByID<TConfig>(int id) where TConfig : Config, new()
+    {
+        List<TConfig> configs = new List<TConfig>();
+        var configName = typeof(TConfig).Name;
+        configs.Clear();
+        if (configs.Count == 0)
+        {
+            var json = AssetModule.LoadAsset<TextAsset>($"Config/{configName}.json").text;
+            configs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TConfig>>(json);
+        }
+        for (int i = 0; i < configs.Count; i++)
+        {
+            if (configs[i].AssetID == id) return configs[i];
+        }
+        return null;
+    }
 
 }
