@@ -43,10 +43,7 @@ public class EnemyMoveState : EnemyBaseState
 
         if (en_GroundDetect.IsGrounded) { ChasePlayer(); }
 
-
-        //由配置表读取AttackRange数值的版本 失败？
-        //!!!坑!!!目前posistion算的是物体中心，两个方块紧挨着相聚也有1f
-        attackRange = 1.5f;
+     
         //是否进入攻击范围
         //animator.SetFloat("AttackRange", distanceToPlayer);
         if (en_GroundDetect.IsGrounded && distanceToPlayer <= attackRange)

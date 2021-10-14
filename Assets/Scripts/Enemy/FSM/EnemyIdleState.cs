@@ -41,10 +41,10 @@ public class EnemyIdleState : EnemyBaseState
         distanceToPlayer = Vector2.Distance(playerTransform.position, en_rb2d.position);
         animator.SetFloat("DistanceToPlayer", distanceToPlayer);
 
-        //if (distanceToPlayer < chaseRange)
-        //{
-        //    animator.SetTrigger("Move");
-        //}
+        if (distanceToPlayer < chaseRange)
+        {
+            animator.SetTrigger("Move");
+        }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

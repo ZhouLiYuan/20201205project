@@ -17,26 +17,20 @@ public class EnemyAttackState : EnemyBaseState
         en_HitCollider = animator.transform.GetComponent<Collider2D>();
         Init();
 
-
-
         //停下攻击
         en_rb2d.MovePosition(en_rb2d.position);
-        //en_atk = animator.GetComponeant<En_Attacker_MeleeOverlapCircle>();
-        //GetDamage dmg = GameObject.FindGameObjectWithTag("Player").GetComponent<GetDamage>();
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //这个值好像不放在每个State的Update里实时去算的话，好像就只会得到初始化时算的数值然后一致保持不变？
+        //这个值不放在每个State的Update里实时去算的话，只会得到初始化时算的数值后一致保持不变
         distanceToPlayer = Vector2.Distance(playerTransform.position, en_rb2d.position);
 
 
         //敌人发动攻击
         Attack();
 
-        //不知为何一直从EnemyConfig赋值失败
         //animator.SetFloat("AttackRange", distanceToPlayer);
-        attackRange = 1.2f;
         if (distanceToPlayer > attackRange)   {animator.SetTrigger("Move"); }
       }
 

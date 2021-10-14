@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseEnemy
+public class BaseEnemy/* : Entity*/
 {
 
     //实例的名字
@@ -13,6 +13,8 @@ public class BaseEnemy
     public Rigidbody2D en_rb2d;
     public Collider2D en_HitCollider;
     public GroundDetect GroundDetect { get; private set; }
+    public EnemyInfoInspector en_infoInspector;
+
 
     //配置表 属性
 
@@ -61,7 +63,7 @@ public class BaseEnemy
     //public KeyValuePair<Collider2D, BaseWeapon> currentWeaponPair;
     //Collider是武器的
     public Dictionary<Collider2D, BaseWeapon> availableWeapons = new Dictionary<Collider2D, BaseWeapon>();
-
+  
 
     //事件
     public event System.Action<GameObject> OnAttack;
@@ -79,18 +81,23 @@ public class BaseEnemy
         en_name = obj.name;
         en_gameObject = obj;
         en_topNodeTransform = obj.transform;
-        //程序物理计算
-        en_rb2d = obj.GetComponent<Rigidbody2D>();
 
-        //自身字段第二层级
-        GroundDetect = obj.GetComponentInChildren<GroundDetect>();
+        en_infoInspector = en_gameObject.AddComponent<EnemyInfoInspector>();  
+
+       //程序物理计算
+       en_rb2d = obj.GetComponent<Rigidbody2D>();
+       
+
+
+       //自身字段第二层级
+       GroundDetect = obj.GetComponentInChildren<GroundDetect>();
         en_animatorGobj = Find<GameObject>("animator_top");
         //注意prefab的层级
         en_HitCollider = Find<Collider2D>("animator_top");
         //动画演出en_animator
         en_animator = Find<Animator>("animator_top");
 
-
+        //静态构造函数好像是在静态成员第一次被访问的时候调用
         //EnemyManager.en_nameDic.Add(this.en_name, this);
         EnemyManager.en_hitColliderDic.Add(en_HitCollider, this);
 
@@ -115,6 +122,8 @@ public class BaseEnemy
         speed = enemyConfig.Speed;
         attackRange = enemyConfig.AttackRange;
         chaseRange = enemyConfig.ChaseRange;
+
+        en_infoInspector.ID = enemyConfig.ID;
     }
 
     /// <summary>
@@ -138,6 +147,7 @@ public class BaseEnemy
 
         //enemy武器切换成当前武器
         this.currentWeapon = weapon;
+        en_infoInspector.WeaponID = weaponConfig.ID;
         //currentWeaponPair = new KeyValuePair<Collider2D, BaseWeapon>(weapon.collider2D, weapon);
         
     }
