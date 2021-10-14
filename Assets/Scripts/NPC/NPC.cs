@@ -39,9 +39,8 @@ public class NPC : Entity
     public override void Init(GameObject obj) 
     {
         base.Init(obj);
-        obj.name = NPCManager.CreateUniqueName();
+        //obj.name = NPCManager.CreateUniqueName();
 
-        //NPCGobj = obj;
         spriteRenderer = obj.GetComponent<SpriteRenderer>();
         animator = obj.GetComponent<Animator>();
         rb2d = obj.GetComponent<Rigidbody2D>();
@@ -56,7 +55,7 @@ public class NPC : Entity
         updater.AddFixedUpdateFunction(OnFixedUpdate);
         InitFSM();
 
-        NPCManager.nameDic[UniqueName] = this;
+        //NPCManager.nameDic[UniqueName] = this;
     }
 
 

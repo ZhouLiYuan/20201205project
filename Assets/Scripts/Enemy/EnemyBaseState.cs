@@ -34,7 +34,7 @@ public class EnemyBaseState : StateMachineBehaviour
     //key
     protected Collider2D en_HitCollider;
     //Instance
-    protected BaseEnemy Enemy { get; private set; }
+    protected Enemy Enemy { get; private set; }
 
 
 
@@ -45,7 +45,6 @@ public class EnemyBaseState : StateMachineBehaviour
 
 
     //敌人自身
-    public string en_instanceName;
     //自身字段第一层级
     protected GameObject en_TopNodeGobj;
     protected Transform en_TopNodeTransform;
@@ -71,16 +70,16 @@ public class EnemyBaseState : StateMachineBehaviour
 
     protected void Init()
     {
-        Enemy = EnemyManager.GetEnemyByCollider(en_HitCollider);
+        Enemy = EnemyManager.GetInstanceByCollider(en_HitCollider);
 
         playerGobj = Enemy.roleGobj;
         player = Enemy.role;
         playerTransform = Enemy.pl_Transform;
 
-        en_instanceName = Enemy.en_name;
 
-        en_TopNodeGobj = Enemy.en_gameObject;
-        en_TopNodeTransform = Enemy.en_topNodeTransform;
+
+        en_TopNodeGobj = Enemy.GameObject;
+        en_TopNodeTransform = Enemy.Transform;
         en_rb2d = Enemy.en_rb2d;
 
         en_GroundDetect = Enemy.GroundDetect;

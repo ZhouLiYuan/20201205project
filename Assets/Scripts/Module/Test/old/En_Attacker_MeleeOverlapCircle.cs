@@ -29,7 +29,7 @@ public class En_Attacker_MeleeOverlapCircle : BaseWeapon
    //可以抽象出来作为一个节点
     public LayerMask targetsLayer;
 
-    En_Attacker_MeleeOverlapCircle(BaseEnemy info) 
+    En_Attacker_MeleeOverlapCircle(Enemy info) 
     {
     }
     

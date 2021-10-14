@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseEnemy/* : Entity*/
+public class Enemy : Entity
 {
-
-    //实例的名字
-    public string en_name;
     public GameObject en_animatorGobj;
-    public GameObject en_gameObject;
-    public Transform en_topNodeTransform;
+   
     public Animator en_animator;
     public Rigidbody2D en_rb2d;
     public Collider2D en_HitCollider;
@@ -34,8 +30,6 @@ public class BaseEnemy/* : Entity*/
         }
     }
 
-
-    public string assetName;
     public float speed; // 移动速度
     public float attackRange; // 攻击范围
     public float chaseRange;// 追踪范围
@@ -75,19 +69,15 @@ public class BaseEnemy/* : Entity*/
     /// </summary>
     /// <param name="name"></param>
     /// <param name="obj"></param>
-    internal void Init(GameObject obj)
+    public override void Init(GameObject obj)
     {
-        //自身字段第一层级
-        en_name = obj.name;
-        en_gameObject = obj;
-        en_topNodeTransform = obj.transform;
-
-        en_infoInspector = en_gameObject.AddComponent<EnemyInfoInspector>();  
+        //第一层级
+        base.Init(obj);
+        en_infoInspector = GameObject.AddComponent<EnemyInfoInspector>();  
 
        //程序物理计算
        en_rb2d = obj.GetComponent<Rigidbody2D>();
        
-
 
        //自身字段第二层级
        GroundDetect = obj.GetComponentInChildren<GroundDetect>();
@@ -99,7 +89,7 @@ public class BaseEnemy/* : Entity*/
 
         //静态构造函数好像是在静态成员第一次被访问的时候调用
         //EnemyManager.en_nameDic.Add(this.en_name, this);
-        EnemyManager.en_hitColliderDic.Add(en_HitCollider, this);
+        EnemyManager.hitColliderDic.Add(en_HitCollider, this);
 
         role = PlayerManager.m_Role;
         roleGobj = PlayerManager.m_Role.GameObject;
@@ -133,7 +123,7 @@ public class BaseEnemy/* : Entity*/
     /// <returns></returns>
     public T Find<T>(string path) where T : Object
     {
-        var t = en_topNodeTransform.Find(path);
+        var t = Transform.Find(path);
         if (typeof(T) == typeof(Transform)) return t as T;
         if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
         return t.GetComponent<T>();

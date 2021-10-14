@@ -51,7 +51,7 @@ public class Gun : MonoBehaviour
             Debug.Log(hitInfo.transform.name);
 
             //为什么找的是Enemy游戏组件，而不是敌人GOBJ本身？
-            BaseEnemy enemy = hitInfo.transform.GetComponent<BaseEnemy>();
+            Enemy enemy = hitInfo.transform.GetComponent<Enemy>();
             if (enemy!= null)
             {
                 GetComponent<EnemyGetDamage>().TakeDamage(l_atkValue);

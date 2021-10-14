@@ -8,12 +8,16 @@
 /// </summary>
 public class Entity
 {
-
+    /// <summary>
+    /// topNodeTransform
+    /// </summary>
+    public Transform Transform { get; private set; }
     public GameObject GameObject { get; private set;}
-    public Transform Transform { get; private set;}
+  
 
     //配置表基本属性
     public int assetID;
+    //实例名
     public string UniqueName =>GameObject.name; //注意脚本的name和实际GameObject的name并不是一回事
     public string assetName;
 
