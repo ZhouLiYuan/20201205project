@@ -8,23 +8,28 @@ public class MoveState : PlayerRoleState
 {
     public override void OnEnter()
     {
-        Role.animator.SetTrigger("Move");
+        base.OnEnter();
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        //包装了好几层，这里才是真正修改 Role刚体的速度的地方
-
+  
         //横向输入 x轴方向
         Velocity = new Vector2(InputAxis.x * MoveSpeed, Velocity.y);
-        if (Role.InvincibleTime == 0 && Role.isAttacked) ChangeState<DamagedState>();
         //垂直方向 跳跃速度
-        if (Role.IsJumpPressed && Role.GroundDetect.IsGrounded) ChangeState<JumpState>(); 
+        if (Role.IsJumpPressed && Role.GroundDetect.IsGrounded) ChangeState<JumpState>();
+        if (Role.InvincibleTime == 0 && Role.isAttacked) ChangeState<DamagedState>();
+        if (Role.IsInteractPressed && Role.isInInteractArea)
+        {
+            Velocity = Vector2.zero;//防止角色滑出交互区域
+            ChangeState<InteractState>();
+        } 
+      
+        if (Velocity == Vector2.zero) ChangeState<IdleState>();
     }
 
     public override void OnExit()
     {
-
-        Role.animator.ResetTrigger("Move");
+        //Role.animator.ResetTrigger("Move");
     }
 }

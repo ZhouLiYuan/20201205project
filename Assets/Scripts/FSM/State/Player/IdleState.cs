@@ -6,7 +6,8 @@ public class IdleState : PlayerRoleState
 {
     public override void OnEnter() 
     {
-      Role.animator.SetTrigger("Idle");
+      //Role.animator.SetTrigger("Idle");
+        base.OnEnter();
     }
     public override void OnUpdate(float deltaTime)
     {
@@ -18,6 +19,6 @@ public class IdleState : PlayerRoleState
     }
     public override void OnExit()
     {
-        Role.animator.ResetTrigger("Idle");
+        //Role.animator.ResetTrigger("Idle");
     }
 }

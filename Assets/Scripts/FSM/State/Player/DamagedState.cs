@@ -8,11 +8,11 @@ public class DamagedState : PlayerRoleState
     {
         Role.InvincibleTime = Role.invincibleInterval;
         //Role.animator.SetTrigger("Damaged");
-        Role.animator.Play("damage",0);
+        Role.animator.Play("Damaged", 1);
 
         //特效生成  以后可以根据武器 攻击类型 或者角色 盔甲类型生成不同种类（倾向于前者）
-        var hitEffectPrefab = ResourcesLoader.LoadEffectPrefab("ef_hit01");
-        var hitEffectGobj = Object.Instantiate(hitEffectPrefab, Role.Transform.position, Quaternion.identity);
+        //var hitEffectPrefab = ResourcesLoader.LoadEffectPrefab("ef_hit01");
+        //var hitEffectGobj = Object.Instantiate(hitEffectPrefab, Role.Transform.position, Quaternion.identity);
         Role.GetDamage();
     }
 
@@ -36,6 +36,7 @@ public class DamagedState : PlayerRoleState
 
     public override void OnExit()
     {
+        PlayerManager.m_Role.isAttacked = false;
         //Role.animator.ResetTrigger("Damaged");
     }
 }

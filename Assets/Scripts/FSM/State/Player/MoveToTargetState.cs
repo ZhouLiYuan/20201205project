@@ -9,8 +9,7 @@ public class MoveToTargetState : PlayerRoleState
 {
     private GameObject m_target;
 
-    public void SetTarget(GameObject target) {this.m_target = target; }
-
+    public void SetTarget(GameObject target) {m_target = target; }
 
 
     //需要序列化的变量
@@ -23,6 +22,7 @@ public class MoveToTargetState : PlayerRoleState
     //禁用重力 和 输入对左右移动的控制
     public override void OnEnter()
     {
+        base.OnEnter();
         Role.canApplyGravity = false;
         Role.canMoveHorizontal = false;
     }

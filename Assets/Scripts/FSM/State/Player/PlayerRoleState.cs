@@ -16,6 +16,7 @@ public class PlayerRoleState:State
     protected float JumpSpeed => Role.jumpSpeed;
 
     protected string triggerName;
+    protected string animClipName;
 
     protected GroundDetect GroundDetect => Role.GroundDetect;
 
@@ -45,11 +46,20 @@ public class PlayerRoleState:State
         //会自动获得当前 实现类而不是基类的实例
        var fullName = GetType().Name;
         triggerName = fullName.Substring(0, fullName.LastIndexOf("S"));
+        animClipName = triggerName;
         //在每个状态出入的时候可以  Animator.SetTrigger($"{triggerName}");
         //使用前提是Trigger名必须和状态名相同
     }
 
-
+    public override void OnEnter()
+    {
+        //Animator.SetTrigger($"{triggerName}");
+        Animator.Play($"{animClipName}", 0);
+    }
+    public override void OnExit()
+    {
+        //Animator.ResetTrigger($"{triggerName}");
+    }
     //Update通用部分复用尝试
     //public override void OnUpdate(float deltaTime)
     //{

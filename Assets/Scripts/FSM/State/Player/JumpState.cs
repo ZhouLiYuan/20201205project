@@ -4,7 +4,8 @@ public class JumpState : PlayerRoleState
 {
     public override void OnEnter() 
     {
-        Role.animator.SetTrigger("Jump");
+        //Role.animator.SetTrigger("Jump");
+        base.OnEnter();
         //垂直方向 跳跃速度
         Velocity = new Vector2(Velocity.x, JumpSpeed);
 
@@ -20,6 +21,6 @@ public class JumpState : PlayerRoleState
 
     public override void OnExit()
     {
-         Role.animator.ResetTrigger("Jump");
+         //Role.animator.ResetTrigger("Jump");
     }
 }
