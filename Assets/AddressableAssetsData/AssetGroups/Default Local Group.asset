@@ -41,6 +41,30 @@ MonoBehaviour:
     m_Address: Effect
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 02c3f653622b31645995280f394792c7
+    m_Address: NPC
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 544adfaef1c31bb4b83deaa76de73784
+    m_Address: Panel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7ad2d177b23d5de42acba326b498cdd6
+    m_Address: UIEnvironment
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ecab683948aa4384e9d146917bf98fe7
+    m_Address: Sprite
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 53ab248042adeaf468271d93aaac9874
+    m_Address: Guider
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9fa4280c49d25ee46a314cd29b490ba5
+    m_Address: Material
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 52a50aa9a4584624f86160fa43c6dbea, type: 2}
   m_SchemaSet:

@@ -11,6 +11,8 @@ TagManager:
   - Attacker
   - Interact
   - Collectable
+  - NPC
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - Enemy
   - groundChecker
   - Attacker
-  - Attackable
+  - Interact
   - 
   - 
   - 
