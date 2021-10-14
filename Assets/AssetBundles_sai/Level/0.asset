@@ -12,25 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a80246ed99db9d48824f6fe43e1fecf, type: 3}
   m_Name: 0
   m_EditorClassIdentifier: 
-  levelIndex: 0
+  levelID: 0
+  levelName: FirstLevel
   EnemyInfos:
-  - ID: 1
+  - Position: {x: -2.16, y: -1.43, z: 0}
+    AssetID: 1
     WeaponID: 1
-    Position: {x: -2.16, y: -1.43, z: 0}
-  - ID: 1
+  - Position: {x: 2.23, y: -1.37, z: 0}
+    AssetID: 1
     WeaponID: 1
-    Position: {x: 2.23, y: -1.37, z: 0}
-  - ID: 1
+  - Position: {x: 3.71, y: 1.4, z: 0}
+    AssetID: 1
     WeaponID: 1
-    Position: {x: 3.71, y: 1.4, z: 0}
-  PlatformInfos:
-  - Position: {x: 0, y: -2.75, z: 0}
-    ID: platform01
-  - Position: {x: 2.29, y: 0, z: 0}
-    ID: platform02
-  - Position: {x: 7.18, y: -1.28, z: 0}
-    ID: platform03
-  - Position: {x: 11.02, y: 1.2, z: 0}
-    ID: platform04
-  - Position: {x: -10.34, y: -5.81, z: 0}
-    ID: platform01 (1)
+  PlatformInfos: []
+  CheckPointInfos: []
