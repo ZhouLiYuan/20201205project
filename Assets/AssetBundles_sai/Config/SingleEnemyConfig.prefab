@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5015b0c7cdaabb14fa9d0833723fbedd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 1
+  m_transform: {fileID: 1265706746691133613}
+  m_gameObject: {fileID: 6205849724720717599}
+  AssetID: 1
+  m_transform: {fileID: 1265706746691133613}
+  AssetID: 1
   WeaponID: 1
 --- !u!212 &1230089626643954108
 SpriteRenderer:

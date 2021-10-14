@@ -32,15 +32,15 @@ public class ParamInspector : SerializedMonoBehaviour
     //设置玩家移动速度（MoveState）
     public float MoveSpeed
     {
-        get { return Role.m_moveState.moveSpeed; }
-        set { Role.m_moveState.moveSpeed = value; }
+        get { return Role.moveSpeed; }
+        set { Role.moveSpeed = value; }
     }
 
     //跳跃速度同理
     public float JumpSpeed
     {
-        get { return Role.m_moveState.jumpSpeed; }
-        set { Role.m_moveState.jumpSpeed = value; }
+        get { return Role.jumpSpeed; }
+        set { Role.jumpSpeed = value; }
     }
 
 

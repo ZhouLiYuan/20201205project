@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager
+public class ItemManager : SingletonManager<Item>
 {
     
 }
