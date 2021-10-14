@@ -123,7 +123,7 @@ public class PlayerRole : Entity
             case "NPC":
                 //currentInteractingType = InteractableType.NPC;
                 currentInteractingNPC = NPCManager.nameDic[nearestInteractableGobj.name];
-                StoryManager.InteractingNPCName = currentInteractingNPC.name;
+                StoryManager.InteractingNPCName = currentInteractingNPC.UniqueName;
                 //通知 NPCInteractablePanel持有者 进入交互状态
                 currentInteractingNPC.isInteractingWithPlayer = true;//trigger
                 break;
