@@ -47,10 +47,13 @@ public class BasePanel
     }
     public virtual void OnClose()
     {
-        //UIManager.DestroyUI(UIInfo);
     }
 
-    public void Close() { UIManager.ClosePanel(this); }
+    public void Close() 
+    {
+        OnClose();
+        UIManager.ClosePanel(this);
+    }
     public void Show()
     {
         canvasGroup.alpha = 1f;
