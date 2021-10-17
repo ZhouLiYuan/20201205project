@@ -10,17 +10,23 @@ public static class ResourcesLoader
 
     private static NPCConfig[] NPCConfigs;
 
-
-
-    public static DialogueData[] LoadDialogue(int storyId)
+    public static GameObject LoadPlayerPrefab(string name)
     {
-        var json = AssetModule.LoadAsset<TextAsset>($"dialogueSample").text;
-        var dialogueDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<DialogueData[]>(json);
-        List<DialogueData> results = new List<DialogueData>();
-        for (int i = 0; i < dialogueDatas.Length; i++)
+        return AssetModule.LoadAsset<GameObject>($"Player/{name}.prefab");
+    }
+
+    public static DialogueConfig[] LoadDialogue(int episodeID)
+    {
+        var json = AssetModule.LoadAsset<TextAsset>($"Dialogue/{episodeID}.json").text;
+        var dialogueConfigs = Newtonsoft.Json.JsonConvert.DeserializeObject<DialogueConfig[]>(json);
+        List<DialogueConfig> results = new List<DialogueConfig>();
+        for (int i = 0; i < dialogueConfigs.Length; i++)
         {
-            if (dialogueDatas[i].storyId != storyId) continue;
-            results.Add(dialogueDatas[i]);
+            if (dialogueConfigs[i].EpisodeID != episodeID) continue;
+            //强行用上顺序（暂时可有可无）
+            results.Insert(dialogueConfigs[i].Sequence, dialogueConfigs[i]);
+            //results[dialogueConfigs[i].Sequence] = dialogueConfigs[i];
+            //results.Add(dialogueConfigs[i]);
         }
         return results.ToArray();
     }
@@ -141,12 +147,17 @@ public static class ResourcesLoader
     }
 
 
-    //public static Sprite LoadSprite(string name)
-    //{
-    //    return AssetModule.LoadAsset<Sprite>($"Sprite/{name}.png");
-    //}
+    public static Sprite LoadSprite(string name)
+    {
+        return AssetModule.LoadAsset<Sprite>($"Sprite/{name}.png");
+    }
 
-    
+    public static Sprite LoadHeadIcon(string name, string emotion)
+    {
+        return AssetModule.LoadAsset<Sprite>($"Sprite/HeadIcon/{name}/{emotion}.png");
+    }
+
+
     public static Material LoadMaterial(string name)
     {
         return AssetModule.LoadAsset<Material>($"Material/{name}.mat");
