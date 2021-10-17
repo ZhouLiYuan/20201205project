@@ -1,0 +1,82 @@
+[
+    {
+      "EpisodeID": 0,
+      "Sequence": 0,
+      "SpeakSide": 1,
+      "RoleName": "NPC",
+      "Emotion": "normal",
+      "Sentence": "欢迎来到helloWorld!"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 1,
+      "SpeakSide": 0,
+      "RoleName": "character",
+      "Emotion": "normal",
+      "Sentence": "She was Right!"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 2,
+      "SpeakSide": 1,
+      "RoleName": "NPC",
+      "Emotion": "smile",
+      "Sentence": "怎么了?"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 3,
+      "SpeakSide": 0,
+      "RoleName": "character",
+      "Emotion": "sad",
+      "Sentence": "Finn...."
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 4,
+      "SpeakSide": 0,
+      "RoleName": "character",
+      "Emotion": "anger",
+      "Sentence": "you need to be a fucking man!"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 5,
+      "SpeakSide": 1,
+      "RoleName": "NPC",
+      "Emotion": "sad",
+      "Sentence": "No"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 6,
+      "SpeakSide": 0,
+      "RoleName": "character",
+      "Emotion": "normal",
+      "Sentence": "I don't go around apologising,Do I?"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 7,
+      "SpeakSide": 1,
+      "RoleName": "Enemy",
+      "Emotion": "anger",
+      "Sentence": "你们两个中国人在唧唧歪歪啥?"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 8,
+      "SpeakSide": 1,
+      "RoleName": "Enemy",
+      "Emotion": "normal",
+      "Sentence": "你们这种装逼佬我见多了。"
+    },
+    {
+      "EpisodeID": 0,
+      "Sequence": 9,
+      "SpeakSide": 1,
+      "RoleName": "Enemy",
+      "Emotion": "anger",
+      "Sentence": "现在我要干翻你们!"
+    }
+  ]
