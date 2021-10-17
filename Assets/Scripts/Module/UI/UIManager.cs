@@ -10,10 +10,20 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 /// </summary>
 public static class UIManager
 {
-    public static Transform canvasTransform { get; private set; }
+    //根据角色不同的交互状态显示不同UI 比如 任务-惊叹号 普通状态-向下箭头
+    public static string hintUIName => "Arrow";
+
+    public static Transform CanvasTransform { get; private set; }
+    //public static Transform LocalcanvasTransform;
+    //想单独做一个随心移动的canvas可以参考HealthBarOld的位置设置方式
     public static Camera UICamera { get; private set; }
+
+
     //new的实例只会存在在内存中，不会在场景中
     private static List<BasePanel> m_panels = new List<BasePanel>();
+    private static List<GameObject> m_guiders = new List<GameObject>();
+
+  
 
     static UIManager()
     {
@@ -23,9 +33,10 @@ public static class UIManager
         var ui_Obj = Object.Instantiate(uiPrefab);
 
         //建立表现层和逻辑层之间关系
-        canvasTransform = ui_Obj.transform.Find("Canvas");
+        CanvasTransform = ui_Obj.transform.Find("Canvas");
         UICamera = ui_Obj.transform.Find("UICamera").GetComponent<Camera>();
         UICamera.depth = 99;
+
     }
     /// <summary>
     ///  创建并获取一个面板实例(同步加载方法)
@@ -37,14 +48,12 @@ public static class UIManager
     {
         //panel脚本实例
         var panel = new TPanel();
-
+        var name = typeof(TPanel).Name;
         //panelGobj实例(先加载后创建)
-        var prefab = AssetModule.LoadAsset<GameObject>(panel.Path);
-        GameObject panelGobj = Object.Instantiate(prefab,canvasTransform);
+        var prefab = ResourcesLoader.LoadPanelPrefab(name);
+        GameObject panelGobj = Object.Instantiate(prefab,CanvasTransform);
 
-        panelGobj.name = typeof(TPanel).Name;
-        Debug.Log($"类型名称{panelGobj.name}");
-        //初始化panel脚本字段，调用打开时的回调方法
+        Debug.Log($"类型名称{name}");
         panel.Init(panelGobj.name, panelGobj);
         panel.OnOpen();
 
@@ -55,25 +64,22 @@ public static class UIManager
     public static TPanel Open<TPanel>() where TPanel : BasePanel, new()
     {
         TPanel panel = new TPanel();
-
-        //根据 路径 名称加载 Panel UI的Prefab
-        var prefab = AssetModule.LoadAsset<GameObject>(panel.Path);
-        var obj = Object.Instantiate(prefab, canvasTransform);
-        //var obj = Object.Instantiate(prefab);
-        Object.DontDestroyOnLoad(obj);
-
-        //获得name（需要用到的UI Prefab名称必须和 脚本中的 类名 一致）
+        //获得name（UI Prefab名必须和 脚本 类名 一致）
         //type.Name仅仅只是把Type类型转换为了string类型
-        //ToString也可以实现相同效果，不过type.Name更精准（因为有时不知道ToString的重载是什么）
+        //ToString也可以实现相同效果，不过type.Name更精准（因为有时不明确ToString的重载）
         System.Type type = typeof(TPanel);
         var name = type.ToString();
         Debug.Log($"类型名称{name}");
+
+        var prefab = ResourcesLoader.LoadPanelPrefab(name);
+        var obj = Object.Instantiate(prefab, CanvasTransform);
+        Object.DontDestroyOnLoad(obj);
+
         panel.Init(name, obj);
         panel.OnOpen();
 
         //设置父类为Canvas
-
-        panel.m_transform.SetParent(canvasTransform, false);
+        panel.m_transform.SetParent(CanvasTransform, false);
         //往界面 面板集合 中追加元素
         m_panels.Add(panel);
         return panel;
@@ -85,11 +91,7 @@ public static class UIManager
     /// </summary>
     public static void OnUpdate()
     {
-        foreach (var panel in m_panels)
-        {
-            //OnUpdate在pausePanel里被override过
-            panel.OnUpdate(Time.deltaTime);
-        }
+        foreach (var panel in m_panels)panel.OnUpdate(Time.deltaTime);
     }
 
     /// <summary>
@@ -104,10 +106,59 @@ public static class UIManager
         UnityEngine.Object.Destroy(panel.m_gameObject);
         m_panels.Remove(panel);
     }
+ 
+
+    /// <summary>
+    /// 在对象的略微上方生成
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="parent"></param>
+    /// <returns></returns>
+    public static GameObject SpawnGuiderUI(string name,Transform parent)  
+    {
+        var offset = 1f;
+        var guider = ResourcesLoader.LoadGuiderPrefab(name);
+        var Gobj = Object.Instantiate(guider,parent,false);
+        Gobj.transform.position = new Vector3(Gobj.transform.position.x, Gobj.transform.position.y+offset, Gobj.transform.position.z); 
+        m_guiders.Add(Gobj);
+        return Gobj;
+    }
+
+    public static void DestoryGuiderUI(GameObject obj)
+    {
+        m_guiders.Remove(obj);
+        Object.Destroy(obj);
+    }
 
 
+    /// <summary>
+    /// 能换算普通Transform为Rect Transform？
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="UIGobj"></param>
+    public static void SetInteractUIPosition(GameObject target, GameObject UIGobj)
+    {
+        UIGobj.SetActive(target != null);
+        if (target)
+        {
+            //Postion赋值过程：target =>MainCamera =>UICamera =>lockUI
+            var screenPosition = Camera.main.WorldToScreenPoint(target.transform.position);
+            UIGobj.transform.position = UICamera.ScreenToWorldPoint(screenPosition);
+        }
+    }
 
 
+    public static Color GetRandomColor()
+    {
+        float r = Random.Range(0f, 1f);
+        float g = Random.Range(0f, 1f);
+        float b = Random.Range(0f, 1f);
+        var color = new Color(r, g, b, 1f);
+        return color;
+    }
+
+
+    //-----------------------------<过时方法>---------------------------------
     /// <summary>
     ///  协程方法初始化UI环境canvas（有了同步版本后暂时不用）
     /// </summary>
@@ -122,11 +173,11 @@ public static class UIManager
 
         var ui_Obj = Object.Instantiate(uiPrefab);
 
-        canvasTransform = ui_Obj.transform.Find("Canvas");
+        CanvasTransform = ui_Obj.transform.Find("Canvas");
 
     }
     /// <summary>
-    /// 创建并获取一个面板实例
+    /// 创建并获取一个面板实例(已过时)
     /// 可选参数：面板类型的委托（事件，当面板被打开的时候）（有了同步版本后暂时不用）
     /// </summary>
     /// <param name="info"></param>
@@ -147,8 +198,6 @@ public static class UIManager
         ////改成用协程方式加载
         var loadPrefabHandle = new WaitLoadAsset<GameObject>(panel.Path);
 
-
-
         System.Action<GameObject> openPanelAction = prefab =>
          {
              GameObject panelGobj = Object.Instantiate(prefab, parent.transform);
@@ -159,18 +208,8 @@ public static class UIManager
              panel.OnOpen();
          };
 
+
+
         return new WaitOpenPanel<TPanel>(loadPrefabHandle, openPanelAction, onPanelOpened);
     }
-
-    public static void SetInteractUI(GameObject target, GameObject UIGobj)
-    {
-        UIGobj.SetActive(target != null);
-        if (target)
-        {
-            //Postion赋值过程：target =>MainCamera =>UICamera =>lockUI
-            var screenPosition = Camera.main.WorldToScreenPoint(target.transform.position);
-            UIGobj.transform.position = UICamera.ScreenToWorldPoint(screenPosition);
-        }
-    }
-
 }
