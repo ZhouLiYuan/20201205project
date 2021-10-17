@@ -14,7 +14,6 @@ public class Entity
     public Transform Transform { get; private set; }
     public GameObject GameObject { get; private set;}
   
-
     //配置表基本属性
     public int assetID;
     //实例名
@@ -36,7 +35,6 @@ public class Entity
         Transform = obj.transform;
     }
 
-
     //---------------------<配置表初始化>-----------------------
     /// <summary>
     /// 适用于Json反序列化
@@ -51,9 +49,6 @@ public class Entity
         //为了动画层级（确保生成的时候名字不带[clone]）
         //assetName = "NPC";
     }
-
-
-
 
     /// <summary>
     /// 只能查找子物体，以及子物体的component

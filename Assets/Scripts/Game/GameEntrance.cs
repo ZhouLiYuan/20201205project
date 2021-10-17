@@ -20,7 +20,6 @@ public class GameEntrance : MonoBehaviour
  
     void Update()
     {
-       
         UIManager.OnUpdate();
     }
 }

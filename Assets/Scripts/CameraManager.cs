@@ -3,6 +3,8 @@ using Cinemachine;
 
 public static class CameraManager
 {
+    public static GameObject mainCameraObj;
+    public static Camera mainCamera;
     /// <summary>
     /// 初始化相机
     /// </summary>

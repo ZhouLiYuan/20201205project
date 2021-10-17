@@ -9,9 +9,9 @@ using UnityEngine;
 public static class PlayerManager
 {
     public static Dictionary<GameObject, PlayerRole> roles = new Dictionary<GameObject, PlayerRole>();
-    private static List<PlayerRole> m_Roles = new List<PlayerRole>();
+    private static List<PlayerRole> m_Roles = new List<PlayerRole>();//多人模式才会用得上，也有很多配套的API需要改
     public static PlayerRole m_Role;
-    public static string m_roleName = "character";
+    public static string m_RoleName = "character";
     public static GameObject m_gobj;
     public static Collider2D pl_HitCollider;
 
@@ -23,7 +23,7 @@ public static class PlayerManager
     /// <returns></returns>
     public static PlayerRole SpawnCharacter()
     {
-        var prefab = AssetModule.LoadAsset<GameObject>($"Assets/AssetBundles_sai/{m_roleName}.prefab");
+        var prefab = ResourcesLoader.LoadPlayerPrefab(m_RoleName);
         //创建逻辑层和表现层实例
         m_gobj = Object.Instantiate(prefab);
         m_Role = new PlayerRole(m_gobj);

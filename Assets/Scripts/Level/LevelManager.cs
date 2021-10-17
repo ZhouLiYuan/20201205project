@@ -58,11 +58,12 @@ public class LevelManager
 
         }
 
-        //var npc_config = ResourcesLoader.LoadConfigByID<NPCConfig>(0);
+        var npc_config = ResourcesLoader.LoadConfigByID<NPCConfig>(0);
+        var npc = NPCManager.SpawnInstance(npc_config.AssetName, new Vector3(3, 2, 0));
+        npc.InitProperties(npc_config);
         //var npc2 = NPCManager.SpawnInstance(npc_config.AssetName, new Vector3(-3, 2, 0));
-        //var npc = NPCManager.SpawnInstance(npc_config.AssetName, new Vector3(3, 2, 0));
         //npc2.InitProperties(npc_config);
-        //npc.InitProperties(npc_config);
+       
     }
 
    ////加载并生成血槽实例  换成addressable版本加载的形式

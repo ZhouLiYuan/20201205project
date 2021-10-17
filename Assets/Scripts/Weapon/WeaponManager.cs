@@ -14,13 +14,11 @@ using UnityEngine;
 public static class WeaponManager
 {
     //可以先通过weapon找到owner，再通过owner找到 Dictionary<Collider2D, BaseWeapon>
-    public static Dictionary<BaseEnemy, Dictionary<Collider2D, BaseWeapon>> en_weaponsDic = new Dictionary<BaseEnemy, Dictionary<Collider2D, BaseWeapon>>();
+    public static Dictionary<Enemy, Dictionary<Collider2D, BaseWeapon>> en_weaponsDic = new Dictionary<Enemy, Dictionary<Collider2D, BaseWeapon>>();
     
-    public static BaseWeapon SpawnEnemyWeapon(BaseEnemy enemy,WeaponConfig weaponConfig)
+    public static BaseWeapon SpawnEnemyWeapon(Enemy enemy,WeaponConfig weaponConfig)
     {
-        BaseWeapon weapon = new BaseWeapon(); /*{ AtkType = (AtkType)weaponConfig.Type, AtkValue = weaponConfig.Damage };*/
-
-        var Prefab = ResourcesLoader.LoadWeaponPrefab(weaponConfig.AssetPath);
+        BaseWeapon weapon = new BaseWeapon();/*{ AtkType = (AtkType)weaponConfig.Type, AtkValue = weaponConfig.Damage };*/
 
         //暂时把武器装备点写死
         //3d向量转化为欧拉角
@@ -29,14 +27,21 @@ public static class WeaponManager
         //double=>float
         //这里的Transform是world的而不是local的
         //由于transform会按照世界坐标自动偏移抵消父级的移动量所以需要再加回来
-        var equipPoint = new Vector3((float)0.2, (float)-0.25, 0) + enemy.en_topNodeTransform.position;
+        var equipPoint = new Vector3((float)0.2, (float)-0.25, 0) + enemy.Transform.position;
         Transform parentTransform = enemy.Find<Transform>("animator_top");
 
+        //有则动态赋值，无则生成后动态赋值
+        var weaponGobj = enemy.Find<Transform>("animator_top").Find($"{weaponConfig.AssetName}").gameObject;
+        if (!weaponGobj) 
+        {
+            var Prefab = ResourcesLoader.LoadWeaponPrefab(weaponConfig.AssetName);
+            weaponGobj = UnityEngine.Object.Instantiate(Prefab, equipPoint, rotation, parentTransform);
+        }
 
-        var obj = UnityEngine.Object.Instantiate(Prefab, equipPoint, rotation, parentTransform);
-        weapon.Init(obj);
+        weaponGobj.transform.tag = TagManager.Enemy;
+        weapon.Init(weaponGobj);
         weapon.InitProperties(weaponConfig);
-        weapon.SetOwner(enemy.en_gameObject);
+        weapon.SetOwner(enemy.GameObject);
         enemy.availableWeapons[weapon.collider2D] = weapon;
         //避免重复添加相同的key(并不是为了获得value)
         if (en_weaponsDic.TryGetValue(enemy, out var weapons)){ return weapon;}
@@ -71,8 +76,6 @@ public static class WeaponManager
         //        //attackers.Add(attackerInstance);
         //    }
         //}
-
-
 
         //public static TAttacker InitWeapon<TAttacker>() where TAttacker : BaseWeapon, new()
         //{

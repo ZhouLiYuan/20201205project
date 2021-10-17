@@ -4,7 +4,7 @@ using System;
 
 public class PlayerRole : Entity
 {
-    public string RoleName =>PlayerManager.m_roleName;
+    public string RoleName => PlayerManager.m_RoleName;
 
     private Updater updater;
 
@@ -42,7 +42,7 @@ public class PlayerRole : Entity
     public int money;
 
     //层级
-   public Transform topNodeTransform;
+    public Transform topNodeTransform;
     public Transform animatorTransform;
     public Animator animator;
 
@@ -66,12 +66,12 @@ public class PlayerRole : Entity
     public bool IsHookPressed { get; private set; }
     public bool IsInteractPressed { get; private set; }
     public bool IsJumpPressed { get; private set; }
-    public bool IsJumpTriggered{ get; private set; }
+    public bool IsJumpTriggered { get; private set; }
 
     //逻辑trigger
     public bool canApplyGravity = true;
     public bool canMoveHorizontal = true;
- 
+
     //damage相关
     public float invincibleInterval = 1f;
     private float invincibleTime;
@@ -80,7 +80,7 @@ public class PlayerRole : Entity
         get { return invincibleTime; }
         set
         {
-            if (0 <= value ) { invincibleTime = value; }
+            if (0 <= value) { invincibleTime = value; }
             else if (value < 0) { invincibleTime = 0; }
         }
     }
@@ -102,7 +102,7 @@ public class PlayerRole : Entity
     public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();  //因为一般也不会用string去查找和切换武器，所以用List直接用index顺序查找
 
 
-    public  void OnEnterInteractArea(GameObject target)
+    public void OnEnterInteractArea(GameObject target)
     {
         Debug.Log($"进入{target.name}的交互区域");
         GobjsInInteractArea.Add(target);
@@ -118,7 +118,7 @@ public class PlayerRole : Entity
                 //不用打开面板
                 break;
             case "Item":
-                var item= ItemManager.nameDic[nearestInteractableGobj.name];
+                var item = ItemManager.nameDic[nearestInteractableGobj.name];
                 break;
             case "NPC":
                 //currentInteractingType = InteractableType.NPC;
@@ -132,11 +132,11 @@ public class PlayerRole : Entity
                 break;
         }
         //禁用交互键以外的所有按键
-       playerInput.DisableInput();
-       playerInput.Interact.Enable();
+        playerInput.DisableInput();
+        playerInput.Interact.Enable();
     }
 
-    public void ExitInteract() 
+    public void ExitInteract()
     {
         //一切Interact有关的都需要被重置
         IsInteracting = false;
@@ -158,13 +158,13 @@ public class PlayerRole : Entity
 
     public event Func<DamageData> OnAttacked;
     public void GetDamage()
-    { 
+    {
         var data = OnAttacked?.Invoke();
         float finalDamageValue = DamageSystem.CalculateDamage(data);
-       HP -= (int)finalDamageValue;
+        HP -= (int)finalDamageValue;
     }
 
-   
+
 
     /// <summary>
     ///初始化脚本实例字段（建立逻辑层和表现层联系） 
@@ -197,8 +197,14 @@ public class PlayerRole : Entity
     /// 安排每个Action会回调的方法（），具体修改rigidbody velocity之类的应该放在对应的State类里
     /// </summary>
     /// <param name="inputHandler"></param>
-    public void BindInput(PlayerInput inputHandler) 
+    public void BindInput(PlayerInput inputHandler)
     {
+        //对照
+        //按下GetKeyDown----Performed
+        //按住GetKey----Started(按住包含了按下瞬间Performed）
+        //松开GetKeyUp----Canceled
+
+
         //换角色时 解绑输入需要用到playerInput 这个引用缓存
         this.playerInput = inputHandler;
         //move(实际物理输入的值) 
@@ -212,14 +218,15 @@ public class PlayerRole : Entity
         playerInput.Jump.canceled += context => IsJumpPressed = false;
 
         playerInput.Lock.started += context => IsLockPressed = true;
-        playerInput.Lock.canceled += context => IsLockPressed =false;
+        playerInput.Lock.canceled += context => IsLockPressed = false;
 
         playerInput.Hook.started += context => IsHookPressed = true;
         playerInput.Hook.canceled += context => IsHookPressed = false;
 
-        playerInput.Interact.started += context => IsInteractPressed = true;
+        playerInput.Interact.performed += context => IsInteractPressed = true;
+        //playerInput.Interact.started += context => IsInteractPressed = true;
         playerInput.Interact.canceled += context => IsInteractPressed = false;
-        
+
     }
 
 
@@ -227,7 +234,7 @@ public class PlayerRole : Entity
     /// <summary>
     ///  //配置每个功能的FSM，为每个状态传owner实例
     /// </summary>
-    private void InitFSM() 
+    private void InitFSM()
     {
         hookFsm = new HookFSM();
         hookFsm.AddState<IdleState>().SetPlayerRole(this);
@@ -238,7 +245,7 @@ public class PlayerRole : Entity
         hookFsm.AddState<InteractState>().SetPlayerRole(this);
 
         //分不同的FSM其实就是分层处理
-        generalFsm = new FSM();
+        generalFsm = new GeneralFSM();
         generalFsm.AddState<IdleState>().SetPlayerRole(this);
         generalFsm.AddState<MoveState>().SetPlayerRole(this);
         generalFsm.AddState<JumpState>().SetPlayerRole(this);
@@ -250,17 +257,17 @@ public class PlayerRole : Entity
 
     }
 
-    private void OnUpdate(float deltaTime) 
+    private void OnUpdate(float deltaTime)
     {
         IsJumpTriggered = playerInput.Jump.triggered;
         generalFsm.Update(deltaTime);
         hookFsm.Update(deltaTime);
 
 
-        if (isInInteractArea) 
+        if (isInInteractArea)
         {
             nearestInteractableGobj = SceneObjManager.GetNearest(topNodeTransform.position, GobjsInInteractArea);
-         }
+        }
 
         //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）
         rg2dtest.velocity = rg2d.velocity;
@@ -277,13 +284,13 @@ public class PlayerRole : Entity
         if (canApplyGravity) ApplyGravity(fixedDeltaTime);
     }
 
-    private void ApplyGravity(float fixedDeltaTime) 
+    private void ApplyGravity(float fixedDeltaTime)
     {
         //Mathf.Max返回两个指定数字中较大
         Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
     }
 
-    private void Collect() 
+    private void Collect()
     {
 
     }

@@ -29,6 +29,7 @@ public class Updater : MonoBehaviour
     private readonly List<Action<float>> toAddFixedUpdateActionsWithDeltaTime = new List<Action<float>>();
     private readonly List<Action<float>> toRemoveFixedUpdateActionsWithDeltaTime = new List<Action<float>>();
 
+    [SerializeField]
     public object m_target;
     private static GameObject m_Gobj;
 

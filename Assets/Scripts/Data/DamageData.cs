@@ -20,9 +20,4 @@ public class DamageData
     //public GameObject receiver;
     public LayerMask layer;
 
-
-
-
-
-
 }
