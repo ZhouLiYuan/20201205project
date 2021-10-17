@@ -94,7 +94,7 @@ public class NPC : Entity
     {
         interactingPanel = UIManager.Open<NPCInteractablePanel>();//今后可能根据角色不同对应面板也不同
         interactingPanel.SetOwner(owner);
-      
+        UIManager.SetInteractUIPosition(owner, interactingPanel.m_gameObject);
         //生成位置还需要具体调整RectTransform(看看这种情况需不要单独弄个小canvas) 小canvas.transform =owner.transform
         //interactingPanel.m_transform.SetParent(小canvas transform, false);
     }
