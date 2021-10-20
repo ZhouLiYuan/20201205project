@@ -2,28 +2,28 @@
   {
     "AssetID": 0,
     "Damage": 10,
-    "Type": 0,
+    "DamageType": 1,
     "AssetName": "TestWeapon",
     "HitEffectName": "ef_hit01"
   },
   {
     "AssetID": 1,
-    "Damage": 100,
-    "Type": 1,
+    "Damage": 10,
+    "DamageType": 1,
     "AssetName": "Sword",
     "HitEffectName": "ef_hit01"
   },
   {
     "AssetID": 2,
-    "Damage": 200,
-    "Type": 1,
+    "Damage": 20,
+    "DamageType": 1,
     "AssetName": "Punch",
     "HitEffectName": "ef_hit01"
   },
   {
     "AssetID": 3,
-    "Damage": 20,
-    "Type": 3,
+    "Damage": 5,
+    "DamageType": 1,
     "AssetName": "Gun",
     "HitEffectName": "ef_hit01"
   }
