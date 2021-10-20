@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-public class PlayerRole : Entity
+public class PlayerRole : RoleEntity
 {
     public string RoleName => PlayerManager.m_RoleName;
 
@@ -13,19 +13,6 @@ public class PlayerRole : Entity
     private FSM generalFsm;
 
 
-    //需要序列化动态调节
-    public int maxHP = 1000;
-    private int hp;
-    public int HP
-    {
-        get { return hp; }
-        set
-        {
-            if (0 <= value && value <= maxHP) { hp = value; }
-            else if (value < 0) { hp = 0; }
-            else { hp = maxHP; }
-        }
-    }
     //重力
     /// <summary>
     /// 代指y轴速度最大可加速到maxGravity 
@@ -34,20 +21,20 @@ public class PlayerRole : Entity
     private float gravity = 9.8f;
 
     //自身属性
-
+    public int defence;
+    public int attackValue;
     //物理
-    public float jumpSpeed = 8f;
-    public float moveSpeed = 5f;
+    public float jumpSpeed;
+    public float moveSpeed;
 
     public int money;
 
     //层级
-    public Transform topNodeTransform;
     public Transform animatorTransform;
-    public Animator animator;
+
 
     Rigidbody2D rg2dtest;//临时工
-    Rigidbody2D rg2d;
+
     public Vector2 Velocity
     {
         get { return rg2d.velocity; }
@@ -100,6 +87,42 @@ public class PlayerRole : Entity
 
     public BaseWeapon currentWeapon;  //当前装备的武器
     public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();  //因为一般也不会用string去查找和切换武器，所以用List直接用index顺序查找
+
+    /// <summary>
+    ///初始化脚本实例字段（建立逻辑层和表现层联系） 
+    /// </summary>
+    public override void Init(GameObject roleGobj)
+    {
+        base.Init(roleGobj);
+        HP = maxHP = 1000;
+
+        animator = Find<Animator>("animator_top");
+        animatorTransform = animator.transform;
+        rg2dtest = animator.transform.GetComponent<Rigidbody2D>();
+
+
+        //Transform = roleGobj.GetComponent<Transform>();
+        GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
+
+        //updater相关  
+        //为场景中叫Updater的Gobj添加逻辑层Updater组件
+        updater = Updater.AddUpdater(roleGobj);
+        //单一方法 作为 一个Action参数传入Action集合（之后再集中调用）
+        updater.AddUpdateFunction(OnUpdate);
+        updater.AddFixedUpdateFunction(OnFixedUpdate);
+
+        InitFSM();
+    }
+
+
+    public void InitProperties(PlayerRoleConfig config)
+    {
+        base.InitProperties(config);
+        attackValue = config.ATK;
+        defence = config.DEF;
+        moveSpeed = config.MoveSpeed;
+        jumpSpeed = config.JumpSpeed;
+    }
 
 
     public void OnEnterInteractArea(GameObject target)
@@ -166,32 +189,7 @@ public class PlayerRole : Entity
 
 
 
-    /// <summary>
-    ///初始化脚本实例字段（建立逻辑层和表现层联系） 
-    /// </summary>
-    public PlayerRole(GameObject roleGobj) : base(roleGobj)
-    {
-        hp = maxHP;
-        rg2d = roleGobj.GetComponent<Rigidbody2D>();
 
-        topNodeTransform = roleGobj.transform;
-        animator = Find<Animator>("animator_top");
-        animatorTransform = animator.transform;
-        rg2dtest = animator.transform.GetComponent<Rigidbody2D>();
-
-
-        //Transform = roleGobj.GetComponent<Transform>();
-        GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
-
-        //updater相关  
-        //为场景中叫Updater的Gobj添加逻辑层Updater组件
-        updater = Updater.AddUpdater(roleGobj);
-        //单一方法 作为 一个Action参数传入Action集合（之后再集中调用）
-        updater.AddUpdateFunction(OnUpdate);
-        updater.AddFixedUpdateFunction(OnFixedUpdate);
-
-        InitFSM();
-    }
 
     /// <summary>
     /// 安排每个Action会回调的方法（），具体修改rigidbody velocity之类的应该放在对应的State类里
@@ -266,7 +264,7 @@ public class PlayerRole : Entity
 
         if (isInInteractArea)
         {
-            nearestInteractableGobj = SceneObjManager.GetNearest(topNodeTransform.position, GobjsInInteractArea);
+            nearestInteractableGobj = SceneObjManager.GetNearest(Transform.position, GobjsInInteractArea);
         }
 
         //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）

@@ -59,7 +59,7 @@ public class DamageReceiver : MonoBehaviour
                 //从receiver出发找
                 var enemyCollider = transform.gameObject.GetComponent<Collider2D>();
                 var enemy = EnemyManager.GetInstanceByCollider(enemyCollider);
-                if(enemy.IsCurrentHitOver)enemy.en_animator.SetTrigger("Damaged");
+                if(enemy.IsCurrentHitOver)enemy.animator.SetTrigger("Damaged");
             }
             else { }
 

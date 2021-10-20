@@ -80,7 +80,7 @@ public class EnemyBaseState : StateMachineBehaviour
 
         en_TopNodeGobj = Enemy.GameObject;
         en_TopNodeTransform = Enemy.Transform;
-        en_rb2d = Enemy.en_rb2d;
+        en_rb2d = Enemy.rg2d;
 
         en_GroundDetect = Enemy.GroundDetect;
 

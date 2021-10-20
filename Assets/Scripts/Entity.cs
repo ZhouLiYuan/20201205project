@@ -63,7 +63,4 @@ public class Entity
         if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
         return t.GetComponent<T>();
     }
-
-
-
 }

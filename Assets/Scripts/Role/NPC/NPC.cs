@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System;
 
 
-public class NPC : Entity
+public class NPC : RoleEntity
 {
     //层级
     //public GameObject NPCGobj;
     //public Transform topNodeTransform;
-    public GameObject animatorGobj;
 
-    public Animator animator;
-    public Rigidbody2D rb2d;
 
     public SpriteRenderer spriteRenderer;
 
@@ -40,10 +37,9 @@ public class NPC : Entity
     {
         base.Init(obj);
         //obj.name = NPCManager.CreateUniqueName();
+        animator = obj.GetComponent<Animator>();
 
         spriteRenderer = obj.GetComponent<SpriteRenderer>();
-        animator = obj.GetComponent<Animator>();
-        rb2d = obj.GetComponent<Rigidbody2D>();
         interactCollider = obj.GetComponent<CircleCollider2D>();
         interactCollider.radius = IntercatRange;
         
@@ -57,8 +53,6 @@ public class NPC : Entity
 
         //NPCManager.nameDic[UniqueName] = this;
     }
-
-
 
     public void InitProperties(NPCConfig config)
     {
@@ -77,9 +71,6 @@ public class NPC : Entity
 
     private void OnUpdate(float deltaTime) 
     {
-        ////临时代码 持续变换材质颜色
-        //if (spriteRenderer.material != Resources.GetBuiltinResource<Material>("Sprites-Default.mat")) spriteRenderer.color = UIManager.GetRandomColor();
-
         InteractFsm.Update(deltaTime);
     }
 
