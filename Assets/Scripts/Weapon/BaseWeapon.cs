@@ -34,7 +34,7 @@ public class BaseWeapon
         AssetName = weaponConfig.AssetName;
  
         AtkValue = weaponConfig.Damage;
-        AtkType = weaponConfig.Type;
+        AtkType = weaponConfig.DamageType;
 
         //为了动画层级
         weaponGobj.name = AssetName;
@@ -50,7 +50,7 @@ public class BaseWeapon
     public virtual DamageData ATK() 
     {
         var data = new DamageData();
-        data.damageParam = AtkValue;
+        data.atkValue = AtkValue;
         data.damageType = (DamageType)AtkType;
         return data;
     }

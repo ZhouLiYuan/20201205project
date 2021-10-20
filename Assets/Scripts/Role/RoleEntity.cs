@@ -34,6 +34,8 @@ public class RoleEntity : Entity
     {
         base.InitProperties(config);
         if (config.GetType().Name == "NPCConfig") return;//暂时不给NPC设置血量
+
+        //连等可能有风险
         HP = maxHP = config.HP;
     }
 }

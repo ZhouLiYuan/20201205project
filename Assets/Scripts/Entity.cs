@@ -16,7 +16,7 @@ public class Entity
   
     //配置表基本属性
     public int assetID;
-    //实例名
+    //实例名(用于做字典key)
     public string UniqueName =>GameObject.name; //注意脚本的name和实际GameObject的name并不是一回事
     public string assetName;
 

@@ -4,7 +4,7 @@ using System;
 
 public class PlayerRole : RoleEntity
 {
-    public string RoleName => PlayerManager.m_RoleName;
+    public string Name => PlayerManager.m_RoleName;
 
     private Updater updater;
 
@@ -21,8 +21,8 @@ public class PlayerRole : RoleEntity
     private float gravity = 9.8f;
 
     //自身属性
-    public int defence;
-    public int attackValue;
+    public int defValue;
+    public int atkValue;
     //物理
     public float jumpSpeed;
     public float moveSpeed;
@@ -94,7 +94,7 @@ public class PlayerRole : RoleEntity
     public override void Init(GameObject roleGobj)
     {
         base.Init(roleGobj);
-        HP = maxHP = 1000;
+     
 
         animator = Find<Animator>("animator_top");
         animatorTransform = animator.transform;
@@ -118,8 +118,8 @@ public class PlayerRole : RoleEntity
     public void InitProperties(PlayerRoleConfig config)
     {
         base.InitProperties(config);
-        attackValue = config.ATK;
-        defence = config.DEF;
+        atkValue = config.ATK;
+        defValue = config.DEF;
         moveSpeed = config.MoveSpeed;
         jumpSpeed = config.JumpSpeed;
     }
@@ -183,6 +183,7 @@ public class PlayerRole : RoleEntity
     public void GetDamage()
     {
         var data = OnAttacked?.Invoke();
+        data.defValue = defValue;
         float finalDamageValue = DamageSystem.CalculateDamage(data);
         HP -= (int)finalDamageValue;
     }

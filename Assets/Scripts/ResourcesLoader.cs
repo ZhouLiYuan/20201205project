@@ -146,6 +146,10 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<GameObject>($"Guider/{name}.prefab");
     }
 
+    public static GameObject LoadHealthBarPrefab()
+    {
+        return AssetModule.LoadAsset<GameObject>("HealthBar");
+    }
 
     public static Sprite LoadSprite(string name)
     {

@@ -9,7 +9,16 @@ public class GamePanel : BasePanel
 {
     public override string Path => "Panel/GamePanel.prefab";
     private GameObject lockUI;
-    public GameObject healthBar;
+
+    public GameObject playerHealthBarGobj;
+    public GameObject bossHealthBarGobj;
+
+    private HealthBar pl_healthBar;
+    public static HealthBar boss_healthBar;//暂时默认全局只有一个boss
+
+    //string为角色名称
+    public static Dictionary<string, HealthBar> HealthBarNameDic = new Dictionary<string, HealthBar>();
+
 
     public override void OnOpen()
     {
@@ -22,8 +31,27 @@ public class GamePanel : BasePanel
         lockUI = Find<GameObject>("LockUI");
         lockUI.SetActive(false);
 
-        healthBar = Find<GameObject>("HealthBar");
-        healthBar.SetActive(true);
+        playerHealthBarGobj = Find<GameObject>("PlayerHealthBar");
+        playerHealthBarGobj.SetActive(true);
+        bossHealthBarGobj = Find<GameObject>("BossHealthBar");
+        bossHealthBarGobj.SetActive(false);//等boss登场
+
+        pl_healthBar = new HealthBar(playerHealthBarGobj);
+        pl_healthBar.SetOwner(PlayerManager.m_Role);
+        HealthBarNameDic[PlayerManager.m_Role.UniqueName] = pl_healthBar;
+    }
+
+    public void SetBossHealthBar(RoleEntity owner) 
+    {
+        boss_healthBar = new HealthBar(bossHealthBarGobj);
+        boss_healthBar.SetOwner(owner);
+        HealthBarNameDic[owner.UniqueName] = boss_healthBar;
+        bossHealthBarGobj.SetActive(true);
+    }
+
+    public  override void OnUpdate(float deltaTime)
+    {
+        foreach (var healthBar in HealthBarNameDic.Values) { healthBar.OnUpdate(deltaTime);}
     }
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -36,7 +37,6 @@ public static class UIManager
         CanvasTransform = ui_Obj.transform.Find("Canvas");
         UICamera = ui_Obj.transform.Find("UICamera").GetComponent<Camera>();
         UICamera.depth = 99;
-
     }
     /// <summary>
     ///  创建并获取一个面板实例(同步加载方法)
@@ -73,6 +73,7 @@ public static class UIManager
 
         var prefab = ResourcesLoader.LoadPanelPrefab(name);
         var obj = Object.Instantiate(prefab, CanvasTransform);
+        obj.name = name;
         Object.DontDestroyOnLoad(obj);
 
         panel.Init(name, obj);
@@ -130,6 +131,31 @@ public static class UIManager
         Object.Destroy(obj);
     }
 
+    /// <summary>
+    /// 为非boss敌人或者NPC生成血槽
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="parent"></param>
+    /// <returns></returns>
+    public static HealthBar SpawnHealthBar(RoleEntity owner)
+    {
+        var offset = new Vector3(0,-1f, 0);//之后应该根据每个npc大小调整
+        var HealthBar = ResourcesLoader.LoadHealthBarPrefab();
+        var Gobj = Object.Instantiate(HealthBar,CanvasTransform/*.Find("GamePanel(Clone)")*/);
+        //Gobj.name = owner.GetType().Name + "HealthBar";
+        Gobj.name = owner.UniqueName + "'s HealthBar";
+        SetInteractUIPosition(owner.GameObject, Gobj, offset);
+
+        var healthBar = new HealthBar(Gobj);
+        healthBar.SetOwner(owner);
+        GamePanel.HealthBarNameDic[owner.UniqueName] = healthBar;
+        return healthBar;
+        //希望UI类方法可以写的更通用
+    }
+
+
+
+
 
     /// <summary>
     /// 能换算普通Transform为Rect Transform？
@@ -145,7 +171,34 @@ public static class UIManager
             var screenPosition = Camera.main.WorldToScreenPoint(target.transform.position);
             UIGobj.transform.position = UICamera.ScreenToWorldPoint(screenPosition);
         }
+        //    var m_height = 0f;
+        //    //Canvas设置为 Screen Space - Camera 的方法
+        //    Vector3 viewPos = Camera.main.WorldToScreenPoint(m_owner.position + new Vector3(0f, m_height, 0f));
+
+        //    //根据比率自动缩放 横轴纵轴？意思是相对长宽？
+        //var m_scaler = GameObject.FindObjectOfType<CanvasScaler>();
+        //var widthRatio = m_scaler.referenceResolution.x / Camera.main.scaledPixelWidth;
+        //var heightRatio = m_scaler.referenceResolution.y / Camera.main.scaledPixelHeight;
+        //UIGobj.GetComponent<RectTransform>().anchoredPosition = new Vector2(viewPos.x * widthRatio, viewPos.y * heightRatio);
     }
+    /// <summary>
+    /// 有offset的重载
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="UIGobj"></param>
+    /// <param name=""></param>
+    public static void SetInteractUIPosition(GameObject target, GameObject UIGobj, Vector3 offset)
+    {
+        UIGobj.SetActive(target != null);
+        if (target)
+        {
+            var spawnPos = target.transform.position + offset;
+            //Postion赋值过程：target =>MainCamera =>UICamera =>lockUI
+            var screenPosition = Camera.main.WorldToScreenPoint(spawnPos);
+            UIGobj.transform.position = UICamera.ScreenToWorldPoint(screenPosition);
+        }
+    }
+
 
 
     public static Color GetRandomColor()

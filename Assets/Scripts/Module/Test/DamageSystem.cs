@@ -20,21 +20,24 @@ public static class DamageSystem
     /// <returns></returns>
     public static int CalculateDamage(DamageData data) 
     {
-        int damageParam = (int)data.damageParam;
+        int atkParam = (int)data.atkValue;
+        int defParam = (int)data.defValue;
         var damageType = data.damageType;
+
+
         int result;
         switch (damageType)
         {
             case DamageType.normal:
-                result = damageParam;
+                result = atkParam - defParam;
                 Debug.Log($"接受到普通攻击{result}");
                 return result;
             case DamageType.fired:
-                result = damageParam*2;
+                result = atkParam* 2 - defParam;
                 Debug.Log($"接受到火焰攻击{result}");
                 return result;
             case DamageType.poison:
-                result = damageParam/2;
+                result = atkParam/2;
                 Debug.Log($"接受到毒攻击{result}");
                 return result;
             case DamageType.friendSide:

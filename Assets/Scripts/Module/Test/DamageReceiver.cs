@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-//区分开attacker是武器持有者    weapon是武器
+//区分：attacker是武器 持有者    weapon是武器
 //一次只能收到一个对象的攻击
 //需要和 受击框collider2d 在一个层级
 public class DamageReceiver : MonoBehaviour

@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameMode1Controller : GameController
 {
     private GamePanel gamePanel;
-    private PlayerHealthBar m_healthBar;
+  
     //private DamageSystem m_damageSystem;
 
     //private List<GameObject> enemyObjs = new List<GameObject>();
@@ -39,7 +39,7 @@ public class GameMode1Controller : GameController
 
         //打开GamePanel
         gamePanel = UIManager.Open<GamePanel>();
-        m_healthBar = new PlayerHealthBar(gamePanel.healthBar);
+     
 
         ////初始化伤害系统
         //m_damageSystem = new DamageSystem();
@@ -73,10 +73,5 @@ public class GameMode1Controller : GameController
     }
 
 
-    public void SetDamageReceiverHealth(DamageData data)
-    {
-        if (m_healthBar.currentHealth < 0) return;
-        //else {m_healthBar.currentHealth -= m_damageSystem.CalculateDamage(data);
-    }
 
 }
