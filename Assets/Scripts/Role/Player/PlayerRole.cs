@@ -54,6 +54,8 @@ public class PlayerRole : RoleEntity
     public bool IsInteractPressed { get; private set; }
     public bool IsJumpPressed { get; private set; }
     public bool IsJumpTriggered { get; private set; }
+    public bool IsChangeWeaponLeftPressed { get; private set; }
+    public bool IsChangeWeaponRightPressed { get; private set; }
 
     //逻辑trigger
     public bool canApplyGravity = true;
@@ -84,9 +86,27 @@ public class PlayerRole : RoleEntity
 
     public string currentPlaceName;//角色当前所处的位置
 
-
+    private int currentWeaponIndex = 0;
+    private int CurrentWeaponIndex
+    {
+        get { return currentWeaponIndex; }
+        set
+        {
+            //做成闭环(注意index从0开始 count从1开始)
+            if (0 <= value && value <= availableWeapons.Count -1) { currentWeaponIndex = value; }
+            else if (value < 0) { currentWeaponIndex = availableWeapons.Count - 1; }
+            else if (value > availableWeapons.Count - 1) { currentWeaponIndex = 0;}
+            else Debug.Log("切换武器失败");
+        }
+    }
     public BaseWeapon currentWeapon;  //当前装备的武器
-    public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();  //因为一般也不会用string去查找和切换武器，所以用List直接用index顺序查找
+    public List<BaseWeapon> availableWeapons = new List<BaseWeapon>();  //因为一般不用string去查找和切换武器，用List直接用index顺序查找
+
+
+
+
+
+    //---------------------------------------<初始化>--------------------------------------------------
 
     /// <summary>
     ///初始化脚本实例字段（建立逻辑层和表现层联系） 
@@ -114,7 +134,6 @@ public class PlayerRole : RoleEntity
         InitFSM();
     }
 
-
     public void InitProperties(PlayerRoleConfig config)
     {
         base.InitProperties(config);
@@ -124,6 +143,80 @@ public class PlayerRole : RoleEntity
         jumpSpeed = config.JumpSpeed;
     }
 
+    /// <summary>
+    /// 安排每个Action会回调的方法（），具体修改rigidbody velocity之类的应该放在对应的State类里
+    /// </summary>
+    /// <param name="inputHandler"></param>
+    public void BindInput(PlayerInput inputHandler)
+    {
+        //对照
+        //按下GetKeyDown----Performed(不希望连按判定)
+        //按住GetKey----Started(按住包含了按下瞬间Performed）
+        //松开GetKeyUp----Canceled
+
+
+        //换角色时 解绑输入需要用到playerInput 这个引用缓存
+        this.playerInput = inputHandler;
+        //move(实际物理输入的值) 
+        playerInput.Move.performed += context => inputAxis = context.ReadValue<Vector2>();
+        playerInput.Move.started += context => inputAxis = context.ReadValue<Vector2>();
+        playerInput.Move.canceled += context => inputAxis = Vector2.zero;
+
+        //trigger (判断按键有无按下)
+        playerInput.Jump.performed += context => IsJumpTriggered = true;
+        playerInput.Jump.started += context => IsJumpPressed = true;
+        playerInput.Jump.canceled += context => IsJumpPressed = false;
+
+        playerInput.Lock.started += context => IsLockPressed = true;
+        playerInput.Lock.canceled += context => IsLockPressed = false;
+
+        playerInput.Hook.started += context => IsHookPressed = true;
+        playerInput.Hook.canceled += context => IsHookPressed = false;
+
+        playerInput.Interact.performed += context => IsInteractPressed = true;
+        //playerInput.Interact.started += context => IsInteractPressed = true;
+        playerInput.Interact.canceled += context => IsInteractPressed = false;
+
+        playerInput.ChangeWeaponRight.performed += context => IsChangeWeaponRightPressed = true;
+        playerInput.ChangeWeaponRight.canceled += context => IsChangeWeaponRightPressed = false;
+
+        playerInput.ChangeWeaponLeft.performed += context => IsChangeWeaponLeftPressed = true;
+        playerInput.ChangeWeaponLeft.canceled += context => IsChangeWeaponLeftPressed = false;
+    }
+
+    /// <summary>
+    ///  //配置每个功能的FSM，为每个状态传owner实例
+    /// </summary>
+    private void InitFSM()
+    {
+        hookFsm = new HookFSM();
+        hookFsm.AddState<IdleState>().SetPlayerRole(this);
+        hookFsm.AddState<LockState>().SetPlayerRole(this);
+        hookFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
+
+        //临时工，待删
+        hookFsm.AddState<InteractState>().SetPlayerRole(this);
+
+        //分不同的FSM其实就是分层处理
+        generalFsm = new GeneralFSM();
+        generalFsm.AddState<IdleState>().SetPlayerRole(this);
+        generalFsm.AddState<MoveState>().SetPlayerRole(this);
+        generalFsm.AddState<JumpState>().SetPlayerRole(this);
+
+        generalFsm.AddState<DamagedState>().SetPlayerRole(this);
+        generalFsm.AddState<InteractState>().SetPlayerRole(this);
+    }
+
+    public void EquipWeapon(WeaponConfig weaponConfig)
+    {
+        if (currentWeapon != null) currentWeapon.GameObject.SetActive(false);
+        var weapon = WeaponManager.SpawnPlayerWeapon(this, weaponConfig);
+        //enemy武器切换成当前武器
+        this.currentWeapon = weapon;
+        currentWeapon.GameObject.SetActive(true);
+    }
+
+    //---------------------------------------<State相关方法>--------------------------------------------------
 
     public void OnEnterInteractArea(GameObject target)
     {
@@ -188,101 +281,6 @@ public class PlayerRole : RoleEntity
         HP -= (int)finalDamageValue;
     }
 
-
-
-
-
-    /// <summary>
-    /// 安排每个Action会回调的方法（），具体修改rigidbody velocity之类的应该放在对应的State类里
-    /// </summary>
-    /// <param name="inputHandler"></param>
-    public void BindInput(PlayerInput inputHandler)
-    {
-        //对照
-        //按下GetKeyDown----Performed
-        //按住GetKey----Started(按住包含了按下瞬间Performed）
-        //松开GetKeyUp----Canceled
-
-
-        //换角色时 解绑输入需要用到playerInput 这个引用缓存
-        this.playerInput = inputHandler;
-        //move(实际物理输入的值) 
-        playerInput.Move.performed += context => inputAxis = context.ReadValue<Vector2>();
-        playerInput.Move.started += context => inputAxis = context.ReadValue<Vector2>();
-        playerInput.Move.canceled += context => inputAxis = Vector2.zero;
-
-        //trigger (判断按键有无按下)
-        playerInput.Jump.performed += context => IsJumpTriggered = true;
-        playerInput.Jump.started += context => IsJumpPressed = true;
-        playerInput.Jump.canceled += context => IsJumpPressed = false;
-
-        playerInput.Lock.started += context => IsLockPressed = true;
-        playerInput.Lock.canceled += context => IsLockPressed = false;
-
-        playerInput.Hook.started += context => IsHookPressed = true;
-        playerInput.Hook.canceled += context => IsHookPressed = false;
-
-        playerInput.Interact.performed += context => IsInteractPressed = true;
-        //playerInput.Interact.started += context => IsInteractPressed = true;
-        playerInput.Interact.canceled += context => IsInteractPressed = false;
-
-    }
-
-
-
-    /// <summary>
-    ///  //配置每个功能的FSM，为每个状态传owner实例
-    /// </summary>
-    private void InitFSM()
-    {
-        hookFsm = new HookFSM();
-        hookFsm.AddState<IdleState>().SetPlayerRole(this);
-        hookFsm.AddState<LockState>().SetPlayerRole(this);
-        hookFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
-
-        //临时工，待删
-        hookFsm.AddState<InteractState>().SetPlayerRole(this);
-
-        //分不同的FSM其实就是分层处理
-        generalFsm = new GeneralFSM();
-        generalFsm.AddState<IdleState>().SetPlayerRole(this);
-        generalFsm.AddState<MoveState>().SetPlayerRole(this);
-        generalFsm.AddState<JumpState>().SetPlayerRole(this);
-
-        generalFsm.AddState<DamagedState>().SetPlayerRole(this);
-        generalFsm.AddState<InteractState>().SetPlayerRole(this);
-
-
-
-    }
-
-    private void OnUpdate(float deltaTime)
-    {
-        IsJumpTriggered = playerInput.Jump.triggered;
-        generalFsm.Update(deltaTime);
-        hookFsm.Update(deltaTime);
-
-
-        if (isInInteractArea)
-        {
-            nearestInteractableGobj = SceneObjManager.GetNearest(Transform.position, GobjsInInteractArea);
-        }
-
-        //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）
-        rg2dtest.velocity = rg2d.velocity;
-        //修复滞后
-        rg2dtest.position = rg2d.position;
-    }
-
-    //物理相关的刷新
-    private void OnFixedUpdate(float fixedDeltaTime)
-    {
-        generalFsm.FixedUpdate(fixedDeltaTime);
-        hookFsm.FixedUpdate(fixedDeltaTime);
-
-        if (canApplyGravity) ApplyGravity(fixedDeltaTime);
-    }
-
     private void ApplyGravity(float fixedDeltaTime)
     {
         //Mathf.Max返回两个指定数字中较大
@@ -294,20 +292,53 @@ public class PlayerRole : RoleEntity
 
     }
 
+    public void changeWeapon() 
+    {
+        //手动设置IsChangeWeaponPressed防止连按
+        if (IsChangeWeaponLeftPressed){CurrentWeaponIndex -= 1; IsChangeWeaponLeftPressed = false; }
+        else if(IsChangeWeaponRightPressed){CurrentWeaponIndex += 1; IsChangeWeaponRightPressed = false; }
+        else
+        {
+            Debug.Log("切换武器失败");
+            return; 
+        }
+        currentWeapon.GameObject.SetActive(false);//切换前的武器应该隐藏
+        currentWeapon = availableWeapons[CurrentWeaponIndex];
+        currentWeapon.GameObject.SetActive(true);
+        Debug.Log($"切换武器为{currentWeapon.GameObject.name}");
+    }
 
-    //public T Find<T>(string path) where T : UnityEngine.Object
-    //{
-    //    var t = topNodeTransform.Find(path);
-    //    if (typeof(T) == typeof(Transform)) return t as T;
-    //    if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
-    //    return t.GetComponent<T>();
-    //}
 
-    //public void HorizontalMovement()
-    //{
-    //    Debug.Log($"水平输入 = {move.x}");
-    //    ch_rigidbody2d.velocity = new Vector2(move.x * maxSpeed, ch_rigidbody2d.velocity.y);
-    //}
+    //---------------------------------------<生命周期>--------------------------------------------------
+     
+    private void OnUpdate(float deltaTime)
+    {
+        //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）
+        rg2dtest.velocity = rg2d.velocity;
+        //修复滞后
+        rg2dtest.position = rg2d.position;
+
+
+        IsJumpTriggered = playerInput.Jump.triggered;
+        generalFsm.Update(deltaTime);
+        hookFsm.Update(deltaTime);
+
+
+        if (isInInteractArea){nearestInteractableGobj = SceneObjManager.GetNearest(Transform.position, GobjsInInteractArea);}//实时计算距离最近对象
+        if (IsChangeWeaponLeftPressed || IsChangeWeaponRightPressed) { changeWeapon(); }
+    }
+
+    //物理相关的刷新
+    private void OnFixedUpdate(float fixedDeltaTime)
+    {
+        generalFsm.FixedUpdate(fixedDeltaTime);
+        hookFsm.FixedUpdate(fixedDeltaTime);
+
+        if (canApplyGravity) ApplyGravity(fixedDeltaTime);
+    }
+
+
+
 
 
     ///// <summary>

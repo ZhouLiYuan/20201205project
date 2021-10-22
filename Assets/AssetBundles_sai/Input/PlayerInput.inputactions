@@ -2,7 +2,7 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "AdventureMode",
+            "name": "Adventure",
             "id": "95ad4cd1-467e-4502-b7bd-71af7c22c0ad",
             "actions": [
                 {
@@ -41,6 +41,22 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "70a787e0-856e-4bec-a0ce-709bd2dbe892",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ChangeWeaponLeft",
+                    "type": "Button",
+                    "id": "f20a5905-b7f2-46cf-a911-eb7fb29f3946",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ChangeWeaponRight",
+                    "type": "Button",
+                    "id": "a5540624-2151-4932-972b-f140e595c1bd",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -143,6 +159,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3aae3da3-3699-4217-bf52-ce84c8e9d18c",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeWeaponLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2787c2d6-ac3c-4176-b52c-709c13ae4791",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeWeaponRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

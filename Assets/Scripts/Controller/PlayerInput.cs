@@ -12,6 +12,8 @@ public class PlayerInput
     public InputAction Hook;
     public InputAction Jump;
     public InputAction Interact;
+    public InputAction ChangeWeaponLeft;
+    public InputAction ChangeWeaponRight;
 
 
     /// <summary>
@@ -22,18 +24,21 @@ public class PlayerInput
         inputActionAsset = Object.Instantiate(GameAssetManager.LoadInputActionAsset(inputActionAssetName));
 
         //[0]好像是 面板里Action Maps栏的index 第一个的话对应的就是adventureMode
-        InputActionMap inputActionMap = inputActionAsset.FindActionMap("AdventureMode");
-        inputActionMap.Enable();
-
+        InputActionMap AdventureMap = inputActionAsset.FindActionMap("Adventure");
+        AdventureMap.Enable();
+        InputActionMap UIMap = inputActionAsset.FindActionMap("UI");
+        AdventureMap.Disable();//切换到UI交互模式再激活
 
         //相当于多了层抽象层，有需求可以修改不同的InPutActionMap输入源（比如像街机格斗就可以切换输入源InPutActionMap（player1 2 3 4）绑定到同一个角色上）
         //下面是 在建立 表现层和逻辑层的耦合
         //建立输入源和动作源之间的联系
-        Move = inputActionMap.FindAction("Move"); 
-        Lock = inputActionMap.FindAction("Lock");   
-        Hook = inputActionMap.FindAction("Hook");      
-        Jump = inputActionMap.FindAction("Jump");     
-        Interact = inputActionMap.FindAction("Interact");
+        Move = AdventureMap.FindAction("Move"); 
+        Lock = AdventureMap.FindAction("Lock");   
+        Hook = AdventureMap.FindAction("Hook");      
+        Jump = AdventureMap.FindAction("Jump");     
+        Interact = AdventureMap.FindAction("Interact");
+        ChangeWeaponLeft = AdventureMap.FindAction("ChangeWeaponLeft");
+        ChangeWeaponRight = AdventureMap.FindAction("ChangeWeaponRight");
         EnableInput();
     }
 
@@ -44,6 +49,8 @@ public class PlayerInput
         Hook.Enable();
         Jump.Enable();
         Interact.Enable();
+        ChangeWeaponLeft.Enable();
+        ChangeWeaponRight.Enable();
         Debug.Log("激活所有按键");
     }
 
@@ -54,6 +61,8 @@ public class PlayerInput
         Hook.Disable();
         Jump.Disable();
         Interact.Disable();
+        ChangeWeaponLeft.Disable();
+        ChangeWeaponRight.Disable();
         Debug.Log("禁用所有按键");
     }
 
