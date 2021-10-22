@@ -15,10 +15,10 @@ public class Entity
     public GameObject GameObject { get; private set;}
   
     //配置表基本属性
-    public int assetID;
+    public int AssetID{ get; private set; }
     //实例名(用于做字典key)
     public string UniqueName =>GameObject.name; //注意脚本的name和实际GameObject的name并不是一回事
-    public string assetName;
+    public string AssetName { get; private set; }
 
     //---------------------<初始化方式二选一>-----------------------
     internal Entity(GameObject obj) 
@@ -42,8 +42,8 @@ public class Entity
     /// <param name="config"></param>
     public virtual void InitProperties(Config config) 
     {
-        assetID = config.AssetID;
-        assetName = config.AssetName;
+        AssetID = config.AssetID;
+        AssetName = config.AssetName;
 
         //assetID = 0;
         //为了动画层级（确保生成的时候名字不带[clone]）

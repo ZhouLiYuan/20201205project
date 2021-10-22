@@ -139,12 +139,12 @@ public static class UIManager
     /// <returns></returns>
     public static HealthBar SpawnHealthBar(RoleEntity owner)
     {
-        var offset = new Vector3(0,-1f, 0);//之后应该根据每个npc大小调整
+       
         var HealthBar = ResourcesLoader.LoadHealthBarPrefab();
-        var Gobj = Object.Instantiate(HealthBar,CanvasTransform/*.Find("GamePanel(Clone)")*/);
+        var Gobj = Object.Instantiate(HealthBar,CanvasTransform/*.Find("GamePanel")*/);
         //Gobj.name = owner.GetType().Name + "HealthBar";
         Gobj.name = owner.UniqueName + "'s HealthBar";
-        SetInteractUIPosition(owner.GameObject, Gobj, offset);
+ 
 
         var healthBar = new HealthBar(Gobj);
         healthBar.SetOwner(owner);

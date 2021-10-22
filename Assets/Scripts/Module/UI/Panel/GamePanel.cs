@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class GamePanel : BasePanel
 {
-    public override string Path => "Panel/GamePanel.prefab";
+    
     private GameObject lockUI;
 
     public GameObject playerHealthBarGobj;
