@@ -103,7 +103,6 @@ public class Enemy : RoleEntity
         this.currentWeapon = weapon;
         en_infoInspector.WeaponID = weaponConfig.AssetID;
         //currentWeaponPair = new KeyValuePair<Collider2D, BaseWeapon>(weapon.collider2D, weapon);
-        
     }
 
     public void GetDamage() 

@@ -73,6 +73,10 @@ MonoBehaviour:
     m_Address: Dialogue
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: c25a24a6df6552146b1e295a05f621c1
+    m_Address: HealthBar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 52a50aa9a4584624f86160fa43c6dbea, type: 2}
   m_SchemaSet:
