@@ -59,33 +59,73 @@ public class LevelEditorWindow : EditorWindow
         levelConfig.levelName = levelName;
 
         //引用类型赋值(平台,敌人)
-        //关卡中的敌人信息
-        levelConfig.EnemyInfos = new List<EnemyInfo>();
-        //transform.childCount来直接获取子物体数量
-        var enemyList = GameObject.Find("EnemyList");
-        //var platformList = GameObject.Find("PlatformList");
 
+        //levelConfig.EnemyInfos = GetEntityIInfosList<EnemyInfo>();
+        //levelConfig.PlatformInfos = GetEntityIInfosList<PlatformInfo>();
+        levelConfig.EnemyInfos = GetEntityIInfosList<EnemyInfo, EnemyInfoInspector>();
+        //levelConfig.PlatformInfos = GetEntityIInfosList<PlatformInfo, InfoInspector>();
 
-
-        for (int i = 0; i < enemyList.transform.childCount; i++)
-        {
-            var enGobj_transform = enemyList.transform.GetChild(i);
-            var enemyInfoInspector = enGobj_transform.GetComponent<EnemyInfoInspector>();
-            //为Scene中EnemyList下的每个子Gobj创建EnemyInfo实例并初始化（表现层和逻辑层的联系）
-            levelConfig.EnemyInfos.Add(new EnemyInfo
-            {
-                Position = enemyInfoInspector.transform.position,
-                AssetID = enemyInfoInspector.AssetID,
-                WeaponID = enemyInfoInspector.WeaponID
-            });
-        }
         CreateAsset(levelConfig, levelID);
 
     }
 
+    ///// <summary>
+    ///// 获得Scene中XXList下的每个子Gobj 创建EntityInfo实例并初始化（表现层和逻辑层的联系）
+    ///// 需要用TEntityInfo对应类中 的XXInfoInspector成员 修改其他客制化成员
+    ///// </summary>
+    ///// <typeparam name="TEntityInfo"></typeparam>
+    ///// <returns></returns>
+    //private List<TEntityInfo> GetEntityIInfosList<TEntityInfo>() where TEntityInfo : EntityInfo, new()
+    //{
+    //    //String字符是从0开始算起
+    //    //LastIndexOf("")好像是会区分string大小写的？
+    //    string fullName = typeof(TEntityInfo).Name;
+    //    int index = fullName.LastIndexOf("I");
+    //    var typeName = fullName.Substring(0, index);
+    //    var entityList = GameObject.Find($"{typeName}List");
 
+    //    var EntityInfos = new List<TEntityInfo>();
 
+    //    //transform.childCount来直接获取子物体数量
+    //    for (int i = 0; i < entityList.transform.childCount; i++)
+    //    {
+    //        var entityGobj_transform = entityList.transform.GetChild(i);
+    //        //继承自InfoInspector的子类应该也能被Get到（类似Colider2d基类）
+    //        var InfoInspector = entityGobj_transform.GetComponent<InfoInspector>();
+    //        EntityInfos.Add(new TEntityInfo { infoInspector = InfoInspector });
+    //    }
+    //    return EntityInfos;
+    //}
 
+    //双参数类型版本
+    private List<TEntityInfo> GetEntityIInfosList<TEntityInfo, TInfoInspector>()
+    where TEntityInfo : EntityInfo<TInfoInspector>, new()
+    where TInfoInspector : InfoInspector
+    {
+        //String字符是从0开始算起
+        //LastIndexOf("")好像是会区分string大小写的？
+        string fullName = typeof(TEntityInfo).Name;
+        int index = fullName.LastIndexOf("I");
+        var typeName = fullName.Substring(0, index);
+        var entityList = GameObject.Find($"{typeName}List");
+
+        var EntityInfos = new List<TEntityInfo>();
+
+        //transform.childCount来直接获取子物体数量
+        for (int i = 0; i < entityList.transform.childCount; i++)
+        {
+            var entityGobj_transform = entityList.transform.GetChild(i);
+            //继承自InfoInspector的子类能被Get到（类似Colider2d基类）
+            //默认InfoInspector挂在TopNode上
+            var infoInspector = entityGobj_transform.GetComponent<TInfoInspector>();
+            var entityInfo = new TEntityInfo();
+            entityInfo.transform = entityGobj_transform;
+            entityInfo.infoInspector = infoInspector;
+            EntityInfos.Add(entityInfo);
+            //EntityInfos.Add(new TEntityInfo { transform = entityGobj_transform ,infoInspector = infoInspector});
+        }
+        return EntityInfos;
+    }
 
     /// <summary>
     /// 在指定路径创建 关卡资源文件
@@ -115,118 +155,32 @@ public class LevelEditorWindow : EditorWindow
 }
 
 
-//---------------------<SaveLevelConfig()实验代码>--------------------------------
+//---------------------<旧代码>--------------------------------
 
+////引用类型
+//var enemyList = GameObject.Find("EnemyList");
+//var platformList = GameObject.Find("PlatformList");
 
-
-//----------------------------<单类型参数版本>-------------------------------
-
-//配套 InfoCollections代码
-
-////Transform继承自Component，Component自带gameObject字段
-////而GameObject本身拥有transform字段
-////component和GameObject继承自Object
-//public class EntityInfo
+////关卡中的敌人信息
+//levelConfig.EnemyInfos = new List<EnemyInfo>();
+////transform.childCount来直接获取子物体数量
+//for (int i = 0; i < enemyList.transform.childCount; i++)
 //{
-//    public InfoInspector infoInspector;
-//    public int AssetID => infoInspector.AssetID;
-//    public Transform transform => infoInspector.transform;
-//    public Vector3 Position => transform.position;
-//    public Quaternion Rotation => transform.rotation;
-//}
-
-//-------------------------
-
-//levelConfig.EnemyInfos = GetEntityIInfosList<EnemyInfo, EnemyInfoInspector>();
-//private List<TEntityInfo> GetEntityIInfosList<TEntityInfo>() where TEntityInfo : EntityInfo, new()
-//{
-//    //String字符是从0开始算起
-//    //LastIndexOf("")好像是会区分string大小写的？
-//    string fullName = typeof(TEntityInfo).Name;
-//    int index = fullName.LastIndexOf("I");
-//    var typeName = fullName.Substring(0, index);
-//    var entityList = GameObject.Find($"{typeName}List");
-
-//    var EntityInfos = new List<TEntityInfo>();
-
-//    //transform.childCount来直接获取子物体数量
-//    for (int i = 0; i < entityList.transform.childCount; i++)
+//    var enGobj_transform = enemyList.transform.GetChild(i);
+//    var enemyInfoInspector = enGobj_transform.GetComponent<EnemyInfoInspector>();
+//    //为Scene中EnemyList下的每个子Gobj创建EnemyInfo实例并初始化（表现层和逻辑层的联系）
+//    levelConfig.EnemyInfos.Add(new EnemyInfo
 //    {
-//        var entityGobj_transform = entityList.transform.GetChild(i);
-//        //继承自InfoInspector的子类应该也能被Get到（类似Colider2d基类）
-//        var InfoInspector = entityGobj_transform.GetComponent<InfoInspector>();
-//        EntityInfos.Add(new TEntityInfo { infoInspector = InfoInspector });
-//    }
-//    return EntityInfos;
+//        ID = enemyInfoInspector.ID,
+//        WeaponID = enemyInfoInspector.WeaponID
+//    });
 //}
 
+////关卡中的平台信息
+//levelConfig.PlatformInfos = new List<PlatformInfo>();
 
-
-//----------------------------<双类型参数版本>-------------------------------
-
-
-//配套 InfoCollections代码
-
-//public class EntityInfo<TInfoInspector> where TInfoInspector : InfoInspector
+//for (int i = 0; i < platformList.transform.childCount; i++)
 //{
-//    public Transform transform;
-//    public TInfoInspector infoInspector;
-//    public int AssetID;
-//    //为什么用构造函数会报错？
-//    //public EntityInfo() 
-//    //{
-//    //    AssetID = infoInspector.AssetID;
-//    //}
-//}
-
-
-//public class EnemyInfo : EntityInfo<EnemyInfoInspector>
-//{
-//    public int WeaponID;/*=>infoInspector.WeaponID;*/
-
-//    //如果as类型转换失败那么直接方法改成 双类型参数就好
-//    //（但是infoInspector mono类可以用new来约束吗，虽然并没有用new来创建 infoInspector ）
-
-//    //public int WeaponID;
-//    //public EnemyInfo() : base()
-//    //{
-//    //    WeaponID = infoInspector.WeaponID;
-//    //}
-//}
-
-//-------------------------
-
-///// <summary>
-///// 获得Scene中XXList下的每个子Gobj 创建EntityInfo实例并初始化（表现层和逻辑层的联系）
-///// 需要用TEntityInfo对应类中 的TInfoInspector成员 修改其他客制化成员
-///// </summary>
-///// <typeparam name="TEntityInfo"></typeparam>
-///// <returns></returns>
-//private List<TEntityInfo> GetEntityIInfosList<TEntityInfo, TInfoInspector>()
-//where TEntityInfo : EntityInfo<TInfoInspector>, new()
-//where TInfoInspector : InfoInspector
-//{
-//    //String字符是从0开始算起
-//    //LastIndexOf("")好像是会区分string大小写的？
-//    string fullName = typeof(TEntityInfo).Name;
-//    int index = fullName.LastIndexOf("I");
-//    var typeName = fullName.Substring(0, index);
-//    var entityList = GameObject.Find($"{typeName}List");
-
-//    var EntityInfos = new List<TEntityInfo>();
-
-//    //transform.childCount来直接获取子物体数量
-//    for (int i = 0; i < entityList.transform.childCount; i++)
-//    {
-//        var entityGobj_transform = entityList.transform.GetChild(i);
-//        //继承自InfoInspector的子类能被Get到（类似Colider2d基类）
-//        //默认InfoInspector挂在TopNode上
-//        var infoInspector = entityGobj_transform.GetComponent<TInfoInspector>();
-//        var entityInfo = new TEntityInfo();
-//        entityInfo.transform = entityGobj_transform;
-//        entityInfo.infoInspector = infoInspector;
-//        EntityInfos.Add(entityInfo);
-//        //EntityInfos.Add(new TEntityInfo { transform = entityGobj_transform ,infoInspector = infoInspector});
-//    }
-//    return EntityInfos;
+//    var pfGobj_transform = platformList.transform.GetChild(i);
+//    levelConfig.PlatformInfos.Add(new PlatformInfo { Name = pfGobj_transform.name });
 //}

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/Scripts/Data/Config/Json/RoleConfig.cs.meta
+guid: 1ef49b12ab8048943a5befcc9458152c
+=======
 guid: 0e9a03ecdd226344e90113589027b5b9
+>>>>>>> Stashed changes:Assets/Scripts/Data/InfoCollections.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

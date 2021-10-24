@@ -15,14 +15,11 @@ MonoBehaviour:
   levelID: 0
   levelName: 
   EnemyInfos:
-  - Position: {x: -2.16, y: -1.43, z: 0}
-    AssetID: 1
-    WeaponID: 1
-  - Position: {x: 2.23, y: -1.37, z: 0}
-    AssetID: 1
-    WeaponID: 1
-  - Position: {x: 3.71, y: 1.4, z: 0}
-    AssetID: 1
-    WeaponID: 1
+  - transform: {fileID: 0}
+    infoInspector: {fileID: 0}
+  - transform: {fileID: 0}
+    infoInspector: {fileID: 0}
+  - transform: {fileID: 0}
+    infoInspector: {fileID: 0}
   PlatformInfos: []
   CheckPointInfos: []
