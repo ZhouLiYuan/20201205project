@@ -14,7 +14,7 @@ public class PlayerInput
     public InputAction Interact;
     public InputAction ChangeWeaponLeft;
     public InputAction ChangeWeaponRight;
-
+    public InputAction Attack;
 
     /// <summary>
     /// 初始化 输入事件
@@ -39,6 +39,7 @@ public class PlayerInput
         Interact = AdventureMap.FindAction("Interact");
         ChangeWeaponLeft = AdventureMap.FindAction("ChangeWeaponLeft");
         ChangeWeaponRight = AdventureMap.FindAction("ChangeWeaponRight");
+        Attack = AdventureMap.FindAction("Attack");
         EnableInput();
     }
 
@@ -51,6 +52,7 @@ public class PlayerInput
         Interact.Enable();
         ChangeWeaponLeft.Enable();
         ChangeWeaponRight.Enable();
+        Attack.Enable();
         Debug.Log("激活所有按键");
     }
 
@@ -63,6 +65,7 @@ public class PlayerInput
         Interact.Disable();
         ChangeWeaponLeft.Disable();
         ChangeWeaponRight.Disable();
+        Attack.Disable();
         Debug.Log("禁用所有按键");
     }
 

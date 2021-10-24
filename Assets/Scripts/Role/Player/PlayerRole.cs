@@ -11,6 +11,7 @@ public class PlayerRole : RoleEntity
     //状态机分层
     private FSM hookFsm;
     private FSM generalFsm;
+    private FSM attackFsm;
 
 
     //重力
@@ -56,6 +57,8 @@ public class PlayerRole : RoleEntity
     public bool IsJumpTriggered { get; private set; }
     public bool IsChangeWeaponLeftPressed { get; private set; }
     public bool IsChangeWeaponRightPressed { get; private set; }
+    public bool IsAttackPressed { get; private set; }
+
 
     //逻辑trigger
     public bool canApplyGravity = true;
@@ -182,6 +185,10 @@ public class PlayerRole : RoleEntity
 
         playerInput.ChangeWeaponLeft.performed += context => IsChangeWeaponLeftPressed = true;
         playerInput.ChangeWeaponLeft.canceled += context => IsChangeWeaponLeftPressed = false;
+
+        playerInput.Attack.performed += context => IsAttackPressed = true;
+        //playerInput.Attack.started += context => IsAttackPressed = true;
+        playerInput.Attack.canceled += context => IsAttackPressed = false;
     }
 
     /// <summary>
@@ -189,6 +196,9 @@ public class PlayerRole : RoleEntity
     /// </summary>
     private void InitFSM()
     {
+        //每个FSM创建后都至少要有AddState<IdleState>().SetPlayerRole(this);
+        //以及记得关联OnUpdate()和OnFixUpdate()；
+
         hookFsm = new HookFSM();
         hookFsm.AddState<IdleState>().SetPlayerRole(this);
         hookFsm.AddState<LockState>().SetPlayerRole(this);
@@ -205,6 +215,12 @@ public class PlayerRole : RoleEntity
 
         generalFsm.AddState<DamagedState>().SetPlayerRole(this);
         generalFsm.AddState<InteractState>().SetPlayerRole(this);
+
+        attackFsm = new AttackFSM();
+        attackFsm.AddState<PreAttackState>().SetPlayerRole(this);
+        attackFsm.AddState<SwordAttackState>().SetPlayerRole(this);
+        attackFsm.AddState<PunchAttackState>().SetPlayerRole(this);
+        attackFsm.AddState<GunAttackState>().SetPlayerRole(this);
     }
 
     public void EquipWeapon(WeaponConfig weaponConfig)
@@ -217,6 +233,24 @@ public class PlayerRole : RoleEntity
     }
 
     //---------------------------------------<State相关方法>--------------------------------------------------
+
+    private void ApplyGravity(float fixedDeltaTime)
+    {
+        //Mathf.Max返回两个指定数字中较大
+        Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
+    }
+
+    public void TurnFace() 
+    {
+        Vector3 en_flip = Transform.localScale;
+        en_flip.x *= -1f;
+
+        if (inputAxis.x > 0 && Transform.localScale.x <0) Transform.localScale = en_flip;
+        else if (inputAxis.x < 0 && Transform.localScale.x > 0) Transform.localScale = en_flip;
+        else { }
+    }
+    
+
 
     public void OnEnterInteractArea(GameObject target)
     {
@@ -268,6 +302,11 @@ public class PlayerRole : RoleEntity
         GobjsInInteractArea.Remove(target);
     }
 
+    private void Collect()
+    {
+
+    }
+
     //和Player声明周期相关的 Player内部event
     public event Action<GameObject> OnShowLockTarget;
     public void LockTarget(GameObject target) { OnShowLockTarget?.Invoke(target); }
@@ -281,16 +320,6 @@ public class PlayerRole : RoleEntity
         HP -= (int)finalDamageValue;
     }
 
-    private void ApplyGravity(float fixedDeltaTime)
-    {
-        //Mathf.Max返回两个指定数字中较大
-        Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
-    }
-
-    private void Collect()
-    {
-
-    }
 
     public void changeWeapon() 
     {
@@ -322,6 +351,7 @@ public class PlayerRole : RoleEntity
         IsJumpTriggered = playerInput.Jump.triggered;
         generalFsm.Update(deltaTime);
         hookFsm.Update(deltaTime);
+        attackFsm.Update(deltaTime);
 
 
         if (isInInteractArea){nearestInteractableGobj = SceneObjManager.GetNearest(Transform.position, GobjsInInteractArea);}//实时计算距离最近对象
@@ -333,6 +363,7 @@ public class PlayerRole : RoleEntity
     {
         generalFsm.FixedUpdate(fixedDeltaTime);
         hookFsm.FixedUpdate(fixedDeltaTime);
+        attackFsm.FixedUpdate(fixedDeltaTime);
 
         if (canApplyGravity) ApplyGravity(fixedDeltaTime);
     }
