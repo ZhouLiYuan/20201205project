@@ -14,19 +14,20 @@ public class EnemyDamagedState : EnemyBaseState
         en_HitCollider = animator.transform.GetComponent<Collider2D>();
         Init();
 
-        Enemy.IsCurrentHitOver = false;
+        //Enemy.IsCurrentHitOver = false;
+        Enemy.GetDamage();
     }
 
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Enemy.GetDamage();
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) { animator.SetTrigger("Idle"); }   
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.ResetTrigger("Damaged");
-        Enemy.IsCurrentHitOver = true;
+        //Enemy.IsCurrentHitOver = true;
     }
 
 }

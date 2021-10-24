@@ -29,7 +29,7 @@ public class EnemyAttackState : EnemyBaseState
 
         //敌人发动攻击
         Attack();
-
+        Enemy.currentWeapon.collider2D.enabled = true;
         //animator.SetFloat("AttackRange", distanceToPlayer);
         if (distanceToPlayer > attackRange)   {animator.SetTrigger("Move"); }
       }
@@ -37,6 +37,7 @@ public class EnemyAttackState : EnemyBaseState
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-     animator.ResetTrigger("Move");
+     animator.ResetTrigger("Attack");
+     Enemy.currentWeapon.collider2D.enabled = false;
     }
 }
