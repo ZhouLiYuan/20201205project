@@ -5,39 +5,37 @@ using UnityEngine;
 public enum AtkType { normal, fired, poison, friendSide }
 
 //NPC攻击用的part 命名以Attacker_开头
-public class BaseWeapon
+public class BaseWeapon:Entity
 {
     public GameObject owner;
 
-    public GameObject weaponGobj;
-    public Transform transform;
+   
     public Collider2D collider2D;
     //public Rigidbody2D rg2d;
 
-    public int AssetID { get; private set; }
-    public string AssetName { get; private set; }
     public float AtkValue { get; private set; }
     public int AtkType { get; private set; }
 
 
-    internal void Init(GameObject obj)
+    public override void Init(GameObject obj)
     {
-        weaponGobj = obj;
-        transform = weaponGobj.transform;
+        base.Init(obj);
         collider2D = obj.AddComponent<PolygonCollider2D>();
+        collider2D.enabled = false;
         collider2D.isTrigger = true;
     }
 
-    public void InitProperties(WeaponConfig weaponConfig) 
+    public void InitProperties(WeaponConfig config) 
     {
-        AssetID = weaponConfig.AssetID;
-        AssetName = weaponConfig.AssetName;
- 
-        AtkValue = weaponConfig.Damage;
-        AtkType = weaponConfig.DamageType;
+        base.InitProperties(config);
 
-        //为了动画层级
-        weaponGobj.name = AssetName;
+
+
+        AtkValue = config.Damage;
+        AtkType = config.DamageType;
+
+        //为了动画层级(所以没有UniqueName)，不适合NameDic
+        GameObject.name = config.AssetName;
     }
 
 

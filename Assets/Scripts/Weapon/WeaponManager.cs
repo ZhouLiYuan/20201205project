@@ -15,35 +15,52 @@ public static class WeaponManager
 {
     //可以先通过weapon找到owner，再通过owner找到 Dictionary<Collider2D, BaseWeapon>
     public static Dictionary<Enemy, Dictionary<Collider2D, BaseWeapon>> en_weaponsDic = new Dictionary<Enemy, Dictionary<Collider2D, BaseWeapon>>();
-    
-    public static BaseWeapon SpawnEnemyWeapon(Enemy enemy,WeaponConfig weaponConfig)
+
+    private static GameObject SpawnWeaponGobj(RoleEntity role, string AssetName) 
     {
-        BaseWeapon weapon = new BaseWeapon();/*{ AtkType = (AtkType)weaponConfig.Type, AtkValue = weaponConfig.Damage };*/
+        //脚本中Transform是world的而不是local的
+        //由于transform会按照世界坐标自动偏移抵消父级的移动量所以需要再加回来
+        var equipPoint = new Vector3((float)0.2, (float)-0.25, 0) + role.Transform.position;//double=>float
 
         //暂时把武器装备点写死
         //3d向量转化为欧拉角
-        var rotationVector3 = new Vector3(0, 0, 270);
-        var rotation = Quaternion.Euler(rotationVector3);
-        //double=>float
-        //这里的Transform是world的而不是local的
-        //由于transform会按照世界坐标自动偏移抵消父级的移动量所以需要再加回来
-        var equipPoint = new Vector3((float)0.2, (float)-0.25, 0) + enemy.Transform.position;
-        Transform parentTransform = enemy.Find<Transform>("animator_top");
+        var rotation = Quaternion.Euler(new Vector3(0, 0, 270));
+
+        Transform parentTransform = role.Find<Transform>("animator_top");
+
+        var Prefab = ResourcesLoader.LoadWeaponPrefab(AssetName);
+         var weaponGobj = UnityEngine.Object.Instantiate(Prefab, equipPoint, rotation, parentTransform);
+        return weaponGobj;
+    }
+
+    private static BaseWeapon SpawnWeapon(RoleEntity role, WeaponConfig weaponConfig)
+    {
+        BaseWeapon weapon = new BaseWeapon();/*{ AtkType = (AtkType)weaponConfig.Type, AtkValue = weaponConfig.Damage };*/
 
         //有则动态赋值，无则生成后动态赋值
-        var weaponGobj = enemy.Find<Transform>("animator_top").Find($"{weaponConfig.AssetName}").gameObject;
-        if (!weaponGobj) 
-        {
-            var Prefab = ResourcesLoader.LoadWeaponPrefab(weaponConfig.AssetName);
-            weaponGobj = UnityEngine.Object.Instantiate(Prefab, equipPoint, rotation, parentTransform);
-        }
-
-        weaponGobj.transform.tag = TagManager.Enemy;
+        var weaponGobj = role.Find<Transform>("animator_top").Find($"{weaponConfig.AssetName}").gameObject;
+        if (!weaponGobj)
+        {weaponGobj = SpawnWeaponGobj(role, weaponConfig.AssetName);}
+        //weaponGobj.layer = 1 << LayerMask.NameToLayer(LayerManager.Attacker);
         weapon.Init(weaponGobj);
         weapon.InitProperties(weaponConfig);
-        weapon.SetOwner(enemy.GameObject);
-        enemy.availableWeapons[weapon.collider2D] = weapon;
+        weapon.SetOwner(role.GameObject);
+        return weapon;
+    }
+
+    public static BaseWeapon SpawnEnemyWeapon(Enemy enemy,WeaponConfig weaponConfig)
+    {
+        BaseWeapon weapon = SpawnWeapon(enemy, weaponConfig);
+        weapon.Transform.tag = TagManager.Enemy;
         //避免重复添加相同的key(并不是为了获得value)
+        if (enemy.availableWeapons.TryGetValue(weapon.collider2D, out var baseweapon)) { }
+        else
+        {
+            //enemy.availableWeapons[weapon.collider2D] = weapon;
+            enemy.availableWeapons.Add(weapon.collider2D, weapon);
+        }
+
+      
         if (en_weaponsDic.TryGetValue(enemy, out var weapons)){ return weapon;}
         else 
         {
@@ -51,37 +68,51 @@ public static class WeaponManager
             return weapon;
         }
     }
-        //private static List<GameObject> attackerGobjs = new List<GameObject>();
-        //private static List<BaseWeapon> attackers = new List<BaseWeapon>();
 
-        //private static int GobjIndex;
+    public static BaseWeapon SpawnPlayerWeapon(PlayerRole role, WeaponConfig weaponConfig)
+    {
+        BaseWeapon newWeapon = SpawnWeapon(role, weaponConfig);
+        newWeapon.Transform.tag = TagManager.Player;
+        //避免重复添加相同元素
+        foreach (var weapon in role.availableWeapons)
+        {
+            if (weapon.AssetName == newWeapon.AssetName) return weapon;
+        }
+        role.availableWeapons.Add(newWeapon);
+        return newWeapon;
+    }
 
-        //private static Type StringToType(GameObject attacker)
-        //{
-        //    string typeName = attacker.name.Substring(8);
-        //    var AttackerType = Type.GetType(typeName);
-        //    return AttackerType;
-        //}
+    //private static List<GameObject> attackerGobjs = new List<GameObject>();
+    //private static List<BaseWeapon> attackers = new List<BaseWeapon>();
 
-        //public static void AddAttackers() 
-        //{
-        //    if (attackers.Count == 0) return;
+    //private static int GobjIndex;
 
-        //    for (GobjIndex = 0;GobjIndex < attackers.Count; GobjIndex++)
-        //    {
-        //        var AttackeType = StringToType(attackerGobjs[GobjIndex]);
+    //private static Type StringToType(GameObject attacker)
+    //{
+    //    string typeName = attacker.name.Substring(8);
+    //    var AttackerType = Type.GetType(typeName);
+    //    return AttackerType;
+    //}
 
-        //        //或者到这里采用一个switch语句的形式？
-        //        var attackerInstance = AttackeType.GetMethod("InitAttackerScript").MakeGenericMethod(new Type[] {AttackeType});
-        //        //attackers.Add(attackerInstance);
-        //    }
-        //}
+    //public static void AddAttackers() 
+    //{
+    //    if (attackers.Count == 0) return;
 
-        //public static TAttacker InitWeapon<TAttacker>() where TAttacker : BaseWeapon, new()
-        //{
-        //    TAttacker attacker = new TAttacker();
-        //    attacker.Init(attackerGobjs[GobjIndex]);
-        //    return attacker;
-        //}
+    //    for (GobjIndex = 0;GobjIndex < attackers.Count; GobjIndex++)
+    //    {
+    //        var AttackeType = StringToType(attackerGobjs[GobjIndex]);
+
+    //        //或者到这里采用一个switch语句的形式？
+    //        var attackerInstance = AttackeType.GetMethod("InitAttackerScript").MakeGenericMethod(new Type[] {AttackeType});
+    //        //attackers.Add(attackerInstance);
+    //    }
+    //}
+
+    //public static TAttacker InitWeapon<TAttacker>() where TAttacker : BaseWeapon, new()
+    //{
+    //    TAttacker attacker = new TAttacker();
+    //    attacker.Init(attackerGobjs[GobjIndex]);
+    //    return attacker;
+    //}
 }
 

@@ -37,6 +37,14 @@ public static class PlayerManager
 
         // 设置受击框collider
         pl_HitCollider = m_gobj.GetComponent<BoxCollider2D>();
+
+        var firstWeaponConfig = ResourcesLoader.LoadWeaponConfigByID(1);//临时用
+        var secondWeaponConfig = ResourcesLoader.LoadWeaponConfigByID(2);
+        var thridWeaponConfig = ResourcesLoader.LoadWeaponConfigByID(3);
+        m_Role.EquipWeapon(firstWeaponConfig);
+        m_Role.EquipWeapon(secondWeaponConfig);
+        m_Role.EquipWeapon(thridWeaponConfig);
+
         return m_Role;
     }
 
