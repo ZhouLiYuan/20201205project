@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 
 
 
-public class PreAttackState : PlayerRoleState
+public class PreSubActionState : PlayerRoleState
 {
     public override void OnEnter()
     {
@@ -19,9 +19,10 @@ public class PreAttackState : PlayerRoleState
         //var animInfo = Role.animator.GetCurrentAnimatorStateInfo(0);//Damaged动画所在层
         //if ( (animInfo.IsName("Damaged")) && (animInfo.normalizedTime < 1.0f)) return;//0 – 1, 0开始，1结束（如果当前还在播Damaged动画，就无法进行攻击）
 
-
+        if (Role.IsLockPressed) ChangeState<LockState>();
         if (Role.IsAttackPressed)
         {
+
             switch (Role.currentWeapon.AssetID)
             {
                 case 1:
