@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sirenix.Serialization;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,7 +68,7 @@ public static class ResourcesLoader
         if (enemyConfigs == null)
         {
             var json = AssetModule.LoadAsset<TextAsset>($"Config/EnemyConfig.json").text;
-             enemyConfigs = Newtonsoft.Json.JsonConvert.DeserializeObject<EnemyConfig[]>(json);
+            enemyConfigs = Newtonsoft.Json.JsonConvert.DeserializeObject<EnemyConfig[]>(json);
         }
         for (int i = 0; i < enemyConfigs.Length; i++)
         {
@@ -103,7 +104,7 @@ public static class ResourcesLoader
         }
         for (int i = 0; i < weaponConfigs.Length; i++)
         {
-            if (weaponConfigs[i].AssetName== name) return weaponConfigs[i];
+            if (weaponConfigs[i].AssetName == name) return weaponConfigs[i];
         }
         return null;
     }
@@ -135,8 +136,12 @@ public static class ResourcesLoader
     //用scriptable asset配置
     public static LevelConfig LoadLevelConfig(int level)
     {
-        //project中的scriptable asset其实就是 LevelConfig(继承自scriptable类型) 的实例了
-        return AssetModule.LoadAsset<LevelConfig>($"Level/{level}.asset");
+        ////project中的scriptable asset其实就是 LevelConfig(继承自scriptable类型) 的实例了
+        //return AssetModule.LoadAsset<LevelConfig>($"Level/{level}.asset");
+        //var file = AssetModule.LoadAsset<TextAsset>($"Level/{level}.txt").bytes;
+        var file = System.IO.File.ReadAllBytes($"{Application.dataPath}/AssetBundles_sai/Level/{level}.txt");
+        var data = Sirenix.Serialization.SerializationUtility.DeserializeValue<LevelConfig>(file, DataFormat.JSON);
+        return data;
     }
 
 

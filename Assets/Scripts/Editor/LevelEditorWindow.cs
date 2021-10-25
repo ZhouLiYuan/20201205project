@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
+using Sirenix.Serialization;
 
 //System.IO提供基本文件和目录支持
 
@@ -65,8 +66,13 @@ public class LevelEditorWindow : EditorWindow
         levelConfig.EnemyInfos = GetEntityIInfosList<EnemyInfo, EnemyInfoInspector>();
         //levelConfig.PlatformInfos = GetEntityIInfosList<PlatformInfo, InfoInspector>();
 
-        CreateAsset(levelConfig, levelID);
+        //CreateAsset(levelConfig, levelID);
 
+        var levelAssetPath = $"Assets/AssetBundles_sai/Level/{levelID}.txt";
+        Directory.CreateDirectory(Directory.GetParent(levelAssetPath).ToString());
+        levelConfig.b = GameObject.Find("Main Camera");
+        var data = Sirenix.Serialization.SerializationUtility.SerializeValue(levelConfig, DataFormat.JSON);
+        File.WriteAllBytes(levelAssetPath, data);
     }
 
     ///// <summary>

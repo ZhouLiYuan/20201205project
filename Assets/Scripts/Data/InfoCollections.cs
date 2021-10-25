@@ -7,6 +7,7 @@ public class InfoCollections
 }
 
 
+[Serializable]
 //Transform继承自Component，Component自带gameObject字段
 //而GameObject本身拥有transform字段
 //component和GameObject继承自Object

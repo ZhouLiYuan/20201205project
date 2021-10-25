@@ -1,0 +1,74 @@
+{
+    "$id": 0,
+    "$type": "0|LevelConfig, Assembly-CSharp",
+    "a": null,
+    "b": {
+        "$id": 1,
+        "$type": "1|UnityEngine.GameObject, UnityEngine.CoreModule"
+    },
+    "levelID": 0,
+    "levelName": "",
+    "EnemyInfos": {
+        "$id": 2,
+        "$type": "2|System.Collections.Generic.List`1[[EnemyInfo, Assembly-CSharp]], mscorlib",
+        "$rlength": 3,
+        "$rcontent": [
+            {
+                "$id": 3,
+                "$type": "3|EnemyInfo, Assembly-CSharp",
+                "transform": {
+                    "$id": 4,
+                    "$type": "4|UnityEngine.Transform, UnityEngine.CoreModule"
+                },
+                "infoInspector": {
+                    "$id": 5,
+                    "$type": "5|EnemyInfoInspector, Assembly-CSharp",
+                    "AssetID": 1,
+                    "WeaponID": 1
+                }
+            },
+            {
+                "$id": 6,
+                "$type": 3,
+                "transform": {
+                    "$id": 7,
+                    "$type": 4
+                },
+                "infoInspector": {
+                    "$id": 8,
+                    "$type": 5,
+                    "AssetID": 1,
+                    "WeaponID": 1
+                }
+            },
+            {
+                "$id": 9,
+                "$type": 3,
+                "transform": {
+                    "$id": 10,
+                    "$type": 4
+                },
+                "infoInspector": {
+                    "$id": 11,
+                    "$type": 5,
+                    "AssetID": 1,
+                    "WeaponID": 1
+                }
+            }
+        ]
+    },
+    "PlatformInfos": {
+        "$id": 12,
+        "$type": "6|System.Collections.Generic.List`1[[PlatformInfo, Assembly-CSharp]], mscorlib",
+        "$rlength": 0,
+        "$rcontent": [
+        ]
+    },
+    "CheckPointInfos": {
+        "$id": 13,
+        "$type": "7|System.Collections.Generic.List`1[[CheckPointInfo, Assembly-CSharp]], mscorlib",
+        "$rlength": 0,
+        "$rcontent": [
+        ]
+    }
+}
