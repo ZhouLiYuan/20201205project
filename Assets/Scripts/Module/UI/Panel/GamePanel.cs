@@ -8,7 +8,7 @@ using UnityEngine;
 public class GamePanel : BasePanel
 {
     
-    private GameObject lockUI;
+    //private GameObject lockUI;
 
     public GameObject playerHealthBarGobj;
     public GameObject bossHealthBarGobj;
@@ -28,8 +28,8 @@ public class GamePanel : BasePanel
     private void Init() 
     {
         //好像是因为下面的命令是在LockUI Gobj生成前就调用到了(调试结果发现lockUI始终是null没有被赋值，并且调试程序没有继续执行)
-        lockUI = Find<GameObject>("LockUI");
-        lockUI.SetActive(false);
+        //lockUI = Find<GameObject>("LockUI");
+        //lockUI.SetActive(false);
 
         playerHealthBarGobj = Find<GameObject>("PlayerHealthBar");
         playerHealthBarGobj.SetActive(true);
@@ -55,13 +55,5 @@ public class GamePanel : BasePanel
     }
 
 
-    /// <summary>
-    /// 将目标位置转换成UICamera中的位置 并设置 激活LockUI的position为目标位置
-    /// </summary>
-    /// <param name="target"></param>
-    public void SetLockHint(GameObject target)
-    {
-        UIManager.SetInteractUIPosition(target, lockUI);
-    }
 
 }

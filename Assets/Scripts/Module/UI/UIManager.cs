@@ -12,7 +12,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public static class UIManager
 {
     //根据角色不同的交互状态显示不同UI 比如 任务-惊叹号 普通状态-向下箭头
-    public static string hintUIName => "Arrow";
+    public static string HintUIName => "Arrow";
+    public static string LockUIName => "LockUI";
 
     public static Transform CanvasTransform { get; private set; }
     //public static Transform LocalcanvasTransform;

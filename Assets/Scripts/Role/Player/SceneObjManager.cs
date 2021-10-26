@@ -15,7 +15,7 @@ public class SceneObjManager
 
     public static void InitInteractableEntities(IEnumerable<GameObject> objs)
     {
-        HookableEntities.AddRange(objs);
+        InteractableEntities.AddRange(objs);
     }
 
     /// <summary>

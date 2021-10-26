@@ -25,4 +25,7 @@ public class LayerManager
     public static string Player => "Player";
     public static string Enemy => "Enemy";
     public static string Attacker => "Attacker";
+    public static string Hook=> "Hook";
+    public static string Platform => "Platform";
+
 }
