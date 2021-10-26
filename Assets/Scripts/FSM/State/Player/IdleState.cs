@@ -15,7 +15,6 @@ public class IdleState : PlayerRoleState
         if (Role.IsJumpPressed && Role.GroundDetect.IsGrounded) ChangeState<JumpState>();
         if (Role.canMoveHorizontal && Mathf.Abs(InputAxis.x) > 0.1f) ChangeState<MoveState>();
         if(Role.IsInteractPressed && Role.isInInteractArea) ChangeState<InteractState>();
-        if (Role.IsLockPressed) ChangeState<LockState>();//考虑要不要像PreAttack一样完全分出来
     }
     public override void OnExit()
     {

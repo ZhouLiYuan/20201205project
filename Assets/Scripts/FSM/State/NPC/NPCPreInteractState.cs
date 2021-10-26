@@ -10,7 +10,7 @@ public class NPCPreInteractState : NPCState<NPC>
     public override void OnEnter()
     {
         base.OnEnter();
-        guider = UIManager.SpawnGuiderUI(UIManager.hintUIName, NPCRole.Transform);
+        guider = UIManager.SpawnGuiderUI(UIManager.HintUIName, NPCRole.Transform);
     }
 
     public override void OnUpdate(float deltaTime)
