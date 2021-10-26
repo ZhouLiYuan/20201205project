@@ -39,39 +39,15 @@ public class GameMode1Controller : GameController
 
         //打开GamePanel
         gamePanel = UIManager.Open<GamePanel>();
-     
-
-        ////初始化伤害系统
-        //m_damageSystem = new DamageSystem();
-        //m_damageSystem.Init();
 
         //需要在mono Update()中处理的，加多下面的操作
         m_updater.AddUpdateFunction(DamageSystem.OnUpdate);
-
-
-        //耦合Lock UI逻辑和 PlayerRole功能
-        m_role.OnShowLockTarget += gamePanel.SetLockHint;
-
-
-
-  
-
-        // 初始化对话系统
-        //m_dialogueSystem = new DialogueSystem();
-        //m_dialogueSystem.Init();
-        //m_updater.AddUpdateFunction(m_dialogueSystem.OnUpdate);
-
-        //interactableManager = new InteractableManager();
-        //interactableManager.Init();
 
     }
 
     public override void ExitGame()
     {
-        m_role.OnShowLockTarget -= gamePanel.SetLockHint;
         m_updater.RemoveUpdateFunction(m_dialogueSystem.OnUpdate);
     }
-
-
 
 }
