@@ -72,7 +72,7 @@ public class DamageReceiver : MonoBehaviour
             }
             else { return; }
             
-            Debug.Log($"受击方{ownerGobj.name} 所在图层{LayerMask.LayerToName(ownerLayer)}  攻击碰撞体{collision.gameObject.name} 攻击方{attackerGobj.name}所在图层{LayerMask.LayerToName(attackerLayer)}");
+            //Debug.Log($"受击方{ownerGobj.name} 所在图层{LayerMask.LayerToName(ownerLayer)}  攻击碰撞体{collision.gameObject.name} 攻击方{attackerGobj.name}所在图层{LayerMask.LayerToName(attackerLayer)}");
           
         }
     }

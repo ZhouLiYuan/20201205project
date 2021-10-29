@@ -25,7 +25,7 @@ public class LevelManager
 
         //要有System.Linq命名空间才能使用Where关键字
         //获取场景中所有名字带有Hookable的Gobj
-        SceneObjManager.InitHookableEntities(Object.FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("Hookable")));
+        SceneObjManager.InitHookableEntities(Object.FindObjectsOfType<GameObject>().Where(obj => obj.tag.Contains("Hookable")));
         //获取场景中所有Layer为Interact的Gobj
         SceneObjManager.InitInteractableEntities(Object.FindObjectsOfType<GameObject>().Where(obj => obj.layer == LayerMask.NameToLayer("Interact")));
     }

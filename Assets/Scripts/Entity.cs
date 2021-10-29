@@ -23,6 +23,7 @@ public class Entity
     //---------------------<初始化方式二选一>-----------------------
     internal Entity(GameObject obj) 
     {
+        MakeZAxisZero(obj);
         GameObject = obj;
         Transform = obj.transform;
     }
@@ -31,6 +32,7 @@ public class Entity
     internal Entity() { }
     public virtual void Init(GameObject obj)
     {
+        MakeZAxisZero(obj);
         GameObject = obj;
         Transform = obj.transform;
     }
@@ -62,5 +64,12 @@ public class Entity
         if (typeof(T) == typeof(Transform)) return t as T;
         if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
         return t.GetComponent<T>();
+    }
+
+    private static void MakeZAxisZero(GameObject obj)
+    {
+        Vector3 posWithoutZ = obj.transform.position;
+        posWithoutZ.z *= 0f;
+        obj.transform.position = posWithoutZ;
     }
 }

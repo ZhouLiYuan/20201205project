@@ -66,7 +66,7 @@ public class EnemyBaseState : StateMachineBehaviour
     //敌人与角色关系
     protected float distanceToPlayer;
 
-
+    protected string triggerName;
 
     protected void Init()
     {
@@ -76,21 +76,21 @@ public class EnemyBaseState : StateMachineBehaviour
         player = Enemy.role;
         playerTransform = Enemy.pl_Transform;
 
-
-
         en_TopNodeGobj = Enemy.GameObject;
         en_TopNodeTransform = Enemy.Transform;
         en_rb2d = Enemy.rg2d;
 
         en_GroundDetect = Enemy.GroundDetect;
 
-
+        var fullName = GetType().Name;
+        var startIndex = fullName.IndexOf("y");
+        var endIndex = fullName.LastIndexOf("S");
+        triggerName = fullName.Substring(startIndex + 1, endIndex - 5);
 
         //配置表属性
         en_speed = Enemy.speed;
         attackRange = Enemy.attackRange;
         chaseRange = Enemy.chaseRange;
-
     }
 
 
