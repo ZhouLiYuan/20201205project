@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 152983049121194156}
   - component: {fileID: 8144701909840451248}
   - component: {fileID: 2718219609555126609}
-  m_Layer: 0
+  - component: {fileID: 7658548440328653214}
+  m_Layer: 13
   m_Name: hook
   m_TagString: Attacker
   m_Icon: {fileID: 0}
@@ -89,7 +90,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158287099367113569}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d64064a56237f2649a088b177b71860c, type: 3}
   m_Name: 
@@ -101,6 +102,22 @@ MonoBehaviour:
   distanceThreshold: 0.8
   finalJumpDistance: 1.5
   finalJumpUp: 5
+--- !u!58 &7658548440328653214
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158287099367113569}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1002361864545342752
 GameObject:
   m_ObjectHideFlags: 0

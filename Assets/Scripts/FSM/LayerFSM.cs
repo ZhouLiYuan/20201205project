@@ -29,6 +29,7 @@ public class SubFSM : FSM
             case "PreSubActionState":
             case "LockState":
             case "MoveToTargetState":
+            case "HookToTargetState":
             case "GetTargetState":
             case "PunchAttackState":
             case "SwordAttackState":

@@ -5,43 +5,41 @@ using UnityEngine;
 /// <summary>
 /// 和钩锁相关的状态
 /// </summary>
-public class MoveToTargetState : PlayerRoleState
+public class MoveToTargetState : HookBaseState
 {
-    private GameObject m_target;
-
-    public void SetTarget(GameObject target) {m_target = target; }
-
-
-    //需要序列化的变量
-    private float hookSpeed = 10f;
-    //触发最后向上速度 的 距离平台距离
-    private float minDistance = 2f;
-    //最后便于着陆的上升速度
-    private float finalJumpSpeed = 4f;
+    private float hookSpeed;
+    private float FinalJumpSpeed => Role.finalJumpSpeed;
 
     //禁用重力 和 输入对左右移动的控制
     public override void OnEnter()
     {
         base.OnEnter();
+       
         Role.canApplyGravity = false;
         Role.canMoveHorizontal = false;
+        hookSpeed = Role.hookSpeed;
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        Vector3 direction = m_target.transform.position - role_Gobj.transform.position;
-        if (direction.sqrMagnitude > minDistance * minDistance)  {Velocity = direction.normalized * hookSpeed; }
+        base.OnUpdate(deltaTime);
+        HookGobj.transform.position = TargetPos;
+        AnimDeltaTime += deltaTime;
+        if (AnimDeltaTime > 1f) {ChangeState<PreSubActionState>();}//致空飞行时长不能超过1s
+
+        hookSpeed = Mathf.Lerp(hookSpeed, hookSpeed * 0.75f, deltaTime);//每次减速
+        Vector2 direction = TargetPos - role_Gobj.transform.position;
+        if (direction.sqrMagnitude > MinDistance * MinDistance)  {Velocity = direction.normalized * hookSpeed; }
         else
         {
-            Velocity = new Vector2(Velocity.x, finalJumpSpeed);
-
-            //最后指定下一个状态
-            ChangeState<IdleState>();
+            Velocity = new Vector2(Velocity.x, FinalJumpSpeed);
+            ChangeState<PreSubActionState>();
         }
     }
 
     public override void OnExit()
     {
+        base.OnExit();
         Role.canApplyGravity = true;
         Role.canMoveHorizontal = true;
     }

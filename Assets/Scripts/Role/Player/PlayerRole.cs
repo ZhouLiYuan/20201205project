@@ -9,9 +9,8 @@ public class PlayerRole : RoleEntity
     private Updater updater;
 
     //状态机分层
-    private FSM hookFsm;
     private FSM generalFsm;
-    private FSM attackFsm;
+    private FSM subFsm;
 
 
     //重力
@@ -42,8 +41,6 @@ public class PlayerRole : RoleEntity
         set { rg2d.velocity = value; }
     } //刚体速度
 
-
-
     public GroundDetect GroundDetect { get; private set; } //地面检测
     public Collider2D HitCollider; // 受击框
 
@@ -51,13 +48,25 @@ public class PlayerRole : RoleEntity
     public PlayerInput playerInput;
     public Vector2 inputAxis;
     public bool IsLockPressed { get; private set; }
-    public bool IsHookPressed { get; private set; }
+    public bool IsHookPressed { get; private set; }//按下
+    public bool IsHookPressing { get; private set; }//按住
     public bool IsInteractPressed { get; private set; }
     public bool IsJumpPressed { get; private set; }
     public bool IsJumpTriggered { get; private set; }
     public bool IsChangeWeaponLeftPressed { get; private set; }
     public bool IsChangeWeaponRightPressed { get; private set; }
     public bool IsAttackPressed { get; private set; }
+
+    //锁定相关
+    public GameObject lockTarget = null;
+    public Transform TargetTransform => lockTarget.transform;
+    //Hook相关
+    public Vector3 hookLocaloffsetPosSlash;
+    public GameObject hookGobj;
+    public float grapSpeed = 15f;//抓取敌人的速度
+    public float hookSpeed = 15f;
+    public float minDistance = 0.5f;    //触发最后向上速度 的 距离平台距离
+    public float finalJumpSpeed = 6f;    //最后便于着陆的上升速度
 
 
     //逻辑trigger
@@ -124,7 +133,10 @@ public class PlayerRole : RoleEntity
         rg2dtest = animator.transform.GetComponent<Rigidbody2D>();
 
 
-        //Transform = roleGobj.GetComponent<Transform>();
+        hookGobj =Find<GameObject>("hook");
+        hookLocaloffsetPosSlash = new Vector3(-0.1f,-0.2f,0f);
+
+        animatorTransform = animator.transform;
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
 
         //updater相关  
@@ -173,8 +185,12 @@ public class PlayerRole : RoleEntity
         playerInput.Lock.started += context => IsLockPressed = true;
         playerInput.Lock.canceled += context => IsLockPressed = false;
 
-        playerInput.Hook.started += context => IsHookPressed = true;
-        playerInput.Hook.canceled += context => IsHookPressed = false;
+        playerInput.Hook.performed += context => IsHookPressed = true;
+        playerInput.Hook.started += context => IsHookPressing = true;
+        playerInput.Hook.canceled += context => {
+            IsHookPressed = false;
+            IsHookPressing = false;
+        }; 
 
         playerInput.Interact.performed += context => IsInteractPressed = true;
         //playerInput.Interact.started += context => IsInteractPressed = true;
@@ -196,19 +212,11 @@ public class PlayerRole : RoleEntity
     /// </summary>
     private void InitFSM()
     {
-        //每个FSM创建后都至少要有AddState<IdleState>().SetPlayerRole(this);
-        //以及记得关联OnUpdate()和OnFixUpdate()；
-
-        hookFsm = new HookFSM();
-        hookFsm.AddState<IdleState>().SetPlayerRole(this);
-        hookFsm.AddState<LockState>().SetPlayerRole(this);
-        hookFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
-
-        //临时工，待删
-        hookFsm.AddState<InteractState>().SetPlayerRole(this);
+        //每个FSM创建后记得关联OnUpdate()和OnFixUpdate()；
 
         //分不同的FSM其实就是分层处理
         generalFsm = new GeneralFSM();
+        
         generalFsm.AddState<IdleState>().SetPlayerRole(this);
         generalFsm.AddState<MoveState>().SetPlayerRole(this);
         generalFsm.AddState<JumpState>().SetPlayerRole(this);
@@ -216,11 +224,18 @@ public class PlayerRole : RoleEntity
         generalFsm.AddState<DamagedState>().SetPlayerRole(this);
         generalFsm.AddState<InteractState>().SetPlayerRole(this);
 
-        attackFsm = new AttackFSM();
-        attackFsm.AddState<PreAttackState>().SetPlayerRole(this);
-        attackFsm.AddState<SwordAttackState>().SetPlayerRole(this);
-        attackFsm.AddState<PunchAttackState>().SetPlayerRole(this);
-        attackFsm.AddState<GunAttackState>().SetPlayerRole(this);
+        subFsm = new SubFSM();
+        subFsm.AddState<PreSubActionState>().SetPlayerRole(this);
+
+        subFsm.AddState<LockState>().SetPlayerRole(this);
+        subFsm.AddState<HookToTargetState>().SetPlayerRole(this);
+        subFsm.AddState<MoveToTargetState>().SetPlayerRole(this);
+        subFsm.AddState<GetTargetState>().SetPlayerRole(this);
+
+        subFsm.AddState<SwordAttackState>().SetPlayerRole(this);
+        subFsm.AddState<PunchAttackState>().SetPlayerRole(this);
+        subFsm.AddState<GunAttackState>().SetPlayerRole(this);
+        
     }
 
     public void EquipWeapon(WeaponConfig weaponConfig)
@@ -307,18 +322,28 @@ public class PlayerRole : RoleEntity
 
     }
 
-    //和Player声明周期相关的 Player内部event
-    public event Action<GameObject> OnShowLockTarget;
-    public void LockTarget(GameObject target) { OnShowLockTarget?.Invoke(target); }
-
     public event Func<DamageData> OnAttacked;
     public void GetDamage()
     {
         var data = OnAttacked?.Invoke();
+        if (data == null) return;
         data.defValue = defValue;
         float finalDamageValue = DamageSystem.CalculateDamage(data);
         HP -= (int)finalDamageValue;
     }
+
+    //可以理解为和一切初始化相反的方法
+    //public void Die()
+    //{
+        
+    //    updater.RemoveUpdateFunction(OnUpdate);
+    //    updater.RemoveFixedUpdateFunction(OnFixedUpdate);
+
+    //    //UnityEngine.Object.DestroyImmediate()
+    //    UnityEngine.Object.Destroy(this.GameObject);
+    //    PlayerManager.m_Role = null;//其余等C#自带GC回收？
+    //}
+
 
 
     public void changeWeapon() 
@@ -350,8 +375,7 @@ public class PlayerRole : RoleEntity
 
         IsJumpTriggered = playerInput.Jump.triggered;
         generalFsm.Update(deltaTime);
-        hookFsm.Update(deltaTime);
-        attackFsm.Update(deltaTime);
+        subFsm.Update(deltaTime);
 
 
         if (isInInteractArea){nearestInteractableGobj = SceneObjManager.GetNearest(Transform.position, GobjsInInteractArea);}//实时计算距离最近对象
@@ -362,8 +386,8 @@ public class PlayerRole : RoleEntity
     private void OnFixedUpdate(float fixedDeltaTime)
     {
         generalFsm.FixedUpdate(fixedDeltaTime);
-        hookFsm.FixedUpdate(fixedDeltaTime);
-        attackFsm.FixedUpdate(fixedDeltaTime);
+     
+        subFsm.FixedUpdate(fixedDeltaTime);
 
         if (canApplyGravity) ApplyGravity(fixedDeltaTime);
     }

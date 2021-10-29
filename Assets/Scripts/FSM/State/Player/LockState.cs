@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class LockState : PlayerRoleState
 {
+    private GameObject lockUI;
+
+
     public override void OnEnter()
     {
         base.OnEnter();
+        lockUI = UIManager.SpawnGuiderUI(UIManager.LockUIName, UIManager.CanvasTransform.Find("GamePanel"));
+
+        //传入玩家角色position
+        Role.lockTarget = SceneObjManager.GetNearest(role_Gobj.transform.position, SceneObjManager.HookableEntities);//中间可能还要加个障碍检测(改成引力设定就不用)
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        //没有按下锁定键，就返回Idle状态
-        if (!Role.IsLockPressed) ChangeState<IdleState>();
-        //传入玩家角色position
-        var target_Gobj = SceneObjManager.GetNearest(role_Gobj.transform.position,SceneObjManager.HookableEntities);
-        Role.LockTarget(target_Gobj);
+        UIManager.SetInteractUIPosition(Role.lockTarget, lockUI);
+
+        //没有按下锁定键，就返回初始状态
+        if (!Role.IsLockPressed) ChangeState<PreSubActionState>();
+        if (Role.IsHookPressed){ChangeState<HookToTargetState>();}
+    }
+    public override void OnExit()
+    {
+        //Role.IsHookPressed = false;
+        UIManager.DestoryGuiderUI(lockUI);
     }
 }
 

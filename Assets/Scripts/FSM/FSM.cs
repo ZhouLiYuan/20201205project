@@ -122,7 +122,7 @@ public class FSM
     //查找不确定数据的时候应该用TryGetValue（且性能更好比ContainKey少调用一次FindEntry）
     public State ChangeState(string stateName)
     {
-        Debug.Log($"当前FSM为{this}");
+        //Debug.Log($"当前FSM为{this}");
         State state = null;
         if (States.TryGetValue(stateName, out var nextState)) state = ChangeState(nextState);
         else {Debug.LogError($"FSM的字典中没有{stateName}状态");}

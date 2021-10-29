@@ -18,7 +18,7 @@ public class EnemyGrabbedState : EnemyBaseState
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!PlayerManager.m_Role.IsHookPressed && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f) { animator.SetTrigger("Idle"); }//被抓硬直是动画播放时长
+        if (!PlayerManager.m_Role.IsHookPressing && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f) { animator.SetTrigger("Idle"); }//被抓硬直是动画播放时长
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

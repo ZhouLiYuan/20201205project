@@ -62,17 +62,14 @@ public class PlayerRoleState : State
         animClipName = triggerName;
         //在每个状态出入的时候可以  Animator.SetTrigger($"{triggerName}");
         //使用前提是Trigger名必须和状态名相同
-
-
-
     }
 
     public override void OnEnter()
     {
         AnimDeltaTime = 0f;
         animLayer = 0;//默认情况
-        if (animClipName.Contains("Lock") || animClipName.Contains("MoveToTargetState")) animLayer = 1;
-        if (animClipName.Contains("Attack")) animLayer = 2;
+        if (animClipName.Contains("Lock") || animClipName.Contains("Target") || animClipName.Contains("Attack") || animClipName.Contains("PreSubAction")) animLayer = 1;
+
         Animator.Play($"{animClipName}", animLayer);//弊端!!!!!动画之间没有过度
         //Animator.SetTrigger($"{triggerName}");
 
@@ -81,13 +78,13 @@ public class PlayerRoleState : State
         
         //找到当前Clip （runtimeAnimatorController.animationClips似乎是不分层都可以拿到的）
         foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips) { if (clip.name == animClipName) currentAnim = clip; }
-        Debug.Log($"{animClipName}动画已播放{animInfo.normalizedTime.ToString("p")}  {animInfo.IsName(currentAnim.name)}");
+        //Debug.Log($"{animClipName}动画已播放{animInfo.normalizedTime.ToString("p")}  {animInfo.IsName(currentAnim.name)}");
 
-        var animationClipInfos = Animator.GetCurrentAnimatorClipInfo(animLayer);
-        currentAnimFrame = (int)(animationClipInfos[0].weight * (currentAnim.length * currentAnim.frameRate));//连按攻击键时会报错。。。
-        // 代码来源https://forum.unity.com/threads/getting-the-current-frame-of-an-animation-clip.376561/
+        //var animationClipInfos = Animator.GetCurrentAnimatorClipInfo(animLayer);
+        //if(animationClipInfos.Length !=0) currentAnimFrame = (int)(animationClipInfos[0].weight * (currentAnim.length * currentAnim.frameRate));//连按攻击键时会报错。。。
+        //// 代码来源https://forum.unity.com/threads/getting-the-current-frame-of-an-animation-clip.376561/
 
-        Debug.Log($"{currentAnim}{animClipName}Clip的动画时长为{currentAnim.length}秒,总帧数为{currentAnimFrame}");
+        //Debug.Log($"{currentAnim}{animClipName}Clip的动画时长为{currentAnim.length}秒,总帧数为{currentAnimFrame}");
        
     }
     public override void OnExit()

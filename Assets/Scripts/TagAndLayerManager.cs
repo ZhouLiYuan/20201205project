@@ -6,6 +6,8 @@ public class TagManager
 {
     public static string Player => "Player";
     public static string Enemy => "Enemy";
+    public static string Hookable => "Hookable";
+    public static string Platform => "Platform";
 
     //功能尚未检验
     public static string AddTag(string tagName)
