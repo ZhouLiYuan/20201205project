@@ -66,7 +66,7 @@ public class PlayerRole : RoleEntity
     public float grapSpeed = 15f;//抓取敌人的速度
     public float hookSpeed = 15f;
     public float minDistance = 0.5f;    //触发最后向上速度 的 距离平台距离
-    public float finalJumpSpeed = 6f;    //最后便于着陆的上升速度
+    public float finalJumpSpeed = 20f;    //最后便于着陆的上升速度
 
 
     //逻辑trigger
@@ -185,8 +185,12 @@ public class PlayerRole : RoleEntity
         playerInput.Lock.started += context => IsLockPressed = true;
         playerInput.Lock.canceled += context => IsLockPressed = false;
 
+
         playerInput.Hook.performed += context => IsHookPressed = true;
-        playerInput.Hook.started += context => IsHookPressing = true;
+        playerInput.Hook.started += context => {
+            IsHookPressed = false;
+            IsHookPressing = true;
+        };
         playerInput.Hook.canceled += context => {
             IsHookPressed = false;
             IsHookPressing = false;

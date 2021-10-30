@@ -22,7 +22,7 @@ public class LockState : PlayerRoleState
 
         //没有按下锁定键，就返回初始状态
         if (!Role.IsLockPressed) ChangeState<PreSubActionState>();
-        if (Role.IsHookPressed){ChangeState<HookToTargetState>();}
+        if (Role.playerInput.Hook.triggered) {ChangeState<HookToTargetState>();}
     }
     public override void OnExit()
     {
