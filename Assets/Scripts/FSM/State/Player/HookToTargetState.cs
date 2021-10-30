@@ -37,7 +37,7 @@ public class HookToTargetState : HookBaseState
             GenerateHookEffect(result.point);
             //var targetParentLayer = Role.lockTarget.GetComponentInParent<Transform>().gameObject.layer;
             var targetParentLayer = TargetOwnerTransform.gameObject.layer;
-            if (targetParentLayer == LayerMask.NameToLayer(LayerManager.Platform) /*&&Role.GroundDetect*/)
+            if (targetParentLayer == LayerMask.NameToLayer(LayerManager.Platform) && Role.GroundDetect.IsGrounded)
             {
                 ChangeState<MoveToTargetState>();
             }

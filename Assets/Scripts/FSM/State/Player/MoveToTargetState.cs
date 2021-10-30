@@ -32,7 +32,7 @@ public class MoveToTargetState : HookBaseState
         if (direction.sqrMagnitude > MinDistance * MinDistance)  {Velocity = direction.normalized * hookSpeed; }
         else
         {
-            Velocity = new Vector2(Velocity.x, FinalJumpSpeed);
+            Velocity = new Vector2(Velocity.x*0.2f, FinalJumpSpeed);
             ChangeState<PreSubActionState>();
         }
     }

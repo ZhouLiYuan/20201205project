@@ -66,7 +66,7 @@ public class PlayerRole : RoleEntity
     public float grapSpeed = 15f;//抓取敌人的速度
     public float hookSpeed = 15f;
     public float minDistance = 0.5f;    //触发最后向上速度 的 距离平台距离
-    public float finalJumpSpeed = 20f;    //最后便于着陆的上升速度
+    public float finalJumpSpeed = 10f;    //最后便于着陆的上升速度
 
 
     //逻辑trigger
