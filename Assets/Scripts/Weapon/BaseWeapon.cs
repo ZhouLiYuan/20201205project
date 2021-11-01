@@ -8,10 +8,7 @@ public enum AtkType { normal, fired, poison, friendSide }
 public class BaseWeapon:Entity
 {
     public GameObject owner;
-
-   
     public Collider2D collider2D;
-    //public Rigidbody2D rg2d;
 
     public float AtkValue { get; private set; }
     public int AtkType { get; private set; }
@@ -28,9 +25,6 @@ public class BaseWeapon:Entity
     public void InitProperties(WeaponConfig config) 
     {
         base.InitProperties(config);
-
-
-
         AtkValue = config.Damage;
         AtkType = config.DamageType;
 

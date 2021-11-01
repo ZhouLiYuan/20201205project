@@ -6,8 +6,8 @@ using UnityEngine;
 //角色只用Init初始化，不用构造函数
 public class RoleEntity : Entity
 {
+    public Collider2D HitCollider;
     public Animator animator;
-    public GameObject animatorGobj;
     public Rigidbody2D rg2d;
 
     //需要序列化动态调节
@@ -27,6 +27,9 @@ public class RoleEntity : Entity
     public override void Init(GameObject obj)
     {
         base.Init(obj);
+        HitCollider = Transform.GetComponent<Collider2D>();
+        animator = Transform.GetComponent<Animator>();
+        //程序物理计算
         rg2d = obj.GetComponent<Rigidbody2D>();
     }
 

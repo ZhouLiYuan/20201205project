@@ -24,9 +24,7 @@ public class EnemyMoveState : EnemyBaseState
    
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        en_AnimatorGobj = animator.gameObject;
-        
-       
+        en_TopNodeGobj = animator.gameObject;
         en_HitCollider = animator.transform.GetComponent<Collider2D>();
         Init();
     }

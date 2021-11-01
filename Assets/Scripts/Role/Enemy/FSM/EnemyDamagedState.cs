@@ -9,8 +9,8 @@ public class EnemyDamagedState : EnemyBaseState
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //避免层级一些旋转轴问题，之后修改层级设计
-        en_AnimatorGobj = animator.gameObject;
-        en_TopNodeTransform = en_AnimatorGobj.transform;
+        en_TopNodeGobj = animator.gameObject;
+        en_TopNodeTransform = en_TopNodeGobj.transform;
         en_HitCollider = animator.transform.GetComponent<Collider2D>();
         Init();
 

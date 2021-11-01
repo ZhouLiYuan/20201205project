@@ -29,11 +29,6 @@ public class PlayerRole : RoleEntity
 
     public int money;
 
-    //层级
-    public Transform animatorTransform;
-
-
-    Rigidbody2D rg2dtest;//临时工
 
     public Vector2 Velocity
     {
@@ -42,7 +37,6 @@ public class PlayerRole : RoleEntity
     } //刚体速度
 
     public GroundDetect GroundDetect { get; private set; } //地面检测
-    public Collider2D HitCollider; // 受击框
 
     //输入trigger
     public PlayerInput playerInput;
@@ -52,7 +46,6 @@ public class PlayerRole : RoleEntity
     public bool IsHookPressing { get; private set; }//按住
     public bool IsInteractPressed { get; private set; }
     public bool IsJumpPressed { get; private set; }
-    public bool IsJumpTriggered { get; private set; }
     public bool IsChangeWeaponLeftPressed { get; private set; }
     public bool IsChangeWeaponRightPressed { get; private set; }
     public bool IsAttackPressed { get; private set; }
@@ -66,7 +59,7 @@ public class PlayerRole : RoleEntity
     public float grapSpeed = 15f;//抓取敌人的速度
     public float hookSpeed = 15f;
     public float minDistance = 0.5f;    //触发最后向上速度 的 距离平台距离
-    public float finalJumpSpeed = 10f;    //最后便于着陆的上升速度
+    public float finalJumpSpeed = 5f;    //最后便于着陆的上升速度
 
 
     //逻辑trigger
@@ -128,15 +121,9 @@ public class PlayerRole : RoleEntity
         base.Init(roleGobj);
      
 
-        animator = Find<Animator>("animator_top");
-        animatorTransform = animator.transform;
-        rg2dtest = animator.transform.GetComponent<Rigidbody2D>();
-
-
         hookGobj =Find<GameObject>("hook");
         hookLocaloffsetPosSlash = new Vector3(-0.1f,-0.2f,0f);
 
-        animatorTransform = animator.transform;
         GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
 
         //updater相关  
@@ -177,8 +164,6 @@ public class PlayerRole : RoleEntity
         playerInput.Move.started += context => inputAxis = context.ReadValue<Vector2>();
         playerInput.Move.canceled += context => inputAxis = Vector2.zero;
 
-        //trigger (判断按键有无按下)
-        playerInput.Jump.performed += context => IsJumpTriggered = true;
         playerInput.Jump.started += context => IsJumpPressed = true;
         playerInput.Jump.canceled += context => IsJumpPressed = false;
 
@@ -261,11 +246,11 @@ public class PlayerRole : RoleEntity
 
     public void TurnFace() 
     {
-        Vector3 en_flip = Transform.localScale;
+        Vector3 en_flip = base.Transform.localScale;
         en_flip.x *= -1f;
 
-        if (inputAxis.x > 0 && Transform.localScale.x <0) Transform.localScale = en_flip;
-        else if (inputAxis.x < 0 && Transform.localScale.x > 0) Transform.localScale = en_flip;
+        if (inputAxis.x > 0 && base.Transform.localScale.x <0) base.Transform.localScale = en_flip;
+        else if (inputAxis.x < 0 && base.Transform.localScale.x > 0) base.Transform.localScale = en_flip;
         else { }
     }
     
@@ -371,18 +356,12 @@ public class PlayerRole : RoleEntity
      
     private void OnUpdate(float deltaTime)
     {
-        //不是引用所以必须放在Update里实时更新（rg2dtest.velocity会有些许滞后）
-        rg2dtest.velocity = rg2d.velocity;
-        //修复滞后
-        rg2dtest.position = rg2d.position;
-
-
-        IsJumpTriggered = playerInput.Jump.triggered;
+   
         generalFsm.Update(deltaTime);
         subFsm.Update(deltaTime);
 
 
-        if (isInInteractArea){nearestInteractableGobj = SceneObjManager.GetNearest(Transform.position, GobjsInInteractArea);}//实时计算距离最近对象
+        if (isInInteractArea){ nearestInteractableGobj = SceneObjManager.GetNearest(base.Transform.position, GobjsInInteractArea);}//实时计算距离最近对象
         if (IsChangeWeaponLeftPressed || IsChangeWeaponRightPressed) { changeWeapon(); }
     }
 

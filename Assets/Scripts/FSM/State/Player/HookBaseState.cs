@@ -27,7 +27,6 @@ public class HookBaseState : PlayerRoleState
     public override void OnUpdate(float deltaTime)//如果途中遇到障碍物就会打断取消返回默认状态
     {
         base.OnUpdate(deltaTime);
-        
     }
 
     public override void OnExit()

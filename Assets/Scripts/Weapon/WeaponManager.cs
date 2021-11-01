@@ -26,7 +26,7 @@ public static class WeaponManager
         //3d向量转化为欧拉角
         var rotation = Quaternion.Euler(new Vector3(0, 0, 270));
 
-        Transform parentTransform = role.Find<Transform>("animator_top");
+        Transform parentTransform = role.Transform;
 
         var Prefab = ResourcesLoader.LoadWeaponPrefab(AssetName);
          var weaponGobj = UnityEngine.Object.Instantiate(Prefab, equipPoint, rotation, parentTransform);
@@ -38,7 +38,7 @@ public static class WeaponManager
         BaseWeapon weapon = new BaseWeapon();/*{ AtkType = (AtkType)weaponConfig.Type, AtkValue = weaponConfig.Damage };*/
 
         //有则动态赋值，无则生成后动态赋值
-        var weaponGobj = role.Find<Transform>("animator_top").Find($"{weaponConfig.AssetName}").gameObject;
+        var weaponGobj = role.Transform.Find($"{weaponConfig.AssetName}").gameObject;
         if (!weaponGobj)
         {weaponGobj = SpawnWeaponGobj(role, weaponConfig.AssetName);}
         //weaponGobj.layer = 1 << LayerMask.NameToLayer(LayerManager.Attacker);

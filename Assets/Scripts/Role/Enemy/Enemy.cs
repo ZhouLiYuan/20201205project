@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Enemy : RoleEntity
 {
-    public Collider2D en_HitCollider;
+  
     public GroundDetect GroundDetect { get; private set; }
     public EnemyInfoInspector en_infoInspector;
 
@@ -55,21 +55,15 @@ public class Enemy : RoleEntity
         base.Init(obj);
         en_infoInspector = GameObject.AddComponent<EnemyInfoInspector>();  
 
-       //程序物理计算
-
-       
-
        //自身字段第二层级
        GroundDetect = obj.GetComponentInChildren<GroundDetect>();
-        animatorGobj = Find<GameObject>("animator_top");
         //注意prefab的层级
-        en_HitCollider = Find<Collider2D>("animator_top");
+        
         //动画演出en_animator
-        animator = Find<Animator>("animator_top");
 
         //静态构造函数好像是在静态成员第一次被访问的时候调用
         //EnemyManager.en_nameDic.Add(this.en_name, this);
-        EnemyManager.hitColliderDic.Add(en_HitCollider, this);
+        EnemyManager.hitColliderDic.Add(HitCollider, this);
 
         role = PlayerManager.m_Role;
         roleGobj = PlayerManager.m_Role.GameObject;

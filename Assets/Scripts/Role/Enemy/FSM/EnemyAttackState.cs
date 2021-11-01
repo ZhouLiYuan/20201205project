@@ -11,14 +11,12 @@ public class EnemyAttackState : EnemyBaseState
    
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        en_AnimatorGobj = animator.gameObject;
-      
-        en_TopNodeTransform = en_AnimatorGobj.transform;
         en_HitCollider = animator.transform.GetComponent<Collider2D>();
         Init();
 
         //停下攻击
         en_rb2d.MovePosition(en_rb2d.position);
+        Enemy.currentWeapon.collider2D.enabled = true;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

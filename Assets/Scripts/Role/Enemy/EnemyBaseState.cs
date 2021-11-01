@@ -51,8 +51,6 @@ public class EnemyBaseState : StateMachineBehaviour
     protected Rigidbody2D en_rb2d;
 
 
-    //自身字段第二层级
-    protected GameObject en_AnimatorGobj;
     //地面检测
     public GroundDetect en_GroundDetect { get; private set; }
 

@@ -25,7 +25,7 @@ public class HookToTargetState : HookBaseState
         var result = Physics2D.Linecast(HookPos, TargetPos);//注意要给Hookable标签Gobj添加碰撞体，手动设置好碰撞层
 
         if (result.collider == null) return;
-        else if (result.collider.gameObject.tag == TagManager.Hookable)
+        else if (result.collider.gameObject.tag == TagManager.Hookable || result.collider.gameObject.tag == TagManager.Enemy)//这样逻辑TagGobj的collider必须要大
         {
             HookToTargetDistance = Vector2.Distance(HookPos, TargetPos);
             if (HookToTargetDistance > 0.5f)//判断hook是否在目标附近
@@ -37,7 +37,7 @@ public class HookToTargetState : HookBaseState
             GenerateHookEffect(result.point);
             //var targetParentLayer = Role.lockTarget.GetComponentInParent<Transform>().gameObject.layer;
             var targetParentLayer = TargetOwnerTransform.gameObject.layer;
-            if (targetParentLayer == LayerMask.NameToLayer(LayerManager.Platform) && Role.GroundDetect.IsGrounded)
+            if (targetParentLayer == LayerMask.NameToLayer(LayerManager.Platform) /*&& Role.GroundDetect.IsGrounded*/)
             {
                 ChangeState<MoveToTargetState>();
             }

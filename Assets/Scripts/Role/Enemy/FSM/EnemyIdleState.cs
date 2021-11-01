@@ -26,10 +26,10 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        en_AnimatorGobj = animator.gameObject;
+        en_TopNodeGobj = animator.gameObject;
 
         //暂时让这两个一致，避免层级带来一些旋转轴的问题，之后再研究怎么层级设计
-        en_TopNodeTransform = en_AnimatorGobj.transform;
+        en_TopNodeTransform = en_TopNodeGobj.transform;
         en_HitCollider = animator.transform.GetComponent<Collider2D>();
         Init();
     }

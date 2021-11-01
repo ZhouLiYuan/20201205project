@@ -10,21 +10,17 @@ using UnityEngine;
 public class DamageReceiver : MonoBehaviour
 {
     //受动者(脚本拥有者) 这两个信息要不要也放在DamageData里面
-    public GameObject ownerGobj;
     public Collider2D ownerCollider;
     public LayerMask ownerLayer;
 
     private BaseWeapon attackerWeapon;
     //根据武器 攻击类型 或者角色 盔甲类型生成不同种类（倾向于前者）
-    private string hitEffectName;
 
     private void OnEnable()
     {
         //根据BaseDamageReceiver所在层级换API获取
-        ownerGobj = transform.parent.gameObject;
         ownerCollider = transform.GetComponent<Collider2D>();
-        ownerLayer = 1 << ownerGobj.layer;
-
+        ownerLayer = 1 << gameObject.layer;
     }
 
     //配合Edit->Project Setting ->physics设置可以相互碰撞的图层
@@ -32,16 +28,16 @@ public class DamageReceiver : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag != TagManager.Player && collision.gameObject.tag != TagManager.Enemy) return;
-
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Attacker")) return;
         //获取武器
         GameObject weaponGobj = collision.gameObject;
         LayerMask colliderLayer = weaponGobj.layer;
-        //施动者: 从武器层级网上找 找到爷层级Gobj
-        GameObject attackerGobj = weaponGobj.transform.parent.parent.gameObject;
+
+        var attackerGobj = weaponGobj.transform.parent.gameObject;
         LayerMask attackerLayer = attackerGobj.layer;
 
         //碰撞后只要父级名称不同，就可以相互伤害(父级的图层并不是同一层才能受伤可以避免敌人友军伤害)
-        if (colliderLayer == LayerMask.NameToLayer("Attacker") && (attackerLayer != ownerGobj.layer) && attackerGobj.name!= ownerGobj.name)
+        if ((attackerLayer != gameObject.layer) && attackerGobj.name!= gameObject.name)
         {
             var spawnPos = (collision.transform.position + transform.position) / 2;//希望特效更靠近受击方
             spawnPos.y = transform.position.y;
@@ -49,7 +45,7 @@ public class DamageReceiver : MonoBehaviour
             //当攻击者是Enemy
             if (attackerLayer == LayerMask.NameToLayer("Enemy"))
             {
-                var attackerCollider = attackerGobj.transform.Find("animator_top").GetComponent<Collider2D>();
+                var attackerCollider = attackerGobj.transform.GetComponent<Collider2D>();
                 var attacker = EnemyManager.GetInstanceByCollider(attackerCollider);
                 attackerWeapon = attacker.availableWeapons[collision];
                 PlayerManager.m_Role.OnAttacked += attackerWeapon.ATK;
@@ -71,7 +67,7 @@ public class DamageReceiver : MonoBehaviour
                 enemy.IsCurrentHitOver = false;
             }
             else { return; }
-            
+
             //Debug.Log($"受击方{ownerGobj.name} 所在图层{LayerMask.LayerToName(ownerLayer)}  攻击碰撞体{collision.gameObject.name} 攻击方{attackerGobj.name}所在图层{LayerMask.LayerToName(attackerLayer)}");
           
         }
@@ -80,14 +76,16 @@ public class DamageReceiver : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag != TagManager.Player && collision.gameObject.tag != TagManager.Enemy) return;
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Attacker")) return;
 
-        if (ownerGobj.tag == TagManager.Player)
+
+        if (gameObject.tag == TagManager.Player)
         {
             PlayerManager.m_Role.OnAttacked -= attackerWeapon.ATK;
             //这里不知道为啥没调用到，导致角色一直处于可以被伤害的状态
             PlayerManager.m_Role.isAttacked = false;
         }
-        else if (ownerGobj.tag == TagManager.Enemy) 
+        else if (gameObject.tag == TagManager.Enemy) 
         {
             var enemyCollider = transform.gameObject.GetComponent<Collider2D>();
             var enemy = EnemyManager.GetInstanceByCollider(enemyCollider);

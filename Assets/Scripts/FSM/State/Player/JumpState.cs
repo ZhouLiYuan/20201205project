@@ -18,7 +18,7 @@ public class JumpState : PlayerRoleState
         //滞空时也可以缓慢移动
         Velocity = new Vector2(InputAxis.x * MoveSpeed/2, Velocity.y);
         if (Role.GroundDetect.IsGrounded) ChangeState<IdleState>();
-        if (Role.IsJumpTriggered && jumpCount > 0)//二段跳
+        if (jumpCount > 0 && Role.playerInput.Jump.triggered )//二段跳
         {
             Velocity = new Vector2(Velocity.x, JumpSpeed);
             jumpCount--;
