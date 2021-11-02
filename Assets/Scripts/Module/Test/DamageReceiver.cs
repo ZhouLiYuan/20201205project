@@ -27,7 +27,7 @@ public class DamageReceiver : MonoBehaviour
     //只有Attacker和attackble可以相互碰撞
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != TagManager.Player && collision.gameObject.tag != TagManager.Enemy) return;
+        if (!collision.gameObject.CompareTag(TagManager.Player)  && !collision.gameObject.CompareTag(TagManager.Enemy)) return;
         if (collision.gameObject.layer != LayerMask.NameToLayer("Attacker")) return;
         //获取武器
         GameObject weaponGobj = collision.gameObject;
@@ -75,7 +75,7 @@ public class DamageReceiver : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != TagManager.Player && collision.gameObject.tag != TagManager.Enemy) return;
+        if (!collision.gameObject.CompareTag(TagManager.Player) && !collision.gameObject.CompareTag(TagManager.Enemy)) return;
         if (collision.gameObject.layer != LayerMask.NameToLayer("Attacker")) return;
 
 
