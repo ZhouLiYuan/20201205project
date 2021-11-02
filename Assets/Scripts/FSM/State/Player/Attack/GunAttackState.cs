@@ -5,28 +5,34 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
 
-
-public class GunAttackState : PlayerRoleState
+namespace Role
 {
-    public override void OnEnter()
+    namespace SelectableRole
     {
-        base.OnEnter();
-        Role.canMoveHorizontal = false;//不能边攻击边移动
-        Role.currentWeapon.collider2D.enabled = true;//进入攻击状态时武器才能与敌人产生碰撞
-    }
 
-    public override void OnUpdate(float deltaTime)
-    {
-        AnimDeltaTime += deltaTime;
-        
-        //Debug.Log($"{animClipName}动画已播放{AnimDeltaTime}秒 ");
-        if (AnimDeltaTime >= currentAnim.length)ChangeState<PreSubActionState>(); //动画播放完毕切回准备攻击状态（AnimDeltaTime比动画长度长就确保播完了）
-    }
+        public class GunAttackState : PlayerRoleState
+        {
+            public override void OnEnter()
+            {
+                base.OnEnter();
+                Role.canMoveHorizontal = false;//不能边攻击边移动
+                Role.currentWeapon.collider2D.enabled = true;//进入攻击状态时武器才能与敌人产生碰撞
+            }
 
-    public override void OnExit()
-    {
-        Role.canMoveHorizontal = true;
-        Role.currentWeapon.collider2D.enabled = false;
+            public override void OnUpdate(float deltaTime)
+            {
+                AnimDeltaTime += deltaTime;
+
+                //Debug.Log($"{animClipName}动画已播放{AnimDeltaTime}秒 ");
+                if (AnimDeltaTime >= currentAnim.length) ChangeState<PreSubActionState>(); //动画播放完毕切回准备攻击状态（AnimDeltaTime比动画长度长就确保播完了）
+            }
+
+            public override void OnExit()
+            {
+                Role.canMoveHorizontal = true;
+                Role.currentWeapon.collider2D.enabled = false;
+            }
+        }
     }
 }
 

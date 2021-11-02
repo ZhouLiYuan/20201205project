@@ -29,9 +29,6 @@ public class En_Attacker_MeleeOverlapCircle : BaseWeapon
    //可以抽象出来作为一个节点
     public LayerMask targetsLayer;
 
-    En_Attacker_MeleeOverlapCircle(Enemy info) 
-    {
-    }
     
     //在 播放攻击动画时 同步 调用该方法
     public void Atk()

@@ -2,28 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractState : PlayerRoleState
+
+namespace Role
 {
-    public override void OnEnter()
+    namespace SelectableRole
     {
-        Debug.Log("玩家进入交互状态");
-        base.OnEnter();
-        Role.Interact();
-    
-    }
+        public class InteractState : PlayerRoleState
+        {
+            public override void OnEnter()
+            {
+                Debug.Log("玩家进入交互状态");
+                base.OnEnter();
+                Role.Interact();
 
-    public override void OnUpdate(float deltaTime)
-    {
-        if (Role.currentInteractingNPC.interactingPanel == null) return;//防报错：player的交互OnUpdate()执行时机比NPC OnEnter()还早一帧
-        if (Role.currentInteractingNPC.interactingPanel.state == InteractablePanel.InteractState.Finish) 
-        { 
-            ChangeState<IdleState>(); 
+            }
+
+            public override void OnUpdate(float deltaTime)
+            {
+                if (Role.currentInteractingNPC.interactingPanel == null) return;//防报错：player的交互OnUpdate()执行时机比NPC OnEnter()还早一帧
+                if (Role.currentInteractingNPC.interactingPanel.state == InteractablePanel.InteractState.Finish)
+                {
+                    ChangeState<IdleState>();
+                }
+
+            }
+
+            public override void OnExit()
+            {
+                Role.ExitInteract();
+            }
         }
-       
-    }
-
-    public override void OnExit()
-    {
-        Role.ExitInteract();
     }
 }

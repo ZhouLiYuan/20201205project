@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Cinemachine;
+using Role.SelectableRole;
 
 public static class CameraManager
 {

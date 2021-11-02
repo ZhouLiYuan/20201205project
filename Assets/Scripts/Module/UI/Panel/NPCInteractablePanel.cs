@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Role;
+using Role.NPCs;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class NPCInteractablePanel : InteractablePanel

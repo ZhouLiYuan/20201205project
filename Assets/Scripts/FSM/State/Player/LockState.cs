@@ -2,35 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockState : PlayerRoleState
+
+namespace Role
 {
-    private GameObject lockUI;
-
-
-    public override void OnEnter()
+    namespace SelectableRole
     {
-        base.OnEnter();
-        lockUI = UIManager.SpawnGuiderUI(UIManager.LockUIName, UIManager.CanvasTransform.Find("GamePanel"));
+        public class LockState : PlayerRoleState
+        {
+            private GameObject lockUI;
 
-        //传入玩家角色position
-        Role.lockTarget = SceneObjManager.GetNearest(role_Gobj.transform.position, SceneObjManager.HookableEntities);//中间可能还要加个障碍检测(改成引力设定就不用)
-    }
 
-    public override void OnUpdate(float deltaTime)
-    {
-        UIManager.SetInteractUIPosition(Role.lockTarget, lockUI);
+            public override void OnEnter()
+            {
+                base.OnEnter();
+                lockUI = UIManager.SpawnGuiderUI(UIManager.LockUIName, UIManager.CanvasTransform.Find("GamePanel"));
 
-        //没有按下锁定键，就返回初始状态
-        if (!Role.IsLockPressed) ChangeState<PreSubActionState>();
-        if (Role.playerInput.Hook.triggered) {ChangeState<HookToTargetState>();}
-    }
-    public override void OnExit()
-    {
-        //Role.IsHookPressed = false;
-        UIManager.DestoryGuiderUI(lockUI);
+                //传入玩家角色position
+                Role.lockTarget = SceneObjManager.GetNearest(role_Gobj.transform.position, SceneObjManager.HookableEntities);//中间可能还要加个障碍检测(改成引力设定就不用)
+            }
+
+            public override void OnUpdate(float deltaTime)
+            {
+                UIManager.SetInteractUIPosition(Role.lockTarget, lockUI);
+
+                //没有按下锁定键，就返回初始状态
+                if (!Role.IsLockPressed) ChangeState<PreSubActionState>();
+                if (Role.playerInput.Hook.triggered) { ChangeState<HookToTargetState>(); }
+            }
+            public override void OnExit()
+            {
+                //Role.IsHookPressed = false;
+                UIManager.DestoryGuiderUI(lockUI);
+            }
+        }
     }
 }
-
 
 ///原本的想法：在 lockState中 传入targetGobj调用gamePanel中生成LockHint UI的方法
 

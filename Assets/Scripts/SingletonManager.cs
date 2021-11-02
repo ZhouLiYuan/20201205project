@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Role;
+using Role.Enemies;
+using Role.NPCs;
 
 public class SingletonManager<TEntity> where TEntity : Entity, new()
 {

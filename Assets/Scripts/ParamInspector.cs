@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using Sirenix.OdinInspector.Editor.Modules;
+using Role.SelectableRole;
 
 //可以用静态做成单例？
 //主要是负责在游戏进行（也就是Update的时候动态设置数据）
