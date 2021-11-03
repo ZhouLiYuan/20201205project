@@ -41,6 +41,8 @@ public class DamageReceiver : MonoBehaviour
         {
             var spawnPos = (collision.transform.position + transform.position) / 2;//希望特效更靠近受击方
             spawnPos.y = transform.position.y;
+            var direction = transform.position - attackerGobj.transform.position;//攻击方的攻击方向（受击方击退方向）
+            direction.y = 1f;
 
             //当攻击者是Enemy
             if (attackerLayer == LayerMask.NameToLayer("Enemy"))
@@ -50,7 +52,11 @@ public class DamageReceiver : MonoBehaviour
                 attackerWeapon = attacker.availableWeapons[collision];
                 PlayerManager.m_Role.OnAttacked += attackerWeapon.ATK;
                 PlayerManager.m_Role.isAttacked = true;
-                if(PlayerManager.m_Role.InvincibleTime == 0) GenerateEffect(spawnPos);
+                if (PlayerManager.m_Role.InvincibleTime == 0)
+                {
+                    GenerateEffect(spawnPos);
+                    transform.position += direction.normalized* 0.2f;//被击退(还差相机晃动)
+                } 
             }
 
             //当攻击者是 Player
@@ -64,6 +70,7 @@ public class DamageReceiver : MonoBehaviour
                 //避免在同一次攻击中发生连续碰撞
                 enemy.animator.SetTrigger("Damaged");
                 GenerateEffect(spawnPos);
+                transform.position += direction.normalized*0.2f;//被击退
                 enemy.IsCurrentHitOver = false;
             }
             else { return; }
