@@ -4,17 +4,13 @@ using Role.SelectableRole;
 
 namespace Role
 {
-    namespace BaseEnemy
-    {
         public class Enemy : RoleEntity
         {
-
             public GroundDetect GroundDetect { get; private set; }
             public EnemyInfoInspector en_infoInspector;
 
 
             //配置表 属性
-
             public float speed; // 移动速度
             public float attackRange; // 攻击范围
             public float chaseRange;// 追踪范围
@@ -111,6 +107,11 @@ namespace Role
                 var finalDamageValue = DamageSystem.CalculateDamage(data);
                 HP -= finalDamageValue;
             }
+
+            public virtual void Attack() 
+            {
+            }
+
         }
-    }
+
 }

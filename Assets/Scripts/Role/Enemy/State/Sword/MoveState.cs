@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 
 namespace Role
 {
-    namespace BaseEnemy
+    namespace SwordEnemy
     {
         //教程地址https://www.youtube.com/watch?v=AD4JIXQDw0s
         //继承自 状态机 基类

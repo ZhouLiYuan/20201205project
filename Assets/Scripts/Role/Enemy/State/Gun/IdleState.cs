@@ -1,5 +1,4 @@
-﻿using Role.BaseEnemy;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Role
 {

@@ -1,5 +1,4 @@
-﻿using Role.BaseEnemy;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Role
 {
@@ -62,8 +61,6 @@ namespace Role
                 stopChasing.x = 0f;
                 en_rb2d.velocity = stopChasing;
             }
-
-
         }
     }
 }

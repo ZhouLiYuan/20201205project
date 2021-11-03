@@ -2,8 +2,6 @@
 using UnityEngine;
 namespace Role
 {
-    namespace BaseEnemy
-    {
         public class EnemyBaseState : StateMachineBehaviour
         {
             ////提供角色追踪方位
@@ -139,8 +137,12 @@ namespace Role
 
             protected void Attack()
             {
+                //GameObject obj = Instantiate(weapon, transform.position, transform.rotation);
+                //Weapon.Projectile projectile = obj.GetComponent<Weapon.Projectile>();
+                //projectile.direction = new Vector2(projectile.direction.x * currentFace, projectile.direction.y);
+                //projectile.target = "Player";
             }
         }
 
-    }
+    
 }
