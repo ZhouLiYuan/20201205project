@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Role.BaseEnemy;
 using UnityEngine;
 
 namespace Role
 {
-    namespace Enemies
+    namespace GunEnemy
     {
         //不能让敌人连续触发攻击方法
-        public class EnemyAttackState : EnemyBaseState
+        public class AttackState : EnemyBaseState
         {
 
             En_Attacker_MeleeOverlapCircle en_atk;
@@ -38,7 +37,8 @@ namespace Role
 
             override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                animator.ResetTrigger("Attack");
+                //animator.ResetTrigger("Attack");
+                animator.ResetTrigger(triggerName);
                 Enemy.currentWeapon.collider2D.enabled = false;
             }
         }

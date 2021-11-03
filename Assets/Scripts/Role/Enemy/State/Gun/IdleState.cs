@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Role.BaseEnemy;
 using UnityEngine;
 
 namespace Role
 {
-    namespace Enemies
+    namespace GunEnemy
     {
         //教程地址https://www.youtube.com/watch?v=AD4JIXQDw0s
         //继承自 状态机 基类
@@ -22,7 +21,7 @@ namespace Role
         /// 2朝向面对玩家
         /// 3在攻击范围内时攻击玩家
         /// </summary>
-        public class EnemyIdleState : EnemyBaseState
+        public class IdleState : EnemyBaseState
         {
 
             //检测到玩家进入追踪范围
@@ -53,7 +52,7 @@ namespace Role
             public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 //坑：需要重置trigger
-                //animator.ResetTrigger("Move");
+                animator.ResetTrigger(triggerName);
             }
 
         }

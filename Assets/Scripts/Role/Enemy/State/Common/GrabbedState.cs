@@ -4,32 +4,34 @@ using UnityEngine;
 
 namespace Role
 {
-    namespace Enemies
+    namespace BaseEnemy
     {
-        public class EnemyDamagedState : EnemyBaseState
+        public class GrabbedState : EnemyBaseState
         {
 
             public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 //避免层级一些旋转轴问题，之后修改层级设计
                 en_TopNodeGobj = animator.gameObject;
-                en_TopNodeTransform = en_TopNodeGobj.transform;
                 en_HitCollider = animator.transform.GetComponent<Collider2D>();
                 Init();
-
-                //Enemy.IsCurrentHitOver = false;
-                Enemy.GetDamage();
+                en_rb2d.gravityScale = 0f;//处于失重状态
+                en_HitCollider.isTrigger = true;//无法与玩家产生实际碰撞
             }
 
 
             public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) { animator.SetTrigger("Idle"); }
+
+                if (!PlayerManager.m_Role.IsHookPressing && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f) { animator.SetTrigger("Idle"); }//被抓硬直是动画播放时长
             }
 
             public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                animator.ResetTrigger("Damaged");
+                en_HitCollider.isTrigger = false;
+                en_rb2d.gravityScale = 1f;//处于失重状态
+                animator.ResetTrigger(triggerName);
+                //animator.ResetTrigger("Grabbed");
                 //Enemy.IsCurrentHitOver = true;
             }
 

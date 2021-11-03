@@ -4,7 +4,7 @@ using Role.SelectableRole;
 
 namespace Role
 {
-    namespace Enemies
+    namespace BaseEnemy
     {
         public class Enemy : RoleEntity
         {
