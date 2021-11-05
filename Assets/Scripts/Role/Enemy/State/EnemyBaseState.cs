@@ -69,7 +69,7 @@ namespace Role
             {
                 Enemy = EnemyManager.GetInstanceByCollider(en_HitCollider);
 
-                roleGobj = Enemy.roleGobj;
+                roleGobj = Enemy.playerGobj;
                 role = Enemy.role;
                 pl_Transform = Enemy.pl_Transform;
 
