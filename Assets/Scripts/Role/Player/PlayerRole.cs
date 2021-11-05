@@ -41,7 +41,9 @@ namespace Role
                 set { rg2d.velocity = value; }
             } //刚体速度
 
-            public GroundDetect GroundDetect { get; private set; } //地面检测
+            //一些碰撞检测脚本
+            public DamageReceiver DamageReceiver { get; private set; }
+
 
             //输入trigger
             public PlayerInput playerInput;
@@ -129,7 +131,7 @@ namespace Role
                 hookGobj = Find<GameObject>("hook");
                 hookLocaloffsetPosSlash = new Vector3(-0.1f, -0.2f, 0f);
 
-                GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
+                DamageReceiver = roleGobj.GetComponent<DamageReceiver>();
 
                 //updater相关  
                 //为场景中叫Updater的Gobj添加逻辑层Updater组件

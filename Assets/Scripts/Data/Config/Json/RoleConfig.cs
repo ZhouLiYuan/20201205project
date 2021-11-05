@@ -9,7 +9,8 @@ public class NPCConfig : RoleConfig
 
 public class EnemyConfig:RoleConfig
 {
-	public float Speed; // 移动速度
+    public int WeaponID; // 武器ID
+    public float Speed; // 移动速度
 	public float AttackRange; // 攻击范围
 	public float ChaseRange; // 追踪范围
 }

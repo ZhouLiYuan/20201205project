@@ -6,9 +6,11 @@ namespace Role
 {
     public class Enemy : RoleEntity
     {
-        public GroundDetect GroundDetect { get; private set; }
         public EnemyInfoInspector en_infoInspector;
-
+        
+        //碰撞检测
+        public DamageReceiver DamageReceiver { get; private set; }
+      
 
         //配置表 属性
         public float speed; // 移动速度
@@ -20,7 +22,7 @@ namespace Role
 
         //主角方位（攻击对象）
         public PlayerRole role;
-        public GameObject roleGobj;
+        public GameObject playerGobj;
         public Transform pl_Transform;
 
 
@@ -56,8 +58,7 @@ namespace Role
             base.Init(obj);
             en_infoInspector = GameObject.AddComponent<EnemyInfoInspector>();
 
-            //自身字段第二层级
-            GroundDetect = obj.GetComponentInChildren<GroundDetect>();
+            DamageReceiver = obj.GetComponent<DamageReceiver>();
             //注意prefab的层级
 
             //动画演出en_animator
@@ -67,7 +68,7 @@ namespace Role
             EnemyManager.hitColliderDic.Add(HitCollider, this);
 
             role = PlayerManager.m_Role;
-            roleGobj = PlayerManager.m_Role.GameObject;
+            playerGobj = PlayerManager.m_Role.GameObject;
             pl_Transform = PlayerManager.m_Role.Transform;
 
             distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
@@ -130,10 +131,10 @@ namespace Role
             en_flip.x *= -1f;
 
             //当Enemy在Player右边，并且Enemy还没有反转过（当前向右）
-            if (Transform.position.x > roleGobj.transform.position.x && Transform.localScale.x > 0)
+            if (Transform.position.x > playerGobj.transform.position.x && Transform.localScale.x > 0)
             { Transform.localScale = en_flip; }
             //当Enemy在Player左边，并且Enemy反转过（当前向左）
-            else if (Transform.position.x < roleGobj.transform.position.x && Transform.localScale.x < 0)
+            else if (Transform.position.x < playerGobj.transform.position.x && Transform.localScale.x < 0)
             { Transform.localScale = en_flip; }
             //位置重合的情况，或其他情况
             else { }

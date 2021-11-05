@@ -22,6 +22,7 @@ namespace Role
             public NPCInteractablePanel interactingPanel;
             //NPC对话可能会需要访问上一个面板的(模仿状态机)
             public Dictionary<PlayerInteractDetect, BasePanel> InteractablePanels = new Dictionary<PlayerInteractDetect, BasePanel>();
+            public PlayerInteractDetect PlayerInteractDetect { get; private set; }
             //FSM
             FSM InteractFsm;
 
@@ -41,8 +42,7 @@ namespace Role
                 spriteRenderer = obj.GetComponent<SpriteRenderer>();
                 interactCollider = obj.GetComponent<CircleCollider2D>();
                 interactCollider.radius = IntercatRange;
-
-
+                PlayerInteractDetect = obj.GetComponent<PlayerInteractDetect>();
 
                 //updater = GameObject.FindObjectOfType<Updater>();
                 updater = Updater.AddUpdater(obj);

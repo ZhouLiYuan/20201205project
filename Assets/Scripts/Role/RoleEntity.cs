@@ -25,13 +25,19 @@ namespace Role
             }
         }
 
-        public override void Init(GameObject obj)
+        //一些碰撞检测脚本
+        public GroundDetect GroundDetect { get; private set; } //地面检测
+  
+
+
+        public override void Init(GameObject roleGobj)
         {
-            base.Init(obj);
-            HitCollider = Transform.GetComponent<Collider2D>();
+            base.Init(roleGobj);
+            HitCollider = Transform.GetComponent<BoxCollider2D>();//目前角色身上唯一的BoxCollider作为受伤检测刚体
             animator = Transform.GetComponent<Animator>();
             //程序物理计算
-            rg2d = obj.GetComponent<Rigidbody2D>();
+            rg2d = roleGobj.GetComponent<Rigidbody2D>();
+            GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
         }
 
         public virtual void InitProperties(RoleConfig config)
