@@ -76,21 +76,12 @@ namespace Role
                 if (animClipName.Contains("Lock") || animClipName.Contains("Target") || animClipName.Contains("Attack") || animClipName.Contains("PreSubAction")) animLayer = 1;
 
                 Animator.Play($"{animClipName}", animLayer);//弊端!!!!!动画之间没有过度
-                                                            //Animator.SetTrigger($"{triggerName}");
+               //Animator.SetTrigger($"{triggerName}");
 
-                //目前没啥用，以后卡时机可能有用的代码，教程https://www.jianshu.com/p/0873379253d2
                 animInfo = Animator.GetCurrentAnimatorStateInfo(animLayer);//获取对应layer的动画State信息
-
-                //找到当前Clip （runtimeAnimatorController.animationClips似乎是不分层都可以拿到的）
-                foreach (AnimationClip clip in Animator.runtimeAnimatorController.animationClips) { if (clip.name == animClipName) currentAnim = clip; }
+                currentAnim = AnimTool.GetClipByName(Animator, animClipName);
                 //Debug.Log($"{animClipName}动画已播放{animInfo.normalizedTime.ToString("p")}  {animInfo.IsName(currentAnim.name)}");
-
-                //var animationClipInfos = Animator.GetCurrentAnimatorClipInfo(animLayer);
-                //if(animationClipInfos.Length !=0) currentAnimFrame = (int)(animationClipInfos[0].weight * (currentAnim.length * currentAnim.frameRate));//连按攻击键时会报错。。。
-                //// 代码来源https://forum.unity.com/threads/getting-the-current-frame-of-an-animation-clip.376561/
-
                 //Debug.Log($"{currentAnim}{animClipName}Clip的动画时长为{currentAnim.length}秒,总帧数为{currentAnimFrame}");
-
             }
             public override void OnExit()
             {

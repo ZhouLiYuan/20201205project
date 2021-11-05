@@ -161,12 +161,19 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<Sprite>($"Sprite/HeadIcon/{name}/{emotion}.png");
     }
 
-
     public static Material LoadMaterial(string name)
     {
         return AssetModule.LoadAsset<Material>($"Material/{name}.mat");
     }
 
+    //anim
+    public static AnimationClip LoadAnimClip(string animatorName ,string clipName)
+    {
+        var _index = animatorName.IndexOf("_");
+        var type = animatorName.Substring(0, _index - 1);
+        var category = animatorName.Substring(_index + 1);
+        return AssetModule.LoadAsset<AnimationClip>($"Assets/AssetBundles_sai/Animation/{type}/{category}/{clipName}.anim");
+    }
 
     //--------------<泛型版本尝试>----------------
 
