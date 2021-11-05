@@ -27,16 +27,17 @@ public class DamageReceiver : MonoBehaviour
     //只有Attacker和attackble可以相互碰撞
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag(TagManager.Player)  && !collision.gameObject.CompareTag(TagManager.Enemy)) return;
+        if(gameObject.CompareTag(collision.tag)) return;
+        //if (!collision.gameObject.CompareTag(TagManager.Player)  && !collision.gameObject.CompareTag(TagManager.Enemy)) return;
         if (collision.gameObject.layer != LayerMask.NameToLayer("Attacker")) return;
         //获取武器
         GameObject weaponGobj = collision.gameObject;
         LayerMask colliderLayer = weaponGobj.layer;
-
+        //攻击者
         var attackerGobj = weaponGobj.transform.parent.gameObject;
         LayerMask attackerLayer = attackerGobj.layer;
 
-        //碰撞后只要父级名称不同，就可以相互伤害(父级的图层并不是同一层才能受伤可以避免敌人友军伤害)
+
         if ((attackerLayer != gameObject.layer) && attackerGobj.name!= gameObject.name)
         {
             var spawnPos = (collision.transform.position + transform.position) / 2;//希望特效更靠近受击方
@@ -82,7 +83,8 @@ public class DamageReceiver : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag(TagManager.Player) && !collision.gameObject.CompareTag(TagManager.Enemy)) return;
+        if (gameObject.CompareTag(collision.tag)) return;
+        //if (!collision.gameObject.CompareTag(TagManager.Player) && !collision.gameObject.CompareTag(TagManager.Enemy)) return;
         if (collision.gameObject.layer != LayerMask.NameToLayer("Attacker")) return;
 
 
