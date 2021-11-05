@@ -24,7 +24,7 @@ namespace Role
         {
             public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                en_TopNodeGobj = animator.gameObject;
+                Gobj = animator.gameObject;
                 en_HitCollider = animator.transform.GetComponent<Collider2D>();
                 Init();
             }
@@ -35,17 +35,17 @@ namespace Role
                 // Mathf.Clamp();可以用来做巡逻范围限定
 
                 //这个值好像不放在每个State的Update里实时去算的话，好像就只会得到初始化时算的数值然后一致保持不变？
-                distanceToPlayer = Vector2.Distance(playerTransform.position, en_rb2d.position);
+                distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
 
                 //修改朝向
-                LookAtPlayer();
+                Enemy.LookAtPlayer();
 
-                if (en_GroundDetect.IsGrounded) { ChasePlayer(); }
+                if (GroundDetect.IsGrounded) { Enemy.ChasePlayer(); }
 
 
                 //是否进入攻击范围
                 //animator.SetFloat("AttackRange", distanceToPlayer);
-                if (en_GroundDetect.IsGrounded && distanceToPlayer <= attackRange)
+                if (GroundDetect.IsGrounded && distanceToPlayer <= attackRange)
                 {
                     animator.SetTrigger("Attack");
                 }
@@ -57,9 +57,9 @@ namespace Role
                 animator.ResetTrigger("Attack");
 
                 //停下
-                Vector2 stopChasing = en_rb2d.velocity;
+                Vector2 stopChasing = rg2d.velocity;
                 stopChasing.x = 0f;
-                en_rb2d.velocity = stopChasing;
+                rg2d.velocity = stopChasing;
             }
         }
     }

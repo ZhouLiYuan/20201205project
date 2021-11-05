@@ -3,16 +3,27 @@
     "AssetID": 0,
     "HP": 100,
     "AssetName": "enemy",
+    "WeaponID": 0,
     "Speed": 1,
     "AttackRange": 1.5,
     "ChaseRange": 5
   },
   {
     "AssetID": 1,
-    "HP": 120,
+    "HP": 20,
     "AssetName": "enemy_sword",
+    "WeaponID": 1,
     "Speed": 3,
     "AttackRange": 1.3,
     "ChaseRange": 8
+  },
+  {
+    "AssetID": 2,
+    "HP": 10,
+    "AssetName": "enemy_gun",
+    "WeaponID": 3,
+    "Speed": 1,
+    "AttackRange": 5,
+    "ChaseRange": 12
   }
 ]

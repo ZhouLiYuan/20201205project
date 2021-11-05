@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using Role;
-using Role.Enemies;
+﻿using Role;
 using Role.NPCs;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 public class SingletonManager<TEntity> where TEntity : Entity, new()
 {
@@ -50,27 +49,55 @@ public class SingletonManager<TEntity> where TEntity : Entity, new()
     /// <param name="prefabName"></param>
     /// <param name="bornPoint"></param>
     /// <returns></returns>
-    public static TEntity SpawnInstance(string prefabName, Vector3 bornPoint) 
+    public static TEntity SpawnInstance(string prefabName, Vector3 bornPoint)
     {
         Quaternion rotation = new Quaternion(0, 0, 0, 0);
         var prefab = ResourcesLoader.LoadTPrefab<TEntity>(prefabName);
         var obj = Object.Instantiate(prefab, bornPoint, rotation, s_listTransform);
-        TEntity instance = new TEntity();
-        obj.name = CreateUniqueName();
+        var instance = RecognizeType(prefabName);
+        obj.name = CreateUniqueName(instance.GetType().Name);
         //建立表现层和逻辑层联系
         instance.Init(obj);
         nameDic[obj.name] = instance;
         return instance;
     }
 
-    public static string CreateUniqueName()
+    public static string CreateUniqueName(string typeName)
     {
-        //var name = GetType().Name;//静态方法内不能用该API
-        var name = typeof(TEntity).ToString();
+        var name = typeName;
         var keys = new string[nameDic.Keys.Count];
         nameDic.Keys.CopyTo(keys, 0);
         var uniqueName = ObjectNames.GetUniqueName(keys, name);
         return uniqueName;
+    }
+
+    private static TEntity RecognizeType(string prefabName)
+    {
+        var typeName = typeof(TEntity).ToString();
+
+        //注意命名空间也要附上Role.Enemy
+        //或者可以用保险方法typeof(Enemy).ToString()
+        if (typeName == typeof(Enemy).ToString())
+            switch (prefabName)
+            {
+                case "enemy_sword":
+                    return new SwordEnemy() as TEntity;//不知道会不会发生数据丢失
+                case "enemy_gun":
+                    return new GunEnemy() as TEntity;
+                default:
+                    Debug.LogError($"不存在对应名称{typeName}");
+                    return new Enemy() as TEntity;
+            }
+
+        else if (typeName == typeof(NPC).ToString())
+            switch (prefabName)
+            {
+                default:
+                    //Debug.LogError($"不存在对应名称{typeName}");
+                    return new NPC() as TEntity;
+            }
+
+        else return new Entity() as TEntity;
     }
 
 }

@@ -12,10 +12,10 @@ namespace Role
             public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 //避免层级一些旋转轴问题，之后修改层级设计
-                en_TopNodeGobj = animator.gameObject;
+                Gobj = animator.gameObject;
                 en_HitCollider = animator.transform.GetComponent<Collider2D>();
                 Init();
-                en_rb2d.gravityScale = 0f;//处于失重状态
+                rg2d.gravityScale = 0f;//处于失重状态
                 en_HitCollider.isTrigger = true;//无法与玩家产生实际碰撞
             }
 
@@ -29,7 +29,7 @@ namespace Role
             public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 en_HitCollider.isTrigger = false;
-                en_rb2d.gravityScale = 1f;//处于失重状态
+                rg2d.gravityScale = 1f;//处于失重状态
                 animator.ResetTrigger(triggerName);
                 //animator.ResetTrigger("Grabbed");
                 //Enemy.IsCurrentHitOver = true;
