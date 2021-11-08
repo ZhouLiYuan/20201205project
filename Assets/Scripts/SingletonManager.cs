@@ -51,9 +51,9 @@ public class SingletonManager<TEntity> where TEntity : Entity, new()
     /// <returns></returns>
     public static TEntity SpawnInstance(string prefabName, Vector3 bornPoint)
     {
-        Quaternion rotation = new Quaternion(0, 0, 0, 0);
+        //Quaternion rotation = new Quaternion(0, 0, 0, 0);
         var prefab = ResourcesLoader.LoadTPrefab<TEntity>(prefabName);
-        var obj = Object.Instantiate(prefab, bornPoint, rotation, s_listTransform);
+        var obj = Object.Instantiate(prefab, bornPoint,Quaternion.identity, s_listTransform);
         var instance = RecognizeType(prefabName);
         obj.name = CreateUniqueName(instance.GetType().Name);
         //建立表现层和逻辑层联系

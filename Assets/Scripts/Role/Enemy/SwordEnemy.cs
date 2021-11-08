@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class SwordEnemy:Enemy
 {
+
+
     public override void Attack()
     {
     }

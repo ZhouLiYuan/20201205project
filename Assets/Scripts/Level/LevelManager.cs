@@ -51,7 +51,6 @@ public class LevelManager
             
             var enemy = EnemyManager.SpawnInstance(en_config.AssetName,enemyInfo.Position);
 
-            //第二轮卡在这了，配置表也没问题，可能是状态机出了问题导致这边无法继续执行
             enemy.InitProperties(en_config);
             UIManager.SpawnHealthBar(enemy);//HP属性初始化后HealthBar才能拿到配置后的初始值
             enemy.EquipWeapon(weapon_config);

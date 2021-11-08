@@ -6,6 +6,7 @@ public class TagManager
 {
     public static string Player => "Player";
     public static string Enemy => "Enemy";
+    public static string NPC => "NPC";
     public static string Hookable => "Hookable";
     public static string Platform => "Platform";
 
