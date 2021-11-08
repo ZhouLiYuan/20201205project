@@ -8,8 +8,11 @@ namespace Role
     public class RoleEntity : Entity
     {
         public Collider2D HitCollider;
-        public Animator animator;
         public Rigidbody2D rg2d;
+        public Animator animator;
+        public AnimEventCollection animEvent;
+
+        protected Updater updater;
 
         //需要序列化动态调节
         public int maxHP;
@@ -35,9 +38,19 @@ namespace Role
             base.Init(roleGobj);
             HitCollider = Transform.GetComponent<BoxCollider2D>();//目前角色身上唯一的BoxCollider作为受伤检测刚体
             animator = Transform.GetComponent<Animator>();
+            animEvent = GameObject.GetComponent<AnimEventCollection>();
             //程序物理计算
             rg2d = roleGobj.GetComponent<Rigidbody2D>();
             GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
+
+            //updater相关  
+            //为场景中叫Updater的Gobj添加逻辑层Updater组件
+            updater = Updater.AddUpdater(roleGobj);
+            //单一方法 作为 一个Action参数传入Action集合（之后再集中调用）
+            updater.AddUpdateFunction(OnUpdate);
+            updater.AddFixedUpdateFunction(OnFixedUpdate);
+
+            InitFSM();
         }
 
         public virtual void InitProperties(RoleConfig config)
@@ -48,7 +61,12 @@ namespace Role
             //连等可能有风险
             HP = maxHP = config.HP;
         }
+        protected virtual void InitFSM() { }
+        protected virtual void OnUpdate(float deltaTime) { }
+        protected virtual void OnFixedUpdate(float fixedDeltaTime) { }
     }
+
+
 }
 
 

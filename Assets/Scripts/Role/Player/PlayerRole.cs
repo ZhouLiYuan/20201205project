@@ -11,7 +11,7 @@ namespace Role
         {
             public string Name => PlayerManager.m_RoleName;
 
-            private Updater updater;
+  
 
             //状态机分层
             private FSM generalFsm;
@@ -133,14 +133,7 @@ namespace Role
 
                 DamageReceiver = roleGobj.GetComponent<DamageReceiver>();
 
-                //updater相关  
-                //为场景中叫Updater的Gobj添加逻辑层Updater组件
-                updater = Updater.AddUpdater(roleGobj);
-                //单一方法 作为 一个Action参数传入Action集合（之后再集中调用）
-                updater.AddUpdateFunction(OnUpdate);
-                updater.AddFixedUpdateFunction(OnFixedUpdate);
 
-                InitFSM();
             }
 
             public void InitProperties(PlayerRoleConfig config)
@@ -208,8 +201,9 @@ namespace Role
             /// <summary>
             ///  //配置每个功能的FSM，为每个状态传owner实例
             /// </summary>
-            private void InitFSM()
+            protected override void InitFSM()
             {
+                base.InitFSM();
                 //每个FSM创建后记得关联OnUpdate()和OnFixUpdate()；
 
                 //分不同的FSM其实就是分层处理
@@ -363,7 +357,7 @@ namespace Role
 
             //---------------------------------------<生命周期>--------------------------------------------------
 
-            private void OnUpdate(float deltaTime)
+            protected override void OnUpdate(float deltaTime)
             {
 
                 generalFsm.Update(deltaTime);
@@ -375,7 +369,7 @@ namespace Role
             }
 
             //物理相关的刷新
-            private void OnFixedUpdate(float fixedDeltaTime)
+            protected override void OnFixedUpdate(float fixedDeltaTime)
             {
                 generalFsm.FixedUpdate(fixedDeltaTime);
 

@@ -42,9 +42,9 @@ namespace Role
         public Dictionary<Collider2D, BaseWeapon> availableWeapons = new Dictionary<Collider2D, BaseWeapon>();
 
 
-        //事件
-        public event System.Action<GameObject> OnAttack;
-        public void Attack(GameObject target) { OnAttack?.Invoke(target); }
+        ////事件
+        //public event System.Action<GameObject> OnAttack;
+        //public void Attack(GameObject target) { OnAttack?.Invoke(target); }
 
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Role
             pl_Transform = PlayerManager.m_Role.Transform;
 
             distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
-
+            updater.AddUpdateFunction(OnUpdate);
         }
 
         /// <summary>
@@ -140,6 +140,17 @@ namespace Role
             else { }
         }
 
+        public bool CheckPlayerIsInSightLine()
+        {
+            //玩家是否视线范围内
+            var dir = new Vector2(Transform.localScale.x, 0);
+            var result = Physics2D.Raycast((Vector2)Transform.position + dir, dir);//+ dir,防止和自己碰撞
+            if (result.collider == null) return false;
+            if (result.collider.gameObject.name ==PlayerManager.m_gobj.name) return true;
+            else return false;
+        }
+
+
         //虚方法使得基类也有子类的同名方法，这样在BaseEnemyState的Enemy实例就可以不用泛型
         public virtual void Attack()
         {
@@ -148,6 +159,20 @@ namespace Role
         public virtual void ChasePlayer() 
         {
         }
+
+        protected override void OnUpdate(float deltaTime)
+        {
+            if (!CheckPlayerIsInSightLine())
+            { animator.Play($"Idle", 0); }
+         
+            LookAtPlayer(); //修改朝向
+        }
+
+        //物理相关的刷新
+        protected override void OnFixedUpdate(float fixedDeltaTime)
+        {
+        }
     }
 
+ 
 }

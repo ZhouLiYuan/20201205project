@@ -34,10 +34,12 @@ namespace Role
             // Mathf.Clamp();可以用来做巡逻范围限定
 
             distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
-            Enemy.LookAtPlayer(); //修改朝向
             Enemy.ChasePlayer();
 
-         
+            //玩家在视线范围内
+            var dir = new Vector2(Transform.localScale.x, 0);
+            var result = Physics2D.Raycast(Transform.position, dir);
+            if(result.collider != null)
             //animator.SetFloat("AttackRange", distanceToPlayer);
             if (distanceToPlayer <= attackRange) {animator.SetTrigger("Attack"); } //是否攻击
             if (distanceToPlayer > chaseRange) { animator.SetTrigger("Idle"); }//是否追踪
