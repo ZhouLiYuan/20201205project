@@ -112,6 +112,12 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<GameObject>($"Weapon/{name}.prefab");
     }
 
+    //Projectile
+    public static GameObject LoadProjectilePrefab(string name)
+    {
+        return AssetModule.LoadAsset<GameObject>($"Weapon/Projectile/{name}.prefab");
+    }
+
     //NPC json配置
     public static NPCConfig LoadNPCConfigByName(string name)
     {
