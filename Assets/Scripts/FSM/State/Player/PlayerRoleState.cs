@@ -35,7 +35,6 @@ namespace Role
             protected int currentAnimFrame;
             protected float AnimDeltaTime;//从当前state动画播放开始所经过的时间
 
-
             protected GroundDetect GroundDetect => Role.GroundDetect;
 
             //可set

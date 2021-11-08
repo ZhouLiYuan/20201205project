@@ -354,6 +354,10 @@ namespace Role
                 Debug.Log($"切换武器为{currentWeapon.GameObject.name}");
             }
 
+            public void Shoot()
+            {
+                WeaponManager.SpawnBullet(currentWeapon, this);
+            }
 
             //---------------------------------------<生命周期>--------------------------------------------------
 

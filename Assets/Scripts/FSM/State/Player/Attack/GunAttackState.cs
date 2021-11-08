@@ -17,6 +17,7 @@ namespace Role
                 base.OnEnter();
                 Role.canMoveHorizontal = false;//不能边攻击边移动
                 Role.currentWeapon.collider2D.enabled = true;//进入攻击状态时武器才能与敌人产生碰撞
+                Role.animEvent.AttackEvent += Role.Shoot;
             }
 
             public override void OnUpdate(float deltaTime)
@@ -31,6 +32,7 @@ namespace Role
             {
                 Role.canMoveHorizontal = true;
                 Role.currentWeapon.collider2D.enabled = false;
+                Role.animEvent.AttackEvent -= Role.Shoot;
             }
         }
     }
