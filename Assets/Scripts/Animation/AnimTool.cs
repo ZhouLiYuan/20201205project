@@ -3,6 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor.Animations;
 
+//和自己实现的FSM配合使用
 public static class AnimTool
 {
     //animator是需要信息的对象（runtimeAnimatorController.animationClips似乎是不分层都可以拿到的）
@@ -56,7 +57,7 @@ public static class AnimTool
     //官方https://docs.unity3d.com/cn/2019.3/ScriptReference/AnimatorOverrideController.html
     //用AnimatorOverrideController进行动画clip重写，然后赋值给runtimeAnimatorController，
     //不能直接改RuntimeAnimatorController?(有点像rigidbody一些属性赋值)
-    public static void SetLayerStates(Animator animator, int layerIndex = 0)
+    public static void SetLayerStates<TStateMachineBehaviour>(Animator animator, int layerIndex = 0) where TStateMachineBehaviour : StateMachineBehaviour
     {
         var animatorStates = GetLayerStates(animator, layerIndex);//暂时默认animator只有一层
         var clips = GetAllClip(animator);
@@ -66,7 +67,8 @@ public static class AnimTool
         {
             var state = GetStateByName(clips[i].name, animatorStates); //原则上要让State名和AnimClip名一致（因为没有获取指定名字state的API，所以必须历遍）
             state.motion = ResourcesLoader.LoadAnimClip(animator.name, clips[i].name); ;//改Motion
-
+            state.AddStateMachineBehaviour<TStateMachineBehaviour>();
+            //文档https://docs.unity3d.com/cn/2019.4/ScriptReference/Animations.AnimatorState.AddStateMachineBehaviour.html
                                                                                         //FileStream fs;
                                                                                         //if (!File.Exists(AnimAssetPath)) fs = File.OpenRead(AnimAssetPath);
                                                                                         //FileStream fs = FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);

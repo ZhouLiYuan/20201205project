@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 4109277147170533252}
   - component: {fileID: 3818413228197507832}
   - component: {fileID: 3611852322776511606}
+  - component: {fileID: 2639890248117655427}
   m_Layer: 11
   m_Name: enemy_sword
   m_TagString: Enemy
@@ -240,6 +241,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2639890248117655427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7789786499748295807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eea3bc6959035e418414fb8deb65176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7940617905036567180
 GameObject:
   m_ObjectHideFlags: 0

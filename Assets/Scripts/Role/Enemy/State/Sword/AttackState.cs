@@ -8,8 +8,6 @@ namespace Role
         public class AttackState : EnemyBaseState
         {
 
-            En_Attacker_MeleeOverlapCircle en_atk;
-
             override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 en_HitCollider = animator.transform.GetComponent<Collider2D>();
@@ -24,7 +22,6 @@ namespace Role
             {
                 //这个值不放在每个State的Update里实时去算的话，只会得到初始化时算的数值后一致保持不变
                 distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
-
 
                 //敌人发动攻击
                 Enemy.Attack();
