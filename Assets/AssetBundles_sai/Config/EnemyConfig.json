@@ -6,7 +6,7 @@
     "WeaponID": 0,
     "Speed": 1,
     "AttackRange": 1.5,
-    "ChaseRange": 5
+    "ChaseRange": 1
   },
   {
     "AssetID": 1,
@@ -15,7 +15,7 @@
     "WeaponID": 1,
     "Speed": 3,
     "AttackRange": 1.3,
-    "ChaseRange": 8
+    "ChaseRange": 4
   },
   {
     "AssetID": 2,
@@ -24,6 +24,6 @@
     "WeaponID": 3,
     "Speed": 1,
     "AttackRange": 5,
-    "ChaseRange": 12
+    "ChaseRange": 8
   }
 ]

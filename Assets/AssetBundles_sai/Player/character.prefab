@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2960750985956286685}
   - component: {fileID: 5377320229608308829}
   - component: {fileID: 3174758394024059719}
+  - component: {fileID: 8571023928917016116}
   m_Layer: 10
   m_Name: character
   m_TagString: Player
@@ -28,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3243671977957489902}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -173,6 +174,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8571023928917016116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3243671977957489902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eea3bc6959035e418414fb8deb65176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3485062368467850276
 GameObject:
   m_ObjectHideFlags: 0

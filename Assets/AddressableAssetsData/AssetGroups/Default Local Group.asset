@@ -17,10 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 32ed40873f490bd40878d040698a96cf
   m_SerializeEntries:
-  - m_GUID: 1aa63a1d059c2444bafc70b64762151e
-    m_Address: Assets/AssetBundles_sai/character.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 509df6197224eeb46b4bb9f22aaad0a5
     m_Address: dialogueSample
     m_ReadOnly: 0
