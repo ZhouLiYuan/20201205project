@@ -181,6 +181,13 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<AnimationClip>($"Assets/AssetBundles_sai/Animation/{type}/{category}/{clipName}.anim");
     }
 
+    //Sound
+    public static GameObject LoadSEPrefab(string name = "SE_Prefab") 
+    {
+        return AssetModule.LoadAsset<GameObject>($"Sound/{name}.prefab");
+    }
+
+
     //--------------<泛型版本尝试>----------------
 
     //需要文件夹名和类型名统一
