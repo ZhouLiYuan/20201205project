@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: 0
   m_EditorClassIdentifier: 
   levelID: 0
-  levelName: FirstLevel
+  levelName: 
   EnemyInfos:
-  - Position: {x: 4, y: 1.4, z: 0}
+  - Position: {x: -2.16, y: -1.43, z: 0}
+    AssetID: 1
+    WeaponID: 1
+  - Position: {x: 5.03, y: 1.4, z: 0}
     AssetID: 2
     WeaponID: 3
   PlatformInfos: []
