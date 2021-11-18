@@ -29,6 +29,7 @@ public static class PlayerManager
        //创建逻辑层和表现层实例
        m_gobj = Object.Instantiate(prefab);
         m_Role = new PlayerRole();
+        m_gobj.name = m_RoleName;
         m_Role.Init(m_gobj);
         m_Role.InitProperties(config);
 
