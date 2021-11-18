@@ -21,6 +21,10 @@ public class EnemyInfo : EntityInfo
     public int WeaponID;
 }
 
+[Serializable]
+public class NPCInfo : EntityInfo
+{
+}
 
 [Serializable]
 public class PlatformInfo
@@ -29,7 +33,7 @@ public class PlatformInfo
 }
 
 [Serializable]
-public class CheckPointInfo
+public class CheckPointInfo: ScriptableObject
 {
 
 }

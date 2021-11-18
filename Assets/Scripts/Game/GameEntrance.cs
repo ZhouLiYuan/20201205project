@@ -23,3 +23,10 @@ public class GameEntrance : MonoBehaviour
         UIManager.OnUpdate();
     }
 }
+
+
+
+
+
+
+
