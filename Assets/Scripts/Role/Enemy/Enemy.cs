@@ -162,6 +162,8 @@ namespace Role
 
         protected override void OnUpdate(float deltaTime)
         {
+            //这个值好像不放在每个State的Update里实时去算的话，好像就只会得到初始化时算的数值然后一致保持不变？
+            distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
             if (!CheckPlayerIsInSightLine())
             { animator.Play($"Idle", 0); }
          

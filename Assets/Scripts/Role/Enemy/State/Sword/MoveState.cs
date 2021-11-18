@@ -26,7 +26,7 @@ namespace Role
         {
             public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                Gobj = animator.gameObject;
+                //Gobj = animator.gameObject;
                 en_HitCollider = animator.transform.GetComponent<Collider2D>();
                 Init();
             }
@@ -35,9 +35,6 @@ namespace Role
             public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
                 // Mathf.Clamp();可以用来做巡逻范围限定
-
-                //这个值好像不放在每个State的Update里实时去算的话，好像就只会得到初始化时算的数值然后一致保持不变？
-                distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
 
                 //修改朝向
                 Enemy.LookAtPlayer();

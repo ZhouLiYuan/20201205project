@@ -25,10 +25,6 @@ namespace Role
             //检测到玩家进入追踪范围
             public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                Gobj = animator.gameObject;
-
-                //暂时让这两个一致，避免层级带来一些旋转轴的问题，之后再研究怎么层级设计
-                Transform = Gobj.transform;
                 en_HitCollider = animator.transform.GetComponent<Collider2D>();
                 Init();
             }
@@ -36,9 +32,7 @@ namespace Role
 
             public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                //这个值好像不放在每个State的Update里实时去算的话，好像就只会得到初始化时算的数值然后一致保持不变？
-                distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
-                animator.SetFloat("DistanceToPlayer", distanceToPlayer);
+                //animator.SetFloat("DistanceToPlayer", distanceToPlayer);
 
                 if (distanceToPlayer < chaseRange)
                 {

@@ -9,9 +9,7 @@ namespace Role
 
             public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                //避免层级一些旋转轴问题，之后修改层级设计
-                Gobj = animator.gameObject;
-                Transform = Gobj.transform;
+
                 en_HitCollider = animator.transform.GetComponent<Collider2D>();
                 Init();
 

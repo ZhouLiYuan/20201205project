@@ -20,8 +20,7 @@ namespace Role
 
             override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
             {
-                //这个值不放在每个State的Update里实时去算的话，只会得到初始化时算的数值后一致保持不变
-                distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
+
                 //敌人发动攻击
                 //if (stateInfo.normalizedTime > 1f) { animator.SetTrigger("Move"); }
                 if (distanceToPlayer > attackRange) { animator.SetTrigger("Move"); }

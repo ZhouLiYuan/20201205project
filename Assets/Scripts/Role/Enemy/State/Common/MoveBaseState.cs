@@ -22,7 +22,7 @@ namespace Role
     {
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         { 
-            Gobj = animator.gameObject;
+
             en_HitCollider = animator.transform.GetComponent<Collider2D>();
             Init();
         }
@@ -33,7 +33,7 @@ namespace Role
             if (!GroundDetect.IsGrounded) return;
             // Mathf.Clamp();可以用来做巡逻范围限定
 
-            distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
+
             Enemy.ChasePlayer();
 
             //玩家在视线范围内
