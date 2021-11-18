@@ -187,6 +187,15 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<GameObject>($"Sound/{name}.prefab");
     }
 
+    //按wav,mp3,ogg顺序查找格式
+    public static AudioClip LoadSEClip(string name)
+    {
+        AudioClip audioClip;
+        audioClip = AssetModule.LoadAsset<AudioClip>($"Sound/SE/{name}.wav");
+        if(audioClip == null) audioClip = AssetModule.LoadAsset<AudioClip>($"Sound/SE/{name}.mp3");
+        if (audioClip == null) audioClip = AssetModule.LoadAsset<AudioClip>($"Sound/SE/{name}.ogg");
+        return audioClip;
+    }
 
     //--------------<泛型版本尝试>----------------
 

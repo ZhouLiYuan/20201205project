@@ -1,20 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace App.Sound 
 {
     public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
+        [Title("声音管理器")]
         //BGM
+        [ShowInInspector]
+        [TabGroup("BGM")]//用于分类
         private SoundList m_bgmList;
         //SE
+        //[SceneObjectsOnly]
+        //[Required]
+        [TabGroup("SE"), ShowInInspector]
         private GameObject m_sePrefab;
+        [TabGroup("SE"), ShowInInspector]
         private SoundList m_seList;
 
+
+        [TabGroup("BGM"), ShowInInspector] 
         Dictionary<string, SoundAsset> BgmNameDic { get; set; }
+        [TabGroup("SE"), ShowInInspector] 
         Dictionary<string, SoundAsset> SeNameDic { get; set; }
 
+        [Space]
+        [ShowInInspector]
+        [LabelText("Music Clip")]
         AudioSource m_source;
         AudioSource CachedSource//缓存(可以理解为currentAudioSource)
         {
@@ -29,7 +43,32 @@ namespace App.Sound
             }
         }
 
+        [ShowInInspector]
         public float CurrentBgmTime => CachedSource.time;
+
+        //功能实验代码
+
+        //[ShowInInspector]
+        [TabGroup("BGM")]
+        [InlineButton("PauseBgm")]//第一个""里是成员方法名
+        [InlineButton("StopBgm", "Stop")]//后面是重命名在面板中按钮名称
+        [InlineButton("PlayBgm")]//该方法(有且有一个参数)特性时，修饰的字段类型必须和方法参数类型相同(否则会报错)
+        public string clipName => CachedSource.clip.name;
+
+        [Space]
+        [ShowInInspector]
+        //[Required]//强制要求非空(否则报错)
+
+        [TabGroup("Music", "BGM")]//一个成员可以同时属于两个TabGroup分组(这好像是旧版的功能当前版本不一样)
+        [InlineEditor(InlineEditorModes.SmallPreview)]//可在Inspector中播放音频
+        AudioClip currentAudioClip;
+
+        [ShowInInspector]
+        [TabGroup("Music")]
+        [ValueDropdown("musicList")]//这个特性好像必须和List类型配合
+        [InlineEditor(InlineEditorModes.SmallPreview)]
+        List<AudioClip> musicList;////可在Inspector中拖拽加入音频
+
 
         protected override void Awake()
         {
