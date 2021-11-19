@@ -32,9 +32,9 @@
 
 //    //对应上面"新规创建"的方法
 //    [HorizontalGroup("CreateNew/Horizontal")]
-//    [GUIColor(0.7f,0.7f,1f)]
+//    [GUIColor(0.7f, 0.7f, 1f)]
 //    [Button]
-//    public void CreateNew() 
+//    public void CreateNew()
 //    {
 //        if (nameForNew == "") return;
 
@@ -54,7 +54,7 @@
 //    [HorizontalGroup("CreateNew/Horizontal")]
 //    [GUIColor(0.7f, 0.7f, 1f)]
 //    [Button]
-//    public void DeleteSelected() 
+//    public void DeleteSelected()
 //    {
 //        if (m_selected != null)
 //        {
@@ -65,7 +65,7 @@
 //        }
 //    }
 
-//    public void SetSelected(object item) 
+//    public void SetSelected(object item)
 //    {
 //        var attempt = item as T;
 //        if (attempt != null)
@@ -74,7 +74,7 @@
 
 //    public void SetPath(string path)
 //    {
-//        this.m_path =  path;
+//        this.m_path = path;
 //    }
 
 //}
@@ -92,19 +92,5 @@
 //    public ModuleData m_module;
 //}
 
-//public class ColorGroupAttribute : PropertyGroupAttribute
-//{
-//    public float R, G, B, A;
-//    public ColorGroupAttribute(string path) : base(path) 
-//    {
-//    }
-//    //查查float的数值和0~255有什么关系
-//    public ColorGroupAttribute(string path,float r, float g, float b, float a = 1f) : base(path)
-//    {
-//        this.R = r;
-//        this.G = g;
-//        this.B = b;
-//        this.A = a;
-//    }
-//}
+
 

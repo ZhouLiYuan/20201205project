@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Role;
 
 
 //尝试mono单例
@@ -44,17 +45,7 @@ public class LevelManager
         for (int i = 0; i < levelConfig.EnemyInfos.Count; i++)
         {
             var enemyInfo = levelConfig.EnemyInfos[i];
-
-            //根据enemyInfo加载详细的配置表
-            var en_config = ResourcesLoader.LoadEnemyConfigByID(enemyInfo.AssetID);
-            var weapon_config = ResourcesLoader.LoadWeaponConfigByID(enemyInfo.WeaponID);
-            
-            var enemy = EnemyManager.SpawnInstance(en_config.AssetName,enemyInfo.Position);
-
-            enemy.InitProperties(en_config);
-            UIManager.SpawnHealthBar(enemy);//HP属性初始化后HealthBar才能拿到配置后的初始值
-            enemy.EquipWeapon(weapon_config);
-
+            ConfigureEnemy(enemyInfo);
         }
 
         var npc_config = ResourcesLoader.LoadConfigByID<NPCConfig>(0);
@@ -65,14 +56,24 @@ public class LevelManager
        
     }
 
-   ////加载并生成血槽实例  换成addressable版本加载的形式
-            //var hpBarGobj = Object.Instantiate(Resources.Load<GameObject>("Prefab/UI/HealthBar"));
-            // hpBarGobj.transform.SetParent(UIManager.canvasTransform, false);
-            // hpBarGobj.GetComponent<HealthBar>().SetOwner(enemy.transform);
 
 
- 
-        
+    public static Enemy ConfigureEnemy(EnemyInfo enemyInfo)
+    {
+        //根据enemyInfo加载详细的配置表
+        var en_config = ResourcesLoader.LoadEnemyConfigByID(enemyInfo.AssetID);
+        var weapon_config = ResourcesLoader.LoadWeaponConfigByID(enemyInfo.WeaponID);
+
+        var enemy = EnemyManager.SpawnInstance(en_config.AssetName, enemyInfo.Position);
+
+        enemy.InitProperties(en_config);
+        UIManager.SpawnHealthBar(enemy);//HP属性初始化后HealthBar才能拿到配置后的初始值
+        enemy.EquipWeapon(weapon_config);
+        return enemy;
+    }
+
+
+
     public static void ChangeLevel(int level) 
     {
         //需要销毁现有场景的信息 再加载新的Level
@@ -91,3 +92,7 @@ public class LevelManager
 
 
 
+////加载并生成血槽实例  换成addressable版本加载的形式
+//var hpBarGobj = Object.Instantiate(Resources.Load<GameObject>("Prefab/UI/HealthBar"));
+// hpBarGobj.transform.SetParent(UIManager.canvasTransform, false);
+// hpBarGobj.GetComponent<HealthBar>().SetOwner(enemy.transform);
