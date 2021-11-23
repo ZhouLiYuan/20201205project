@@ -12,10 +12,13 @@ public class GamePanel : BasePanel
     //private GameObject lockUI;
 
     public GameObject playerHealthBarGobj;
+    public GameObject playerCircleGaugeGobj;
     public GameObject bossHealthBarGobj;
 
     private HealthBar pl_healthBar;
     public static HealthBar boss_healthBar;//暂时默认全局只有一个boss
+
+    private AwakeningGauge pl_circleGauge;
 
     //string为角色名称
     public static Dictionary<string, HealthBar> HealthBarNameDic = new Dictionary<string, HealthBar>();
@@ -34,12 +37,17 @@ public class GamePanel : BasePanel
 
         playerHealthBarGobj = Find<GameObject>("PlayerHealthBar");
         playerHealthBarGobj.SetActive(true);
+        playerCircleGaugeGobj = Find<GameObject>("PlayerCircleGauge");
+        playerCircleGaugeGobj.SetActive(true);
         bossHealthBarGobj = Find<GameObject>("BossHealthBar");
         bossHealthBarGobj.SetActive(false);//等boss登场
 
         pl_healthBar = new HealthBar(playerHealthBarGobj);
         pl_healthBar.SetOwner(PlayerManager.m_Role);
         HealthBarNameDic[PlayerManager.m_Role.UniqueName] = pl_healthBar;
+
+        pl_circleGauge = new AwakeningGauge(playerCircleGaugeGobj);
+        pl_circleGauge.SetOwner(PlayerManager.m_Role);//因为暂时只有Player有怒气槽 所以不用字典
     }
 
     public void SetBossHealthBar(RoleEntity owner) 
@@ -53,6 +61,7 @@ public class GamePanel : BasePanel
     public  override void OnUpdate(float deltaTime)
     {
         foreach (var healthBar in HealthBarNameDic.Values) { healthBar.OnUpdate(deltaTime);}
+        pl_circleGauge.OnUpdate(deltaTime);
     }
 
 
