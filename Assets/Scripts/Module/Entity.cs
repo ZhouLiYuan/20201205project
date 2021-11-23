@@ -32,7 +32,10 @@ public class Entity
     internal Entity() { }
     public virtual void Init(GameObject obj)
     {
-        MakeZAxisZero(obj);
+        if (!this.GetType().Name.Contains("Panel"))//为了保持面板深度
+        {
+            MakeZAxisZero(obj);
+        } 
         GameObject = obj;
         Transform = obj.transform;
     }

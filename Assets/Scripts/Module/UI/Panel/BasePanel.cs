@@ -6,20 +6,11 @@ using UnityEngine;
 /// <summary>
 /// 用抽象类做通用 模版
 /// </summary>
-public class BasePanel
+public class BasePanel : Entity
 {
     //代替原本的UIInfo
     public virtual string Path { get; }
 
-    public string m_name;
-    /// <summary>
-    /// 面板所在物体的 gameObject
-    /// </summary>
-    public GameObject m_gameObject;
-    /// <summary>
-    /// 面板所在物体的 transform
-    /// </summary>
-    public Transform m_transform;
     public CanvasGroup canvasGroup;
 
     /// <summary>
@@ -27,11 +18,9 @@ public class BasePanel
     /// </summary>
     /// <param name="name"></param>
     /// <param name="obj"></param>
-    internal void Init(string name, GameObject obj)
+    public override void Init(GameObject obj)
     {
-        this.m_name = name;
-        m_gameObject = obj;
-        m_transform = obj.transform;
+        base.Init(obj);
         canvasGroup = obj.AddComponent<CanvasGroup>();
     }
 
@@ -39,17 +28,17 @@ public class BasePanel
     public virtual void OnUpdate(float deltaTime) { }
     public virtual void OnPause()
     {
-        UItool.GetOrAddComponent<CanvasGroup>().blocksRaycasts = false;
+        UIManager.GetOrAddComponent<CanvasGroup>(this.GameObject).blocksRaycasts = false;
     }
     public virtual void OnResume()
     {
-        UItool.GetOrAddComponent<CanvasGroup>().blocksRaycasts = true;
+        UIManager.GetOrAddComponent<CanvasGroup>(this.GameObject).blocksRaycasts = true;
     }
     public virtual void OnClose()
     {
     }
 
-    public void Close() 
+    public void Close()
     {
         OnClose();
         UIManager.ClosePanel(this);
@@ -63,20 +52,6 @@ public class BasePanel
     {
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
-    }
-
-    /// <summary>
-    /// 提供需要找的元素的路径/名称
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="path"></param>
-    /// <returns></returns>
-    protected T Find<T>(string path) where T : Object
-    {
-        var t = m_transform.Find(path);
-        if (typeof(T) == typeof(Transform)) return t as T;
-        if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
-        return t.GetComponent<T>();
     }
 }
 

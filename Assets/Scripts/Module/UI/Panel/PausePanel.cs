@@ -151,41 +151,41 @@ public class PausePanel : BasePanel
 
         //----------------------------------------------<TopBarPanel>------------------------------------------------------
         //Btn  Button = m_transform.Find("Panel/Button").GetComponent<Button>();
-        mapButton = m_transform.Find("TopBarPanel/MapButton").GetComponent<Button>();
-        skillButton = m_transform.Find("TopBarPanel/SkillButton").GetComponent<Button>();
-        questButton = m_transform.Find("TopBarPanel/QuestButton").GetComponent<Button>();
-        optionButton = m_transform.Find("TopBarPanel/OptionButton").GetComponent<Button>();
+        mapButton = Transform.Find("TopBarPanel/MapButton").GetComponent<Button>();
+        skillButton = Transform.Find("TopBarPanel/SkillButton").GetComponent<Button>();
+        questButton = Transform.Find("TopBarPanel/QuestButton").GetComponent<Button>();
+        optionButton = Transform.Find("TopBarPanel/OptionButton").GetComponent<Button>();
 
         //----------------------------------------------<MapPanel>------------------------------------------------------
-        mapPanel = m_transform.Find("MapPanel").gameObject;
+        mapPanel = Transform.Find("MapPanel").gameObject;
         //Btn
-        filterButton = m_transform.Find("MapPanel/FilterButton").GetComponent<Button>();
-        markButton = m_transform.Find("MapPanel/MarkButton").GetComponent<Button>();
-        fastTravelButton = m_transform.Find("MapPanel/FastTravelButton").GetComponent<Button>();
+        filterButton = Transform.Find("MapPanel/FilterButton").GetComponent<Button>();
+        markButton = Transform.Find("MapPanel/MarkButton").GetComponent<Button>();
+        fastTravelButton = Transform.Find("MapPanel/FastTravelButton").GetComponent<Button>();
         //----------------------------------------------<Skill面板>------------------------------------------------------
-        skillPanel = m_transform.Find("SkillPanel").gameObject;
+        skillPanel = Transform.Find("SkillPanel").gameObject;
         //Btn
-        abilitiesButton = m_transform.Find("SkillPanel/AbilitiesButton").GetComponent<Button>();
-        maskPowerButton = m_transform.Find("SkillPanel/MaskPowerButton").GetComponent<Button>();
+        abilitiesButton = Transform.Find("SkillPanel/AbilitiesButton").GetComponent<Button>();
+        maskPowerButton = Transform.Find("SkillPanel/MaskPowerButton").GetComponent<Button>();
         //Txt
-        abilityPointText = m_transform.Find("SkillPanel/AbilityPointText").GetComponent<Text>();
+        abilityPointText = Transform.Find("SkillPanel/AbilityPointText").GetComponent<Text>();
 
         //----------------------------------------------<任务QuestPanel>------------------------------------------------------
-        questPanel = m_transform.Find("QuestPanel").gameObject;
+        questPanel = Transform.Find("QuestPanel").gameObject;
         //Btn
-        mainQuestButton = m_transform.Find("QuestPanel/MainQuestButton").GetComponent<Button>();
-        secondaryQuestButton = m_transform.Find("QuestPanel/SecondaryQuestButton").GetComponent<Button>();
+        mainQuestButton = Transform.Find("QuestPanel/MainQuestButton").GetComponent<Button>();
+        secondaryQuestButton = Transform.Find("QuestPanel/SecondaryQuestButton").GetComponent<Button>();
         //Txt
-        detailText = m_transform.Find("QuestPanel/DetailPanel/Text").GetComponent<Text>();
+        detailText = Transform.Find("QuestPanel/DetailPanel/Text").GetComponent<Text>();
 
         //----------------------------------------------<OptionPanel>------------------------------------------------------
-        optionPanel = m_transform.Find("OptionPanel").gameObject;
+        optionPanel = Transform.Find("OptionPanel").gameObject;
         //Btn
-        difficultyButton = m_transform.Find("OptionPanel/DifficultyButton").GetComponent<Button>();
-        audioButton = m_transform.Find("OptionPanel/AudioButton").GetComponent<Button>();
-        videoButton = m_transform.Find("OptionPanel/VideoButton").GetComponent<Button>();
-        controllerButton = m_transform.Find("OptionPanel/ControllerButton").GetComponent<Button>();
-        keyboardButton = m_transform.Find("OptionPanel/KeyboardButton").GetComponent<Button>();
+        difficultyButton = Transform.Find("OptionPanel/DifficultyButton").GetComponent<Button>();
+        audioButton = Transform.Find("OptionPanel/AudioButton").GetComponent<Button>();
+        videoButton = Transform.Find("OptionPanel/VideoButton").GetComponent<Button>();
+        controllerButton = Transform.Find("OptionPanel/ControllerButton").GetComponent<Button>();
+        keyboardButton = Transform.Find("OptionPanel/KeyboardButton").GetComponent<Button>();
     }
 
     /// <summary>
