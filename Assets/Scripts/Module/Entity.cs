@@ -56,11 +56,12 @@ public class Entity
     /// 只能查找子物体，以及子物体的component
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="path"></param>
+    /// <param name="childPath"></param>
     /// <returns></returns>
-    public T Find<T>(string path) where T : Object
+    public T Find<T>(string childPath) where T : Object
     {
-        var t = Transform.Find(path);
+        var t = Transform.Find(childPath);
+        if (!t) { Debug.LogError($"can not find child in {childPath}"); return null; }
         if (typeof(T) == typeof(Transform)) return t as T;
         if (typeof(T) == typeof(GameObject)) return t.gameObject as T;
         return t.GetComponent<T>();

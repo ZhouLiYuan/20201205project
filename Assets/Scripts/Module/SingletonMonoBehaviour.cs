@@ -4,8 +4,8 @@
 public class SingletonMonoBehaviour<T> : MonoBehaviour where T :MonoBehaviour
 {
     static T s_instance;
-    //全局静态字段随时获得mono单例
-    public static T instance 
+    //全局静态字段随时获得mono单例 实例属性
+    public static T Instance 
     {
         get 
         {
