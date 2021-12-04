@@ -667,8 +667,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_scoreText: {fileID: 3488549041688866056}
   m_bestScoreText: {fileID: 0}
+  m_icons: []
   m_resultPanelTransform: {fileID: 0}
   m_scrollSpeed: 30
+  m_feedoutTime: 0.5
 --- !u!1 &6192785132622827238
 GameObject:
   m_ObjectHideFlags: 0

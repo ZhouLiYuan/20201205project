@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2771042085960979281}
   - component: {fileID: 2193592986666786887}
   - component: {fileID: 4040401494055769036}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LockUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
