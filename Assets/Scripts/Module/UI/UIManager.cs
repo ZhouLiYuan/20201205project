@@ -55,14 +55,9 @@ public static class UIManager
         //panel脚本实例
         var panel = new TPanel();
         var name = typeof(TPanel).Name;
-        //panelGobj实例(先加载后创建)
-        var prefab = ResourcesLoader.LoadPanelPrefab(name);
-        GameObject panelGobj = Object.Instantiate(prefab,CanvasTransform);
-
         Debug.Log($"类型名称{name}");
-        panel.Init(panelGobj);
-        panel.OnOpen();
 
+        ConfigPanel(panel, name);
         return panel;
     }
 
@@ -77,32 +72,28 @@ public static class UIManager
         var name = type.ToString();
         Debug.Log($"类型名称{name}");
 
-        var prefab = ResourcesLoader.LoadPanelPrefab(name);
-        var obj = Object.Instantiate(prefab, CanvasTransform);
-        obj.name = name;
-        Object.DontDestroyOnLoad(obj);
-
-        panel.Init(obj);
-        panel.OnOpen();
-
-        //设置父类为Canvas
-        panel.Transform.SetParent(CanvasTransform, false);
-        //往界面 面板集合 中追加元素
-        m_panels.Add(panel);
+        ConfigPanel(panel,name);
         return panel;
     }
 
     /// <summary>
-    /// 通过名称打开Panel(!!!只能用于打开Init方法没有在具体panel中被覆盖过的)
+    /// 通过名称打开Panel(级别BasePanel是基类变量，依然可以调用到子类最新覆盖的Init()方法)
+    /// 但注意返回值引用类型只会是BasePanel，无法用其子类变量接受
     /// </summary>
     /// <param name="PanelTypeName"></param>
     /// <returns></returns>
     public static BasePanel OpenPanel(string PanelTypeName)
     { 
         BasePanel panel = new BasePanel();
-        var prefab = ResourcesLoader.LoadPanelPrefab(PanelTypeName);
+        ConfigPanel(panel, PanelTypeName);
+        return panel;
+    }
+
+    private static void ConfigPanel(BasePanel panel,string panelName)
+    {
+        var prefab = ResourcesLoader.LoadPanelPrefab(panelName);
         var obj = Object.Instantiate(prefab, CanvasTransform);
-        obj.name = PanelTypeName;
+        obj.name = panelName;
         Object.DontDestroyOnLoad(obj);
 
         panel.Init(obj);
@@ -112,7 +103,6 @@ public static class UIManager
         panel.Transform.SetParent(CanvasTransform, false);
         //往界面 面板集合 中追加元素
         m_panels.Add(panel);
-        return panel;
     }
 
 
