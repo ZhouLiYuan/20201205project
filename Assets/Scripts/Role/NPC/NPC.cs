@@ -23,6 +23,7 @@ namespace Role
         //NPC对话可能会需要访问上一个面板的(模仿状态机)
         public Dictionary<PlayerInteractDetect, BasePanel> InteractablePanels = new Dictionary<PlayerInteractDetect, BasePanel>();
         public PlayerInteractDetect PlayerInteractDetect { get; private set; }
+        public Vector3 panelOffset;//面板生成位置偏移
         //FSM
         FSM InteractFsm;
 
@@ -79,11 +80,15 @@ namespace Role
 
 
         // interactingPanel持有者就是NPC本身
-        public void Interact(GameObject owner)
+        public void Interact()
         {
-            interactingPanel = UIManager.Open<NPCInteractablePanel>();//今后可能根据角色不同对应面板也不同
-            interactingPanel.SetOwner(owner);
-            UIManager.SetInteractUIPosition(owner, interactingPanel.m_gameObject);
+            interactingPanel = UIManager.OpenPanel<NPCInteractablePanel>();//今后可能根据角色不同对应面板也不同
+            interactingPanel.SetOwner(GameObject);
+
+            if (spriteRenderer.flipX == true) panelOffset = new Vector3(2f, 3.5f, 0);
+            else { panelOffset = new Vector3(-2f, 3.5f, 0);}
+            //面板生成位置
+            UIManager.SetInteractUIPosition(GameObject, interactingPanel.GameObject, panelOffset);
             //生成位置还需要具体调整RectTransform(看看这种情况需不要单独弄个小canvas) 小canvas.transform =owner.transform
             //interactingPanel.m_transform.SetParent(小canvas transform, false);
         }
