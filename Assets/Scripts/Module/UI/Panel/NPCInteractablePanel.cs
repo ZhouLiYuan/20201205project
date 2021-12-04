@@ -38,7 +38,7 @@ public class NPCInteractablePanel : InteractablePanel
     {
         npc.interactState = NPC.InteractState.Talk;
         Hide();
-        var temp = UIManager.Open<DialoguePanel>();
+        var temp = UIManager.OpenPanel<DialoguePanel>();
         temp.temp = this;
     }
 
