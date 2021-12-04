@@ -6,7 +6,7 @@ using UnityEditor;
 
 //System.IO提供基本文件和目录支持
 
-//也可以用odin改进下
+//odin改进教程https://www.youtube.com/watch?v=S29XkTlD9bw
 //Obj中 注意区分 表现层Gobj/Prefab/Asset 和 逻辑层 instance/data
 
 /// <summary>
@@ -41,7 +41,6 @@ public class LevelEditorWindow : EditorWindow
         {
             SaveLevelConfig();
         }
-
     }
 
     /// <summary>
