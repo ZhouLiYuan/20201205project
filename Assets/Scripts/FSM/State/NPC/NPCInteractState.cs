@@ -11,7 +11,7 @@ namespace Role
                 Debug.Log("NPC进入交互状态");
                 base.OnEnter();
                 //NPC打开面板
-                NPCRole.Interact(NPCRole.GameObject);
+                NPCRole.Interact();
             }
 
             public override void OnUpdate(float deltaTime)
