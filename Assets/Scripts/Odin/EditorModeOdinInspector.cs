@@ -31,7 +31,7 @@ public class EditorModeOdinInspector : SerializedMonoBehaviour
     //[ShowInInspector]
     //public GameState gameState;
 
-    [FilePath]
+    [Sirenix.OdinInspector.FilePath]
     [InfoBox("可以用来读project asset地址")]//显示在Inspector中的注释(用于属性)，\n换行
     public string AssetPath;
 
