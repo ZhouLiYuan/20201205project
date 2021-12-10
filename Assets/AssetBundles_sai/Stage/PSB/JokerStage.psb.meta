@@ -1,0 +1,862 @@
+fileFormatVersion: 2
+guid: f20dc4588a3a17e4786942db71a251d7
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 0, y: 0}
+  mosaicSpriteImportData:
+  - name: FrontPipe
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 7680
+      height: 1950
+    spriteID: 90c017cc849e71346801145c6206166c
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 4}
+  - name: Front_hand
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 8504
+      width: 7680
+      height: 953
+    spriteID: 683efc098194d724f8bb9e4549148134
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 7966}
+  - name: Front_platform
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 7462
+      width: 7680
+      height: 1034
+    spriteID: 9ee913052715ca54da652e13c3b6e2e1
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 7462}
+  - name: Front_torch
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 2008
+      y: 11068
+      width: 5958
+      height: 485
+    spriteID: ce0e43b54f7c06f4583458a4dc158c5b
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 1265, y: 10612}
+  - name: Front_ball
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 9465
+      width: 7304
+      height: 718
+    spriteID: 755b15da3709ec648a62d4824ed5b9ef
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -372, y: 8233}
+  - name: FrontPipe_middle
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 11068
+      width: 1996
+      height: 1670
+    spriteID: d2ae5c4893ad1af4398af4979862c9e9
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -2774, y: 10788}
+  - name: Middle_ball_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4044
+      y: 10191
+      width: 3498
+      height: 702
+    spriteID: c869fc36fe916a845b9cbd8b4c29a57f
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 2371, y: 9030}
+  - name: Middle_ball_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 2008
+      y: 11561
+      width: 2940
+      height: 610
+    spriteID: d6d1899baae7bd24badfb3c8b0028d19
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -734, y: 10221}
+  - name: Middle_torch
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 10191
+      width: 4032
+      height: 869
+    spriteID: 58e9a116983c65b47ac7e74407d39222
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -1586, y: 10191}
+  - name: Middle_stage
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 5878
+      width: 7680
+      height: 1576
+    spriteID: 6156f3bc5c5c45b4baf2f5cdb02766ac
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 5878}
+  - name: BackGround_pipe
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1962
+      width: 7680
+      height: 1950
+    spriteID: 89a6d9f9ac72e5f4abf8789d6c3d8b2d
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 1962}
+  - name: BackGround_wall
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 3920
+      width: 7680
+      height: 1950
+    spriteID: 8bf6b005b1dd14b4ea9636364768f5a4
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 3920}
+  rigSpriteImportData:
+  - name: FrontPipe
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 7680
+      height: 1950
+    spriteID: 2ce646165d1e5cb47b16542d244fb646
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 4}
+  - name: Front_hand
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 8504
+      width: 7680
+      height: 953
+    spriteID: dd60498c68dfe1f49be1d06566c1ef5e
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 7966}
+  - name: Front_platform
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 7462
+      width: 7680
+      height: 1034
+    spriteID: 75c5bff1af525204c8a6f805d2b8fde5
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 7462}
+  - name: Front_torch
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 2008
+      y: 11068
+      width: 5958
+      height: 485
+    spriteID: e5b5c60f968742d4eb0663ec35ea28c8
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 1265, y: 10612}
+  - name: Front_ball
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 9465
+      width: 7304
+      height: 718
+    spriteID: 03c55047892879d49a624e994a5b9b8e
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -372, y: 8233}
+  - name: FrontPipe_middle
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 11068
+      width: 1996
+      height: 1670
+    spriteID: f86e4354c8a3ef145a9022960c0654f4
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -2774, y: 10788}
+  - name: Middle_ball_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4044
+      y: 10191
+      width: 3498
+      height: 702
+    spriteID: f3a6f8603ff72574eacb67c004152acb
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 2371, y: 9030}
+  - name: Middle_ball_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 2008
+      y: 11561
+      width: 2940
+      height: 610
+    spriteID: b432cf940c34b3442a4f9a147b75eb07
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -734, y: 10221}
+  - name: Middle_torch
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 10191
+      width: 4032
+      height: 869
+    spriteID: 03fa77f83d0977649a3929a91901450e
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -1586, y: 10191}
+  - name: Middle_stage
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 5878
+      width: 7680
+      height: 1576
+    spriteID: 704ce12322b5cba47b43129980ede8e8
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 5878}
+  - name: BackGround_pipe
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 1962
+      width: 7680
+      height: 1950
+    spriteID: ac224d55a78d1b542a065155b928a1f2
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 1962}
+  - name: BackGround_wall
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 3920
+      width: 7680
+      height: 1950
+    spriteID: 2a56e2cb39def2e48ab0875fcc53ddc0
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 3920}
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Android
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  mosaicLayers: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  importedTextureWidth: 1024
+  importedTextureHeight: 2048
+  documentSize: {x: 7680, y: 1950}
+  paperDollMode: 0
+  keepDupilcateSpriteName: 0
+  spriteCategoryList:
+    categories: []
+  textureActualWidth: 8192
+  textureActualHeight: 16384
+  spritePackingTag: 
+  resliceFromLayer: 0
+  characterMode: 1
+  mosaicPSDLayers:
+  - name: FrontPipe
+    spriteName: FrontPipe
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 90c017cc849e71346801145c6206166c
+    layerID: 0
+    mosaicPosition: {x: 4, y: 4}
+  - name: Front_hand
+    spriteName: Front_hand
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 683efc098194d724f8bb9e4549148134
+    layerID: 1996578189
+    mosaicPosition: {x: 4, y: 8504}
+  - name: Front_platform
+    spriteName: Front_platform
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 9ee913052715ca54da652e13c3b6e2e1
+    layerID: 670613225
+    mosaicPosition: {x: 4, y: 7462}
+  - name: Front_torch
+    spriteName: Front_torch
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ce0e43b54f7c06f4583458a4dc158c5b
+    layerID: -1854487384
+    mosaicPosition: {x: 2008, y: 11068}
+  - name: Front_ball
+    spriteName: Front_ball
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 755b15da3709ec648a62d4824ed5b9ef
+    layerID: 1640348013
+    mosaicPosition: {x: 4, y: 9465}
+  - name: FrontPipe_middle
+    spriteName: FrontPipe_middle
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d2ae5c4893ad1af4398af4979862c9e9
+    layerID: -1325436041
+    mosaicPosition: {x: 4, y: 11068}
+  - name: Middle_ball_1
+    spriteName: Middle_ball_1
+    isGroup: 0
+    parentIndex: -1
+    spriteID: c869fc36fe916a845b9cbd8b4c29a57f
+    layerID: 942598479
+    mosaicPosition: {x: 4044, y: 10191}
+  - name: Middle_ball_2
+    spriteName: Middle_ball_2
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d6d1899baae7bd24badfb3c8b0028d19
+    layerID: 942598476
+    mosaicPosition: {x: 2008, y: 11561}
+  - name: Middle_torch
+    spriteName: Middle_torch
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 58e9a116983c65b47ac7e74407d39222
+    layerID: 1930294146
+    mosaicPosition: {x: 4, y: 10191}
+  - name: Middle_stage
+    spriteName: Middle_stage
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 6156f3bc5c5c45b4baf2f5cdb02766ac
+    layerID: -1321283378
+    mosaicPosition: {x: 4, y: 5878}
+  - name: BackGround_pipe
+    spriteName: BackGround_pipe
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 89a6d9f9ac72e5f4abf8789d6c3d8b2d
+    layerID: 479040173
+    mosaicPosition: {x: 4, y: 1962}
+  - name: BackGround_wall
+    spriteName: BackGround_wall
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 8bf6b005b1dd14b4ea9636364768f5a4
+    layerID: -898826845
+    mosaicPosition: {x: 4, y: 3920}
+  rigPSDLayers:
+  - name: FrontPipe
+    spriteName: FrontPipe
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 2ce646165d1e5cb47b16542d244fb646
+    layerID: 0
+    mosaicPosition: {x: 4, y: 4}
+  - name: Front_hand
+    spriteName: Front_hand
+    isGroup: 0
+    parentIndex: -1
+    spriteID: dd60498c68dfe1f49be1d06566c1ef5e
+    layerID: 1996578189
+    mosaicPosition: {x: 4, y: 8504}
+  - name: Front_platform
+    spriteName: Front_platform
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 75c5bff1af525204c8a6f805d2b8fde5
+    layerID: 670613225
+    mosaicPosition: {x: 4, y: 7462}
+  - name: Front_torch
+    spriteName: Front_torch
+    isGroup: 0
+    parentIndex: -1
+    spriteID: e5b5c60f968742d4eb0663ec35ea28c8
+    layerID: -1854487384
+    mosaicPosition: {x: 2008, y: 11068}
+  - name: Front_ball
+    spriteName: Front_ball
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 03c55047892879d49a624e994a5b9b8e
+    layerID: 1640348013
+    mosaicPosition: {x: 4, y: 9465}
+  - name: FrontPipe_middle
+    spriteName: FrontPipe_middle
+    isGroup: 0
+    parentIndex: -1
+    spriteID: f86e4354c8a3ef145a9022960c0654f4
+    layerID: -1325436041
+    mosaicPosition: {x: 4, y: 11068}
+  - name: Middle_ball_1
+    spriteName: Middle_ball_1
+    isGroup: 0
+    parentIndex: -1
+    spriteID: f3a6f8603ff72574eacb67c004152acb
+    layerID: 942598479
+    mosaicPosition: {x: 4044, y: 10191}
+  - name: Middle_ball_2
+    spriteName: Middle_ball_2
+    isGroup: 0
+    parentIndex: -1
+    spriteID: b432cf940c34b3442a4f9a147b75eb07
+    layerID: 942598476
+    mosaicPosition: {x: 2008, y: 11561}
+  - name: Middle_torch
+    spriteName: Middle_torch
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 03fa77f83d0977649a3929a91901450e
+    layerID: 1930294146
+    mosaicPosition: {x: 4, y: 10191}
+  - name: Middle_stage
+    spriteName: Middle_stage
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 704ce12322b5cba47b43129980ede8e8
+    layerID: -1321283378
+    mosaicPosition: {x: 4, y: 5878}
+  - name: BackGround_pipe
+    spriteName: BackGround_pipe
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ac224d55a78d1b542a065155b928a1f2
+    layerID: 479040173
+    mosaicPosition: {x: 4, y: 1962}
+  - name: BackGround_wall
+    spriteName: BackGround_wall
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 2a56e2cb39def2e48ab0875fcc53ddc0
+    layerID: -898826845
+    mosaicPosition: {x: 4, y: 3920}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+  generateGOHierarchy: 1
+  textureAssetName: JokerStageToUnity Texture
+  prefabAssetName: JokerStageToUnity Prefab
+  spriteLibAssetName: JokerStageToUnity Sprite Lib
+  secondarySpriteTextures: []
