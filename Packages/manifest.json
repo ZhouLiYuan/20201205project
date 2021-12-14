@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.esotericsoftware.spine.timeline": "file:../工具/Spine/com.esotericsoftware.spine.timeline-4.0",
+    "com.esotericsoftware.spine.urp-shaders": "file:../工具/Spine/com.esotericsoftware.spine.urp-shaders-4.0-2019.1",
     "com.unity.2d.animation": "5.0.9",
     "com.unity.2d.pixel-perfect": "4.0.1",
     "com.unity.2d.psdimporter": "4.1.2",
