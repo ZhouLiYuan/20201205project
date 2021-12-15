@@ -139,10 +139,16 @@ public static class ResourcesLoader
 
 
     //用scriptable asset配置
-    public static LevelConfig LoadLevelConfig(int level)
+    public static ADVLevelConfig LoadLevelConfig(int level)
     {
         //project中的scriptable asset其实就是 LevelConfig(继承自scriptable类型) 的实例了
-        return AssetModule.LoadAsset<LevelConfig>($"Level/{level}.asset");
+        return AssetModule.LoadAsset<ADVLevelConfig>($"Level/{level}.asset");
+    }
+
+    //场景相关
+    public static GameObject LoadBtlStage(string name)
+    {
+        return AssetModule.LoadAsset<GameObject>($"Stage/{name}.prefab");
     }
 
 
