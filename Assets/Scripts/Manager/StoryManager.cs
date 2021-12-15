@@ -8,7 +8,7 @@ public class StoryManager
     public static int currentChapterID;
     public static int currentEpisodeID = 0;
 
-    public static string currentPlaceName =>PlayerManager.m_Role.currentPlaceName;
+    public static string currentPlaceName =>PlayerManager.p1_Role.currentPlaceName;
     public static string InteractingNPCName;
  
 

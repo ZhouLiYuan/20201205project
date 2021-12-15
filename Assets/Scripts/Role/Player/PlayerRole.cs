@@ -9,7 +9,7 @@ namespace Role
     {
         public class PlayerRole : RoleEntity
         {
-            public string Name => PlayerManager.m_RoleName;
+            public string Name => PlayerManager.p1_RoleName;
 
   
 
@@ -368,7 +368,7 @@ namespace Role
                 subFsm.Update(deltaTime);
 
 
-                if (isInInteractArea) { nearestInteractableGobj = SceneObjManager.GetNearest(base.Transform.position, GobjsInInteractArea); }//实时计算距离最近对象
+                if (isInInteractArea) { nearestInteractableGobj = ADVSceneGobjManager.GetNearest(base.Transform.position, GobjsInInteractArea); }//实时计算距离最近对象
                 if (IsChangeWeaponLeftPressed || IsChangeWeaponRightPressed) { changeWeapon(); }
             }
 

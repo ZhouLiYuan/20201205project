@@ -17,10 +17,10 @@ public class Tester :MonoBehaviour
         PlayerInput m_playerInput = new PlayerInput();
         m_playerInput.InitInput();
         //加载主角
-        m_role = PlayerManager.SpawnCharacter();
+        m_role = PlayerManager.SpawnPlayer1();
         //控制器和角色耦合
         m_role.BindInput(m_playerInput);
 
-        LevelManager.InitByConfiguration(0);
+        AdvLevelManager.InitByConfiguration(0);
     }
 }

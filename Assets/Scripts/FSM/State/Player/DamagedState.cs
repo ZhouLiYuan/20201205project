@@ -37,7 +37,7 @@ namespace Role
 
             public override void OnExit()
             {
-                PlayerManager.m_Role.isAttacked = false;
+                PlayerManager.p1_Role.isAttacked = false;
                 //Role.animator.ResetTrigger("Damaged");
             }
         }

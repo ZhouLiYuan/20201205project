@@ -18,7 +18,7 @@ namespace Role
                 lockUI = UIManager.SpawnGuiderUI(UIManager.LockUIName, UIManager.CanvasTransform.Find("GamePanel"));
 
                 //传入玩家角色position
-                Role.lockTarget = SceneObjManager.GetNearest(role_Gobj.transform.position, SceneObjManager.HookableEntities);//中间可能还要加个障碍检测(改成引力设定就不用)
+                Role.lockTarget = ADVSceneGobjManager.GetNearest(role_Gobj.transform.position, ADVSceneGobjManager.HookableEntities);//中间可能还要加个障碍检测(改成引力设定就不用)
             }
 
             public override void OnUpdate(float deltaTime)

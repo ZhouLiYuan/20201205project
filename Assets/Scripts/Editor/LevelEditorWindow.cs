@@ -49,7 +49,7 @@ public class LevelEditorWindow : EditorWindow
     private void SaveLevelConfig()
     {
         //关卡信息
-        LevelConfig levelConfig = ScriptableObject.CreateInstance<LevelConfig>();
+        ADVLevelConfig levelConfig = ScriptableObject.CreateInstance<ADVLevelConfig>();
         //LevelData levelConfig = new LevelConfig();也可以
         //姑且认为ScriptableObject的实例用 ScriptableObject配套API创建比较好（就像AddComponent）
 

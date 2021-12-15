@@ -7,8 +7,8 @@ public class PlayerInteractDetect : MonoBehaviour
     //角色正对着才会检测到（配合射线检测）
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Player" || PlayerManager.m_Role.IsInteracting == true) return;
-        PlayerManager.m_Role.OnEnterInteractArea(gameObject);
+        if (collision.gameObject.tag != "Player" || PlayerManager.p1_Role.IsInteracting == true) return;
+        PlayerManager.p1_Role.OnEnterInteractArea(gameObject);
     }
 
 
@@ -16,6 +16,6 @@ public class PlayerInteractDetect : MonoBehaviour
     {
         //if (collision.gameObject.layer != LayerMask.NameToLayer("Player")) return;
         if (collision.gameObject.tag != "Player") return;
-        PlayerManager.m_Role.ExitInteractArea(gameObject);
+        PlayerManager.p1_Role.ExitInteractArea(gameObject);
     }
 }

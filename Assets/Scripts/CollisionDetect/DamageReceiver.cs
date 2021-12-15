@@ -65,9 +65,9 @@ public class DamageReceiver : MonoBehaviour
                 var attacker = EnemyManager.GetInstanceByCollider(attackerCollider); 
                  //attackerWeapon = attacker.availableWeapons[collision];//仅限近战
                 attackerWeapon = attacker.availableWeapons[weaponCollider];//近战远程通用
-                PlayerManager.m_Role.OnAttacked += attackerWeapon.ATK;
-                PlayerManager.m_Role.isAttacked = true;
-                if (PlayerManager.m_Role.InvincibleTime == 0)
+                PlayerManager.p1_Role.OnAttacked += attackerWeapon.ATK;
+                PlayerManager.p1_Role.isAttacked = true;
+                if (PlayerManager.p1_Role.InvincibleTime == 0)
                 {
                     GenerateEffect(spawnPos);
                     transform.position += direction.normalized* 0.2f;//被击退(还差相机晃动)
@@ -104,10 +104,10 @@ public class DamageReceiver : MonoBehaviour
 
         if (gameObject.tag == TagManager.Player)
         {
-            PlayerManager.m_Role.OnAttacked -= attackerWeapon.ATK;
+            PlayerManager.p1_Role.OnAttacked -= attackerWeapon.ATK;
             attackerWeapon = null;
             //这里不知道为啥没调用到，导致角色一直处于可以被伤害的状态
-            PlayerManager.m_Role.isAttacked = false;
+            PlayerManager.p1_Role.isAttacked = false;
         }
         else if (gameObject.tag == TagManager.Enemy) 
         {

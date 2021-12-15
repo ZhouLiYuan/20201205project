@@ -67,9 +67,9 @@ namespace Role
             //EnemyManager.en_nameDic.Add(this.en_name, this);
             EnemyManager.hitColliderDic.Add(HitCollider, this);
 
-            role = PlayerManager.m_Role;
-            playerGobj = PlayerManager.m_Role.GameObject;
-            pl_Transform = PlayerManager.m_Role.Transform;
+            role = PlayerManager.p1_Role;
+            playerGobj = PlayerManager.p1_Role.GameObject;
+            pl_Transform = PlayerManager.p1_Role.Transform;
 
             distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
             updater.AddUpdateFunction(OnUpdate);
@@ -103,7 +103,7 @@ namespace Role
 
         public void GetDamage()
         {
-            var attacker = PlayerManager.m_Role;
+            var attacker = PlayerManager.p1_Role;
             var data = attacker.currentWeapon.ATK();
             var finalDamageValue = DamageSystem.CalculateDamage(data);
             HP -= finalDamageValue;
@@ -146,7 +146,7 @@ namespace Role
             var dir = new Vector2(Transform.localScale.x, 0);
             var result = Physics2D.Raycast((Vector2)Transform.position + dir, dir);//+ dir,防止和自己碰撞
             if (result.collider == null) return false;
-            if (result.collider.gameObject.name ==PlayerManager.m_gobj.name) return true;
+            if (result.collider.gameObject.name ==PlayerManager.p1_gobj.name) return true;
             else return false;
         }
 

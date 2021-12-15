@@ -102,7 +102,7 @@ namespace Role
 
         public void LookAtPlayer()
         {
-            var playerPosX = PlayerManager.m_Role.GameObject.transform.position.x;
+            var playerPosX = PlayerManager.p1_Role.GameObject.transform.position.x;
             //在Player右边，且未反转过（当前向右）
             if (Transform.position.x > playerPosX && spriteRenderer.flipX == false) spriteRenderer.flipX = true;
             //在Player左边，且反转过（当前向左）

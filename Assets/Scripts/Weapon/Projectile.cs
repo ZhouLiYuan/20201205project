@@ -53,7 +53,7 @@ public class Projectile : MonoBehaviour
 
         //过滤器
         if (weaponOwner.UniqueName == targetName || projectileOwner.UniqueName == targetName) return;//不能自己打自己
-        if (!targetName.Contains("Enemy") && !targetName.Contains("Platform") && !targetName.Contains($"{PlayerManager.m_Role.Name}")) return;//暂定只能打中几样
+        if (!targetName.Contains("Enemy") && !targetName.Contains("Platform") && !targetName.Contains($"{PlayerManager.p1_Role.Name}")) return;//暂定只能打中几样
         //if (weaponOwner.HitCollider == other.collider || projectileOwner.collider2D == other.collider) return;
         //hitCollider.isTrigger = true; ;//防止受击对象被撞飞
         GenerateEffect(other.GetContact(0).point);//在第一个接触点生成消亡特效
