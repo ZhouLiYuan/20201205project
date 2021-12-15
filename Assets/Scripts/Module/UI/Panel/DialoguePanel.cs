@@ -55,7 +55,7 @@ public class DialoguePanel : BasePanel
         dialogues = ResourcesLoader.LoadDialogue(StoryManager.currentEpisodeID);
 
         //逻辑
-        PlayerManager.m_Role.playerInput.Interact.performed += OnPressInteract;//按下R键触发 本类体中OnInteract()
+        PlayerManager.p1_Role.playerInput.Interact.performed += OnPressInteract;//按下R键触发 本类体中OnInteract()
     }
     private void ResetDialogue()//重置相关逻辑参数，设置第一句对白
     {
@@ -145,7 +145,7 @@ public class DialoguePanel : BasePanel
     public override void OnClose()
     {
         temp.Show();
-        PlayerManager.m_Role.playerInput.Interact.performed -= OnPressInteract;
+        PlayerManager.p1_Role.playerInput.Interact.performed -= OnPressInteract;
     }
 
 }

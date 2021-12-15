@@ -6,7 +6,7 @@ using System;
 //LevelConfig成员的赋值在LevelEditorWindow 或 ParamInspector 中完成
 
 
-public class LevelConfig : ScriptableObject
+public class ADVLevelConfig : ScriptableObject
 {
     //值类型
     public int levelID;
@@ -17,4 +17,5 @@ public class LevelConfig : ScriptableObject
     public List<PlatformInfo> PlatformInfos = new List<PlatformInfo>();
     public List<NPCInfo> NPCInfos = new List<NPCInfo>();
     public List<CheckPointInfo> CheckPointInfos = new List<CheckPointInfo>();
+    public List<BackGround> BackGroundInfos = new List<BackGround>();
 }

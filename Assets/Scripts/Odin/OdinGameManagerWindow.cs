@@ -243,7 +243,7 @@ public class OdinGameManagerWindow : OdinMenuEditorWindow
     //ScriptableObject Part
     //[ShowInInspector]
     [PropertyOrder(-1)]//这样可以确保置顶
-    private OdinWindowItem<LevelConfig> drawLevelItem = new OdinWindowItem<LevelConfig>();
+    private OdinWindowItem<ADVLevelConfig> drawLevelItem = new OdinWindowItem<ADVLevelConfig>();
 
     //[ShowInInspector]
     [PropertyOrder(0)]//这样可以确保置顶

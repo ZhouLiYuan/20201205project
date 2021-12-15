@@ -71,7 +71,7 @@ public class EditorModeOdinInspector : SerializedMonoBehaviour
     //[ShowInInspector][ReadOnly]
     //[DetailedInfoBox("关卡信息", "平台，敌人，NPC，检查点信息，使用时请先加载与初始化")]
     //[InlineEditor(InlineEditorModes.GUIOnly)]//只能用于修饰 继承自ScriptableObject的引用类型字段
-    private LevelConfig levelConfig;
+    private ADVLevelConfig levelConfig;
 
 
     [ShowInInspector, Searchable]

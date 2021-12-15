@@ -217,7 +217,7 @@ public static class UIManager
 
         var healthBar = new HealthBar(Gobj);
         healthBar.SetOwner(owner);
-        GamePanel.HealthBarNameDic[owner.UniqueName] = healthBar;
+        AdvGamePanel.HealthBarNameDic[owner.UniqueName] = healthBar;
         return healthBar;
         //希望UI类方法可以写的更通用
     }

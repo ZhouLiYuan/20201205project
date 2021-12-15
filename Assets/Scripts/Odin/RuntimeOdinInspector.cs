@@ -28,7 +28,7 @@ public class RuntimeOdinInspector : SerializedMonoBehaviour
     [PropertyOrder(0)]//属性顺序
     [InlineButton("SynchronizePlayerRole", "运行时同步设置")]
     private PlayerRole playerRole;//只会在InSpector中序列化引用中的public字段（属性无法序列化）
-    private void SynchronizePlayerRole() { playerRole = PlayerManager.m_Role; }
+    private void SynchronizePlayerRole() { playerRole = PlayerManager.p1_Role; }
 
 
     [TabGroup("Player")][ShowInInspector, EnableGUI][PropertyOrder(1)]
@@ -65,8 +65,8 @@ public class RuntimeOdinInspector : SerializedMonoBehaviour
     private List<GameObject> hookableEntities ;
     private void SynchronizeSceneObj()
     {
-        hookableEntities = SceneObjManager.HookableEntities;
-        interactableEntities = SceneObjManager.InteractableEntities;
+        hookableEntities = ADVSceneGobjManager.HookableEntities;
+        interactableEntities = ADVSceneGobjManager.InteractableEntities;
     }
   
     [TabGroup("SceneObj")]
@@ -94,10 +94,10 @@ public class RuntimeOdinInspector : SerializedMonoBehaviour
     private void SpawnEnemies() 
     {
         if (info == null) return;
-        var enemy = LevelManager.ConfigureEnemy(info);
+        var enemy = AdvLevelManager.ConfigureEnemy(info);
         extraEnemies.Add(enemy);
         var hookableGobj = enemy.Find<GameObject>("Hookable");
-        SceneObjManager.HookableEntities.Add(hookableGobj);
+        ADVSceneGobjManager.HookableEntities.Add(hookableGobj);
     }
 
 
