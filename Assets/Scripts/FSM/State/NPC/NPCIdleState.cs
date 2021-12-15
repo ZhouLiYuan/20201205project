@@ -10,7 +10,7 @@
                 }
                 public override void OnUpdate(float deltaTime)
                 {
-                    if (PlayerManager.m_Role.nearestInteractableGobj == NPCRole.GameObject) ChangeState<NPCPreInteractState>();
+                    if (PlayerManager.p1_Role.nearestInteractableGobj == NPCRole.GameObject) ChangeState<NPCPreInteractState>();
                 }
                 public override void OnExit()
                 {

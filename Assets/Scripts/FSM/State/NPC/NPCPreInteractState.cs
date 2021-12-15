@@ -17,7 +17,7 @@ namespace Role
 
             public override void OnUpdate(float deltaTime)
             {
-                var isNearest = (PlayerManager.m_Role.nearestInteractableGobj == NPCRole.GameObject);
+                var isNearest = (PlayerManager.p1_Role.nearestInteractableGobj == NPCRole.GameObject);
                 NPCRole.SetOutlineActive(isNearest);
                 NPCRole.LookAtPlayer();
                 //if (!PlayerManager.m_Role.isInInteractArea) ChangeState<NPCIdleState>();

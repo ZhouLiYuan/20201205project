@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //做一个抽象不可见的hookable Gobj来作为可抓取物的识别标签
-public class SceneObjManager
+public class ADVSceneGobjManager
 {
     public static List<GameObject> HookableEntities = new List<GameObject>();
     public static List<GameObject> InteractableEntities = new List<GameObject>();

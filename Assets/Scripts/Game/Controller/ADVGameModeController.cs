@@ -1,12 +1,10 @@
 ﻿using Role.SelectableRole;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //所有初始化实例交汇处,也是所有实例方法的耦合处
-public class GameMode1Controller : GameController
+public class ADVGameModeController : GameController
 {
-    private GamePanel gamePanel;
+    private AdvGamePanel gamePanel;
 
     private PlayerRole m_role;
 
@@ -19,21 +17,21 @@ public class GameMode1Controller : GameController
     //相当于mono的start()
     public override void StartGame(int level)
     {
-      
-
         //加载主角
-        m_role = PlayerManager.SpawnCharacter();
+        m_role = PlayerManager.SpawnPlayer1();
         //控制器和角色耦合
         PlayerInput m_playerInput = new PlayerInput();//创建玩家 控制器
         m_playerInput.InitInput();
         m_role.BindInput(m_playerInput);
 
         //初始化关卡场景和相机
-        CameraManager.InitCamera(m_role);
-        LevelManager.InitLevel(level);
+        CameraManager.InitCamera();
+        CameraManager.SetAdvModeAim(m_role.Transform);
+
+        AdvLevelManager.InitLevel(level);
 
         //打开GamePanel
-        gamePanel = UIManager.OpenPanel<GamePanel>();
+        gamePanel = UIManager.OpenPanel<AdvGamePanel>();
 
         m_updater = Updater.AddUpdater();
         //mono Update()中处理的，加多下面的操作

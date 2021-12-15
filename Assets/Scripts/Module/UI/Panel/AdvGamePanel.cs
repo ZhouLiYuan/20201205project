@@ -6,9 +6,8 @@ using UnityEngine;
 /// <summary>
 /// 游玩时的视窗
 /// </summary>
-public class GamePanel : BasePanel
+public class AdvGamePanel : BasePanel
 {
-    
     //private GameObject lockUI;
 
     public GameObject playerHealthBarGobj;
@@ -43,11 +42,11 @@ public class GamePanel : BasePanel
         bossHealthBarGobj.SetActive(false);//等boss登场
 
         pl_healthBar = new HealthBar(playerHealthBarGobj);
-        pl_healthBar.SetOwner(PlayerManager.m_Role);
-        HealthBarNameDic[PlayerManager.m_Role.UniqueName] = pl_healthBar;
+        pl_healthBar.SetOwner(PlayerManager.p1_Role);
+        HealthBarNameDic[PlayerManager.p1_Role.UniqueName] = pl_healthBar;
 
         pl_circleGauge = new AwakeningGauge(playerCircleGaugeGobj);
-        pl_circleGauge.SetOwner(PlayerManager.m_Role);//因为暂时只有Player有怒气槽 所以不用字典
+        pl_circleGauge.SetOwner(PlayerManager.p1_Role);//因为暂时只有Player有怒气槽 所以不用字典
     }
 
     public void SetBossHealthBar(RoleEntity owner) 
