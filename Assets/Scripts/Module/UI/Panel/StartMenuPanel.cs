@@ -9,8 +9,6 @@ using UnityEngine.UI;
 /// </summary>
 public class StartMenuPanel : BasePanel
 {
-    public override string Path => "Panel/StartMenuPanel.prefab";
-
     /// <summary>
     /// StartMenu面板打开时调用的函数
     /// </summary>
@@ -25,24 +23,25 @@ public class StartMenuPanel : BasePanel
         ////出栈
         //UItool.GetOrAddComponentInChildren<Button>("QuitButton").onClick.AddListener(() => { PanelManager.Pop(); });
 
-        var startGameButton = Find<Button>("NewGameButton");
-
-        startGameButton.onClick.AddListener(() =>
+        var AdvModeButton = Find<Button>("AdvModeButton");
+        // 默认选中开始按钮
+        AdvModeButton.Select();
+        AdvModeButton.onClick.AddListener(() =>
         {
-            //0是对话系统测试 1是战斗测试
-            SAIGameManager.StartGame<GameMode1Controller>(0);
+            UIManager.OpenPanel<AdvModePanel>();
             Close();
         });
-        
-        
-        //读取存档（还没写这个功能）
-        Find<Button>("LoadSaveDateButton").onClick.AddListener(() => Debug.Log("读取存档"));
+       
+
+        Find<Button>("VersusModeButton").onClick.AddListener(() =>
+        {
+            UIManager.OpenPanel<BtlModePanel>();
+            Close();
+        } );
+
         //协程版本的打开Option面板
         Find<Button>("OptionButton").onClick.AddListener(() => UIManager.OpenPanel<OptionPanel>());
         //关闭面板
         Find<Button>("QuitButton").onClick.AddListener(()=> { Close(); });
-
-        // 默认选中开始按钮
-        startGameButton.Select();
     }
 }
