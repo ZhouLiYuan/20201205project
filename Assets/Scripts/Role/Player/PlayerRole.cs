@@ -11,8 +11,6 @@ namespace Role
         {
             public string Name => PlayerManager.p1_RoleName;
 
-  
-
             //状态机分层
             private FSM generalFsm;
             private FSM subFsm;
@@ -44,8 +42,7 @@ namespace Role
             //一些碰撞检测脚本
             public DamageReceiver DamageReceiver { get; private set; }
 
-
-            //输入trigger
+            #region 输入trigger
             public PlayerInput playerInput;
             public Vector2 inputAxis;
             public bool IsLockPressed { get; private set; }
@@ -56,18 +53,20 @@ namespace Role
             public bool IsChangeWeaponLeftPressed { get; private set; }
             public bool IsChangeWeaponRightPressed { get; private set; }
             public bool IsAttackPressed { get; private set; }
+            #endregion
 
             //锁定相关
             public GameObject lockTarget = null;
             public Transform TargetTransform => lockTarget.transform;
-            //Hook相关
+
+            #region Hook相关
             public Vector3 hookLocaloffsetPosSlash;
             public GameObject hookGobj;
             public float grapSpeed = 15f;//抓取敌人的速度
             public float hookSpeed = 15f;
             public float minDistance = 0.5f;    //触发最后向上速度 的 距离平台距离
             public float finalJumpSpeed = 5f;    //最后便于着陆的上升速度
-
+            #endregion
 
             //逻辑trigger
             public bool canApplyGravity = true;
@@ -87,7 +86,7 @@ namespace Role
             }
             public bool isAttacked = false;
 
-            //交互相关
+            #region 交互相关
             public bool isInInteractArea => GobjsInInteractArea != null;
             public bool IsInteracting = false;//当前不在交互状态才能和其他对象交互
             public List<GameObject> GobjsInInteractArea = new List<GameObject>();
@@ -95,6 +94,7 @@ namespace Role
             public NPC currentInteractingNPC;
             //public InteractableType currentInteractingType;
             //public InteractableData interactingData;
+            #endregion
 
             public string currentPlaceName;//角色当前所处的位置
 
@@ -116,7 +116,9 @@ namespace Role
 
 
 
+            //---------------------------------------<方法>--------------------------------------------------
 
+            #region 初始化
 
             //---------------------------------------<初始化>--------------------------------------------------
 
@@ -239,6 +241,9 @@ namespace Role
                 currentWeapon.GameObject.SetActive(true);
             }
 
+            #endregion
+
+            #region State相关方法
             //---------------------------------------<State相关方法>--------------------------------------------------
 
             private void ApplyGravity(float fixedDeltaTime)
@@ -247,7 +252,7 @@ namespace Role
                 Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
             }
 
-            public void TurnFace()
+            public override void TurnFace()
             {
                 Vector3 en_flip = base.Transform.localScale;
                 en_flip.x *= -1f;
@@ -324,20 +329,6 @@ namespace Role
                 HP -= (int)finalDamageValue;
             }
 
-            //可以理解为和一切初始化相反的方法
-            //public void Die()
-            //{
-
-            //    updater.RemoveUpdateFunction(OnUpdate);
-            //    updater.RemoveFixedUpdateFunction(OnFixedUpdate);
-
-            //    //UnityEngine.Object.DestroyImmediate()
-            //    UnityEngine.Object.Destroy(this.GameObject);
-            //    PlayerManager.m_Role = null;//其余等C#自带GC回收？
-            //}
-
-
-
             public void changeWeapon()
             {
                 //手动设置IsChangeWeaponPressed防止连按
@@ -359,7 +350,23 @@ namespace Role
                 WeaponManager.SpawnBullet(currentWeapon, this);
             }
 
+            //Die可以理解为和一切初始化相反的方法
+            //public void Die()
+            //{
+
+            //    updater.RemoveUpdateFunction(OnUpdate);
+            //    updater.RemoveFixedUpdateFunction(OnFixedUpdate);
+
+            //    //UnityEngine.Object.DestroyImmediate()
+            //    UnityEngine.Object.Destroy(this.GameObject);
+            //    PlayerManager.m_Role = null;//其余等C#自带GC回收？
+            //}
+
             //---------------------------------------<生命周期>--------------------------------------------------
+
+            #endregion
+
+            #region 生命周期 
 
             protected override void OnUpdate(float deltaTime)
             {
@@ -382,7 +389,7 @@ namespace Role
                 if (canApplyGravity) ApplyGravity(fixedDeltaTime);
             }
 
-
+            #endregion
 
 
 

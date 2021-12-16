@@ -7,10 +7,10 @@ namespace Role
     public class Enemy : RoleEntity
     {
         public EnemyInfoInspector en_infoInspector;
-        
+
         //碰撞检测
         public DamageReceiver DamageReceiver { get; private set; }
-      
+
 
         //配置表 属性
         public float speed; // 移动速度
@@ -46,6 +46,11 @@ namespace Role
         //public event System.Action<GameObject> OnAttack;
         //public void Attack(GameObject target) { OnAttack?.Invoke(target); }
 
+
+
+        //---------------------------------------<方法>--------------------------------------------------
+
+        #region 初始化
 
         /// <summary>
         /// 参数(scene中的具体Gobj) 初始化抽象类 字段(泛型方法中无法调用构造函数用)
@@ -100,16 +105,10 @@ namespace Role
             en_infoInspector.WeaponID = weaponConfig.AssetID;
             //currentWeaponPair = new KeyValuePair<Collider2D, BaseWeapon>(weapon.collider2D, weapon);
         }
-
-        public void GetDamage()
-        {
-            var attacker = PlayerManager.p1_Role;
-            var data = attacker.currentWeapon.ATK();
-            var finalDamageValue = DamageSystem.CalculateDamage(data);
-            HP -= finalDamageValue;
-        }
+        #endregion
 
 
+        #region State相关方法
 
         /// <summary>
         /// 让敌人自动面朝玩家
@@ -123,7 +122,7 @@ namespace Role
         /// 反转的是父级的transform.localScale
         /// 教程地址https://www.youtube.com/watch?v=AD4JIXQDw0s 12分42秒
         /// </summary>
-        public void LookAtPlayer()
+        public override void TurnFace()//看向玩家角色
         {
 
             //if语句判断 要不要把反转后的向量 赋值给en_TopNodeTransform
@@ -146,28 +145,40 @@ namespace Role
             var dir = new Vector2(Transform.localScale.x, 0);
             var result = Physics2D.Raycast((Vector2)Transform.position + dir, dir);//+ dir,防止和自己碰撞
             if (result.collider == null) return false;
-            if (result.collider.gameObject.name ==PlayerManager.p1_gobj.name) return true;
+            if (result.collider.gameObject.name == PlayerManager.p1_gobj.name) return true;
             else return false;
         }
 
+
+        public void GetDamage()
+        {
+            var attacker = PlayerManager.p1_Role;
+            var data = attacker.currentWeapon.ATK();
+            var finalDamageValue = DamageSystem.CalculateDamage(data);
+            HP -= finalDamageValue;
+        }
 
         //虚方法使得基类也有子类的同名方法，这样在BaseEnemyState的Enemy实例就可以不用泛型
         public virtual void Attack()
         {
         }
 
-        public virtual void ChasePlayer() 
+        public virtual void ChasePlayer()
         {
         }
 
+        #endregion
+
+
+        #region 生命周期 
         protected override void OnUpdate(float deltaTime)
         {
             //这个值好像不放在每个State的Update里实时去算的话，好像就只会得到初始化时算的数值然后一致保持不变？
             distanceToPlayer = Vector2.Distance(pl_Transform.position, rg2d.position);
             if (!CheckPlayerIsInSightLine())
             { animator.Play($"Idle", 0); }
-         
-            LookAtPlayer(); //修改朝向
+
+            TurnFace(); //修改朝向
         }
 
         //物理相关的刷新
@@ -175,6 +186,6 @@ namespace Role
         {
         }
     }
+    #endregion
 
- 
 }

@@ -28,6 +28,8 @@ namespace Role
             }
         }
 
+        protected bool IsFaceRight = true;//角色当前是否向右(默认角色初始向右)(控制角色反转的布尔值)
+
         //一些碰撞检测脚本
         public GroundDetect GroundDetect { get; private set; } //地面检测
   
@@ -64,8 +66,13 @@ namespace Role
         protected virtual void InitFSM() { }
         protected virtual void OnUpdate(float deltaTime) { }
         protected virtual void OnFixedUpdate(float fixedDeltaTime) { }
-    }
 
+
+        public virtual void TurnFace()
+        {
+        }
+
+    }
 
 }
 
