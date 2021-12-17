@@ -30,7 +30,7 @@ TagManager:
   - groundChecker
   - Attacker
   - Interact
-  - 
+  - BackGround
   - 
   - 
   - 
@@ -50,4 +50,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BackGround
+    uniqueID: 1170457309
+    locked: 0
+  - name: Middle
+    uniqueID: 147530373
+    locked: 0
+  - name: Front
+    uniqueID: 2270263529
+    locked: 0
+  - name: Character
+    uniqueID: 133048443
     locked: 0
