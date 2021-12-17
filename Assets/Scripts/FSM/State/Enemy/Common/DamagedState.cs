@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Role
+namespace Role.BaseEnemy
 {
-    namespace BaseEnemy
-    {
         public class DamagedState : EnemyBaseState
         {
 
@@ -31,5 +29,4 @@ namespace Role
             }
 
         }
-    }
 }

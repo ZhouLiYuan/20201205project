@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         public class MoveState : PlayerRoleState
         {
             public override void OnEnter()
@@ -39,5 +37,4 @@ namespace Role
                 //Role.animator.ResetTrigger("Move");
             }
         }
-    }
 }

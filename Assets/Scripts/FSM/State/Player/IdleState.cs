@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         public class IdleState : PlayerRoleState
         {
             public override void OnEnter()
@@ -23,5 +21,4 @@ namespace Role
                 //Role.animator.ResetTrigger("Idle");
             }
         }
-    }
 }

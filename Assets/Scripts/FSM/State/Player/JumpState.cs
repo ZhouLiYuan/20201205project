@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         public class JumpState : PlayerRoleState
         {
             private int jumpCount;//剩余跳跃次数
@@ -36,5 +34,4 @@ namespace Role
                 //Role.animator.ResetTrigger("Jump");
             }
         }
-    }
 }

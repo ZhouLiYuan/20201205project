@@ -37,7 +37,7 @@ namespace Role
                 // Mathf.Clamp();可以用来做巡逻范围限定
 
                 //修改朝向
-                Enemy.LookAtPlayer();
+                Enemy.TurnFace();
 
                 if (GroundDetect.IsGrounded) { Enemy.ChasePlayer(); }
 

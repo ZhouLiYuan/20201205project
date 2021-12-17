@@ -2,10 +2,8 @@
 using UnityEngine;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         public class HookBaseState : PlayerRoleState
         {
             //Hook相关
@@ -48,5 +46,4 @@ namespace Role
                 UnityEngine.Object.Instantiate(hitEffectPrefab, spawnPos, Quaternion.identity);
             }
         }
-    }
 }

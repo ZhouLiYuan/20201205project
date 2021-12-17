@@ -1,7 +1,5 @@
-﻿namespace Role
+﻿namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         public class SwordAttackState : PlayerRoleState
         {
             public override void OnEnter()
@@ -25,5 +23,4 @@
                 Role.currentWeapon.collider2D.enabled = false;
             }
         }
-    }
 }

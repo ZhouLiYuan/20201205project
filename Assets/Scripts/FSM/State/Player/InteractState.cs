@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         public class InteractState : PlayerRoleState
         {
             public override void OnEnter()
@@ -32,5 +30,4 @@ namespace Role
                 Role.ExitInteract();
             }
         }
-    }
 }

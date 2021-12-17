@@ -2,10 +2,8 @@
 using UnityEngine;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         public class GetTargetState : HookBaseState
         {
             private float grapSpeed;
@@ -66,5 +64,4 @@ namespace Role
                 TargetEnemy = null;
             }
         }
-    }
 }

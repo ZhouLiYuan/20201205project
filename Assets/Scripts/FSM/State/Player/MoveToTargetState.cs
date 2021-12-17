@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         /// <summary>
         /// 和钩锁相关的状态
         /// </summary>
@@ -50,5 +48,4 @@ namespace Role
             }
 
         }
-    }
 }

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
         //HookToTarget以基类的方式作为前状态
         public class HookToTargetState : HookBaseState
         {
@@ -68,5 +66,4 @@ namespace Role
 
             }
         }
-    }
 }
