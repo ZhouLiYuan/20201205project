@@ -9,6 +9,7 @@ using Sirenix.OdinInspector.Editor.Modules;
 using Role.SelectableRole;
 using System;
 using Role;
+using System.Text;
 //官方教程https://odininspector.com/blog/custom-inspector-tutorial
 
 
@@ -30,6 +31,8 @@ public class EditorModeOdinInspector : SerializedMonoBehaviour
     //[OnValueChanged("StateChange")]
     //[ShowInInspector]
     //public GameState gameState;
+
+
 
     [Sirenix.OdinInspector.FilePath]
     [InfoBox("可以用来读project asset地址")]//显示在Inspector中的注释(用于属性)，\n换行
@@ -113,6 +116,47 @@ public class EditorModeOdinInspector : SerializedMonoBehaviour
         }
         return cachedInfos;
     }
+
+
+    //GameObject(Transform)在Hierarchy中的全路径
+    [ShowInInspector]
+    public static string GetGameObjectPath(Transform transform)
+    {
+        string path = transform.name;
+        while (transform.parent != null)
+        {
+            transform = transform.parent;
+            path = transform.name + "/" + path;
+        }
+        return path;
+    }
+
+    //[ShowInInspector]
+    //GameObject(Transform)在Hierarchy中的全路径
+    //public static string GetHierarchyRelation(Transform trans)
+    //{
+    //    // string hierarchyStr = trans.name;
+    //    // StringBuilder的命名空间 System.Text;
+    //    StringBuilder hierarchyStrBuilder = new StringBuilder();
+    //    hierarchyStrBuilder.Append(trans.name);
+    //    string separator = "/";
+    //    Transform currentTrans = trans;
+    //    while (currentTrans.parent != null)
+    //    {
+    //        // hierarchyStr = currentTrans.parent.name + separator + hierarchyStr;
+    //        hierarchyStrBuilder.Insert(0, separator);
+    //        hierarchyStrBuilder.Insert(0, currentTrans.parent.name);
+    //        currentTrans = currentTrans.parent;
+    //    }
+    //    string hierarchyStr = hierarchyStrBuilder.ToString();
+    //    return hierarchyStr;
+    //}
+
+
+    //public static string GetPath(this Component component)
+    //{
+    //    return component.transform.GetPath() + "/" + component.GetType().ToString();
+    //}
 
 
     //[TableMatrix(SquareCells = false)]//需继承SerializedMonoBehaviour，可以将二维数组转化为表的显示形式
