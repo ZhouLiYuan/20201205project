@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine;
+using Spine.Unity;
 
 //封装路径
 public static class ResourcesLoader
@@ -67,7 +69,7 @@ public static class ResourcesLoader
         if (enemyConfigs == null)
         {
             var json = AssetModule.LoadAsset<TextAsset>($"Config/EnemyConfig.json").text;
-             enemyConfigs = Newtonsoft.Json.JsonConvert.DeserializeObject<EnemyConfig[]>(json);
+            enemyConfigs = Newtonsoft.Json.JsonConvert.DeserializeObject<EnemyConfig[]>(json);
         }
         for (int i = 0; i < enemyConfigs.Length; i++)
         {
@@ -103,7 +105,7 @@ public static class ResourcesLoader
         }
         for (int i = 0; i < weaponConfigs.Length; i++)
         {
-            if (weaponConfigs[i].AssetName== name) return weaponConfigs[i];
+            if (weaponConfigs[i].AssetName == name) return weaponConfigs[i];
         }
         return null;
     }
@@ -179,7 +181,7 @@ public static class ResourcesLoader
     }
 
     //anim
-    public static AnimationClip LoadAnimClip(string animatorName ,string clipName)
+    public static AnimationClip LoadAnimClip(string animatorName, string clipName)
     {
         var _index = animatorName.IndexOf("_");
         var type = animatorName.Substring(0, _index - 1);
@@ -187,8 +189,19 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<AnimationClip>($"Assets/AssetBundles_sai/Animation/{type}/{category}/{clipName}.anim");
     }
 
+    //Spine相关
+    public static Atlas LoadAtlas(string name = "Assets/AssetBundles_sai/SpineData/JokerKung/Resource/JokerKung_Atlas.asset")
+    {
+        return AssetModule.LoadAsset<Atlas>($"{name}");
+    }
+
+    public static SkeletonData LoadSkeletonData(string name = "Assets/AssetBundles_sai/SpineData/JokerKung/Resource/JokerKung_SkeletonData.asset")
+    {
+        return AssetModule.LoadAsset<SkeletonData>($"{name}");
+    }
+
     //Sound
-    public static GameObject LoadSEPrefab(string name = "SE_Prefab") 
+    public static GameObject LoadSEPrefab(string name = "SE_Prefab")
     {
         return AssetModule.LoadAsset<GameObject>($"Sound/{name}.prefab");
     }
@@ -198,7 +211,7 @@ public static class ResourcesLoader
     {
         AudioClip audioClip;
         audioClip = AssetModule.LoadAsset<AudioClip>($"Sound/SE/{name}.wav");
-        if(audioClip == null) audioClip = AssetModule.LoadAsset<AudioClip>($"Sound/SE/{name}.mp3");
+        if (audioClip == null) audioClip = AssetModule.LoadAsset<AudioClip>($"Sound/SE/{name}.mp3");
         if (audioClip == null) audioClip = AssetModule.LoadAsset<AudioClip>($"Sound/SE/{name}.ogg");
         return audioClip;
     }
