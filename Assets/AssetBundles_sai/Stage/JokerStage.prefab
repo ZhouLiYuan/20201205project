@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7098262658212075904}
   - component: {fileID: 8226989693079775599}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Middle_torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6924017365708089940}
   - component: {fileID: 397125916835614733}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: BackGround_wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2746257398083228418}
   - component: {fileID: 1479632022868114363}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Middle_stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 195258263486009807}
   - component: {fileID: 696841808020024817}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: BackGround_pipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,7 +342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7618106624408212546}
   - component: {fileID: 3524474875123546375}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Middle_ball_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,8 +425,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6884260773198877087}
   - component: {fileID: 6947413719990067011}
-  m_Layer: 0
-  m_Name: Front_platform
+  m_Layer: 8
+  m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -508,7 +508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5194977135974597648}
   - component: {fileID: 4502729950451978213}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: FrontPipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -591,7 +591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7382194600945575624}
   - component: {fileID: 1149302570971003302}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Front_torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9129659312414379418}
   - component: {fileID: 1354766934809176464}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Front_hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -756,7 +756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9173475225323036144}
   - component: {fileID: 2870539107177967535}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: FrontPipe_middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -839,7 +839,7 @@ GameObject:
   m_Component:
   - component: {fileID: 312761318767713800}
   - component: {fileID: 2457772965097227948}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Front_ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -964,7 +964,7 @@ GameObject:
   m_Component:
   - component: {fileID: 693097498003379508}
   - component: {fileID: 1934730432284022711}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Middle_ball_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
