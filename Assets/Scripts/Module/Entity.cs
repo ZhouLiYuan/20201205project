@@ -23,7 +23,7 @@ public class Entity
     //---------------------<初始化方式二选一>-----------------------
     internal Entity(GameObject obj) 
     {
-        MakeZAxisZero(obj);
+        //MakeZAxisZero(obj);
         GameObject = obj;
         Transform = obj.transform;
     }
@@ -70,7 +70,7 @@ public class Entity
         return t.GetComponent<T>();
     }
 
-    private static void MakeZAxisZero(GameObject obj)
+    protected static void MakeZAxisZero(GameObject obj)
     {
         Vector3 posWithoutZ = obj.transform.position;
         posWithoutZ.z *= 0f;

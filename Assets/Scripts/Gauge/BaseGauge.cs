@@ -16,6 +16,7 @@ public class BaseGauge : Entity
     //血槽表现层
     public BaseGauge(GameObject obj) : base(obj)
     {
+        MakeZAxisZero(obj);
         m_slider = GameObject.GetComponent<Slider>();
         m_fill = Find<Image>("Fill");
     }
