@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
 
-namespace Role
+namespace Role.SelectableRole
 {
-    namespace SelectableRole
-    {
-
         public class GunAttackState : PlayerRoleState
         {
             public override void OnEnter()
@@ -35,7 +32,6 @@ namespace Role
                 Role.animEvent.AttackEvent -= Role.Shoot;
             }
         }
-    }
 }
 
 //暂时没搞懂原理的API animInfo.normalizedTime >= 1f
