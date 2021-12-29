@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Role.SelectableRole
 {
-        public class PlayerRole : RoleEntity
+    //注意：子类实现接口的方法，必须添加 Public关键字，否则报错
+    public class PlayerRole : ControllableRole<AdvPlayerInput>/*, IPlayerRole*/
     {
         public string Name => PlayerManager.p1_RoleName;
 
@@ -12,49 +13,29 @@ namespace Role.SelectableRole
         private FSM generalFsm;
         private FSM subFsm;
 
-
-        //重力
-        /// <summary>
-        /// 代指y轴速度最大可加速到maxGravity 
-        /// </summary>
-        private float maxGravity = -10f;
-        private float gravity = 9.8f;
-
         //自身属性
         public int defValue;
         public int atkValue;
-        //物理
-        public float jumpSpeed;
-        public float moveSpeed;
 
         public int money;
-
-
-        public Vector2 Velocity
-        {
-            get { return rg2d.velocity; }
-            set { rg2d.velocity = value; }
-        } //刚体速度
 
         //一些碰撞检测脚本
         public DamageReceiver DamageReceiver { get; private set; }
 
-        #region 输入trigger
-        public PlayerInput playerInput;
-        public Vector2 inputAxis;
-        public bool IsLockPressed { get; private set; }
-        public bool IsHookPressed { get; private set; }//按下
-        public bool IsHookPressing { get; private set; }//按住
-        public bool IsInteractPressed { get; private set; }
-        public bool IsJumpPressed { get; private set; }
-        public bool IsChangeWeaponLeftPressed { get; private set; }
-        public bool IsChangeWeaponRightPressed { get; private set; }
-        public bool IsAttackPressed { get; private set; }
-        #endregion
-
         //锁定相关
         public GameObject lockTarget = null;
         public Transform TargetTransform => lockTarget.transform;
+
+        #region 输入trigger
+        public bool IsLockPressed { get; protected set; }
+        public bool IsHookPressed { get; protected set; }//按下
+        public bool IsHookPressing { get; protected set; }//按住
+        public bool IsInteractPressed { get; protected set; }
+        public bool IsChangeWeaponLeftPressed { get; protected set; }
+        public bool IsChangeWeaponRightPressed { get; protected set; }
+        public bool IsAttackPressed { get; protected set; }
+        #endregion
+
 
         #region Hook相关
         public Vector3 hookLocaloffsetPosSlash;
@@ -64,10 +45,6 @@ namespace Role.SelectableRole
         public float minDistance = 0.5f;    //触发最后向上速度 的 距离平台距离
         public float finalJumpSpeed = 5f;    //最后便于着陆的上升速度
         #endregion
-
-        //逻辑trigger
-        public bool canApplyGravity = true;
-        public bool canMoveHorizontal = true;
 
         //damage相关
         public float invincibleInterval = 1f;
@@ -131,8 +108,6 @@ namespace Role.SelectableRole
             hookLocaloffsetPosSlash = new Vector3(-0.1f, -0.2f, 0f);
 
             DamageReceiver = roleGobj.GetComponent<DamageReceiver>();
-
-
         }
 
         public void InitProperties(PlayerRoleConfig config)
@@ -144,58 +119,6 @@ namespace Role.SelectableRole
             jumpSpeed = config.JumpSpeed;
         }
 
-        /// <summary>
-        /// 安排每个Action会回调的方法（），具体修改rigidbody velocity之类的应该放在对应的State类里
-        /// </summary>
-        /// <param name="inputHandler"></param>
-        public void BindInput(PlayerInput inputHandler)
-        {
-            //对照
-            //按下GetKeyDown----Performed(不希望连按判定)
-            //按住GetKey----Started(按住包含了按下瞬间Performed）
-            //松开GetKeyUp----Canceled
-
-
-            //换角色时 解绑输入需要用到playerInput 这个引用缓存
-            this.playerInput = inputHandler;
-            //move(实际物理输入的值) 
-            playerInput.Move.performed += context => inputAxis = context.ReadValue<Vector2>();
-            playerInput.Move.started += context => inputAxis = context.ReadValue<Vector2>();
-            playerInput.Move.canceled += context => inputAxis = Vector2.zero;
-
-            playerInput.Jump.started += context => IsJumpPressed = true;
-            playerInput.Jump.canceled += context => IsJumpPressed = false;
-
-            playerInput.Lock.started += context => IsLockPressed = true;
-            playerInput.Lock.canceled += context => IsLockPressed = false;
-
-
-            playerInput.Hook.performed += context => IsHookPressed = true;
-            playerInput.Hook.started += context =>
-            {
-                IsHookPressed = false;
-                IsHookPressing = true;
-            };
-            playerInput.Hook.canceled += context =>
-            {
-                IsHookPressed = false;
-                IsHookPressing = false;
-            };
-
-            playerInput.Interact.performed += context => IsInteractPressed = true;
-            //playerInput.Interact.started += context => IsInteractPressed = true;
-            playerInput.Interact.canceled += context => IsInteractPressed = false;
-
-            playerInput.ChangeWeaponRight.performed += context => IsChangeWeaponRightPressed = true;
-            playerInput.ChangeWeaponRight.canceled += context => IsChangeWeaponRightPressed = false;
-
-            playerInput.ChangeWeaponLeft.performed += context => IsChangeWeaponLeftPressed = true;
-            playerInput.ChangeWeaponLeft.canceled += context => IsChangeWeaponLeftPressed = false;
-
-            playerInput.Attack.performed += context => IsAttackPressed = true;
-            //playerInput.Attack.started += context => IsAttackPressed = true;
-            playerInput.Attack.canceled += context => IsAttackPressed = false;
-        }
 
         /// <summary>
         ///  //配置每个功能的FSM，为每个状态传owner实例
@@ -238,16 +161,49 @@ namespace Role.SelectableRole
             currentWeapon.GameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// 安排每个Action会回调的方法（），具体修改rigidbody velocity之类的应该放在对应的State类里
+        /// </summary>
+        /// <param name="inputHandler"></param>
+        public override void BindInput(AdvPlayerInput inputHandler)
+        {
+            base.BindInput(inputHandler);
+            playerInput.Lock.started += context => IsLockPressed = true;
+            playerInput.Lock.canceled += context => IsLockPressed = false;
+
+            playerInput.Hook.performed += context => IsHookPressed = true;
+            playerInput.Hook.started += context =>
+            {
+                IsHookPressed = false;
+                IsHookPressing = true;
+            };
+            playerInput.Hook.canceled += context =>
+            {
+                IsHookPressed = false;
+                IsHookPressing = false;
+            };
+
+            playerInput.Interact.performed += context => IsInteractPressed = true;
+            //playerInput.Interact.started += context => IsInteractPressed = true;
+            playerInput.Interact.canceled += context => IsInteractPressed = false;
+
+            playerInput.ChangeWeaponRight.performed += context => IsChangeWeaponRightPressed = true;
+            playerInput.ChangeWeaponRight.canceled += context => IsChangeWeaponRightPressed = false;
+
+            playerInput.ChangeWeaponLeft.performed += context => IsChangeWeaponLeftPressed = true;
+            playerInput.ChangeWeaponLeft.canceled += context => IsChangeWeaponLeftPressed = false;
+
+            playerInput.Attack.performed += context => IsAttackPressed = true;
+            //playerInput.Attack.started += context => IsAttackPressed = true;
+            playerInput.Attack.canceled += context => IsAttackPressed = false;
+        }
+
         #endregion
 
         #region State相关方法
         //---------------------------------------<State相关方法>--------------------------------------------------
 
-        private void ApplyGravity(float fixedDeltaTime)
-        {
-            //Mathf.Max返回两个指定数字中较大
-            Velocity = new Vector2(Velocity.x, Mathf.Max(Velocity.y - fixedDeltaTime * gravity, maxGravity));
-        }
+
 
         public override void TurnFace()
         {
@@ -309,7 +265,7 @@ namespace Role.SelectableRole
             GobjsInInteractArea.Remove(target);
         }
 
-        private void Collect()
+        public void Collect()
         {
 
         }
@@ -365,7 +321,6 @@ namespace Role.SelectableRole
 
         protected override void OnUpdate(float deltaTime)
         {
-
             generalFsm.Update(deltaTime);
             subFsm.Update(deltaTime);
 

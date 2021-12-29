@@ -1,6 +1,10 @@
-﻿using System;
+﻿//预处理 指定某些代码编译的条件
+//#define AkaOni_Dev
+//#define Debuger3
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace Role
 {
@@ -31,16 +35,31 @@ namespace Role
         protected bool IsFaceRight = true;//角色当前是否向右(默认角色初始向右)(控制角色反转的布尔值)
 
         //一些碰撞检测脚本
+
         public GroundDetect GroundDetect { get; private set; } //地面检测
-  
+
+#if (Debuger3)
+protected bool IsCompilation = true;
+#elif AkaOni_Dev
+        protected bool IsCompilation2 = true;
+#else
+        protected bool IsCompilation3 = true;
+#endif
+
+
 
 
         public override void Init(GameObject roleGobj)
         {
             base.Init(roleGobj);
             HitCollider = Transform.GetComponent<BoxCollider2D>();//目前角色身上唯一的BoxCollider作为受伤检测刚体
-            animator = Transform.GetComponent<Animator>();
-            animEvent = GameObject.GetComponent<AnimEventCollection>();
+
+            if (!GetType().Name.Contains("Spine"))//先暂时这样约束，但如果是Spine类继承就会有两个空引用字段。。。
+                {
+                animator = Transform.GetComponent<Animator>();
+                animEvent = GameObject.GetComponent<AnimEventCollection>();
+            }
+
             //程序物理计算
             rg2d = roleGobj.GetComponent<Rigidbody2D>();
             GroundDetect = roleGobj.GetComponentInChildren<GroundDetect>();
