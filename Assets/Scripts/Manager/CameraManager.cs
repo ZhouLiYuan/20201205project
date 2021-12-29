@@ -4,11 +4,10 @@ using Role.SelectableRole;
 
 public static class CameraManager
 {
-    public static GameObject mainCameraObj;
+    public static GameObject mainCameraGobj;
     public static Camera mainCamera;
 
     private static CinemachineVirtualCamera vcam;
-
 
     /// <summary>
     /// 初始化相机
@@ -16,15 +15,15 @@ public static class CameraManager
     public static void InitCamera()
     {
         //设置Main相机参数
-        var mainCameraObj = new GameObject("Main Camera");//不要漏空格
-        var mainCamera = mainCameraObj.AddComponent<Camera>();
+        mainCameraGobj = new GameObject("Main Camera");//不要漏空格
+        mainCamera = mainCameraGobj.AddComponent<Camera>();
         mainCamera.clearFlags = CameraClearFlags.Depth;
         mainCamera.tag = "MainCamera";
         mainCamera.orthographic = true;
         mainCamera.orthographicSize = 5.4f;
 
         //设置虚拟相机参数（目前只有跟随相机）
-        var brain = mainCameraObj.AddComponent<CinemachineBrain>();
+        var brain = mainCameraGobj.AddComponent<CinemachineBrain>();
         vcam = new GameObject("vcam_PlayerRole").AddComponent<CinemachineVirtualCamera>();//加了这个组件后好像就没办法随心移动Camera了
         vcam.AddCinemachineComponent<CinemachineTransposer>();
     }

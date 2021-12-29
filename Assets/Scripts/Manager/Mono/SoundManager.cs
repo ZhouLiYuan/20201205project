@@ -157,3 +157,24 @@ namespace App.Sound
 
 }
 
+////一些API
+//[SerializeField] private AudioSource audio;
+//[SerializeField] private AudioClip[] stepSounds;
+//[SerializeField] private AudioClip[] jumpSounds;
+//void Footstep()
+//{
+//    if (audio)
+//    {
+//        audio.PlayOneShot(stepSounds[Random.Range(0, stepSounds.Length)]);
+//        Debug.Log("playFootstep");
+//    }
+//}
+
+//void Jump()
+//{
+//    if (audio)
+//    {
+//        audio.PlayOneShot(jumpSounds[Random.Range(0, jumpSounds.Length)]);
+//        Debug.Log("playjumpSounds");
+//    }
+//}

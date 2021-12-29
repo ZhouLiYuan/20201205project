@@ -5,6 +5,36 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
+    RecentlyUsedScenePath-0:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa8092f2e3016ea11052d0a7ff3040d4bc40e091f3c0fee0543db5e061fcc0cdc
+      flags: 0
+    RecentlyUsedScenePath-1:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa8092f2e3016ea7c3736003bf7181a45e305031f08
+      flags: 0
+    RecentlyUsedScenePath-2:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa8092f353707c83d11390471e704001fef
+      flags: 0
+    RecentlyUsedScenePath-3:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa80934393507fb330a0b1536fe031d12b62e130e0240e80018eb09
+      flags: 0
+    RecentlyUsedScenePath-4:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa80934393507fb330a0b1536fe031d12b62a04021c0fe90b15bf201b08d611c609860a12c20d05
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa81736247903e1384413002bf1024938fd0204185f1bf30705e6
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa81736247903e1384413002bf102492ee71e031b5f1bf30705e6
+      flags: 0
+    RecentlyUsedScenePath-7:
+      value: 22424703114646681d070227500647111b07142f3f670924252c0f73c7f83535f2eb33faa8092b3d2d07c23d07360831f74a3a00f3070f1f1e00dc0018f2110718ca168a37cd1c1dc510118ee112d6ead696e7e1dde7e2ccd1d181fcfdfdefecfcfeabbb9ca1f9d7e4baf0b8bbdb
+      flags: 0
+    RecentlyUsedScenePath-8:
+      value: 22424703114646681d070227500647111b07142f3f670135393d143de5a0072ce3f522ece3756b7c1600e539072a4110e0030c05e20e0e4b220ff01e1dfa5e061fcc0cdc
+      flags: 0
+    RecentlyUsedScenePath-9:
+      value: 22424703114646680e0b0227036c78111b123d24383a273e2e2c5326ece92021
+      flags: 0
     vcSharedLogLevel:
       value: 0d5e400f0650
       flags: 0
@@ -15,5 +45,7 @@ EditorUserSettings:
   m_SemanticMergeMode: 2
   m_VCShowFailedCheckout: 1
   m_VCOverwriteFailedCheckoutAssets: 1
-  m_VCOverlayIcons: 1
+  m_VCProjectOverlayIcons: 1
+  m_VCHierarchyOverlayIcons: 1
+  m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 0

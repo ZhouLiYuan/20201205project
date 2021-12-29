@@ -27,7 +27,7 @@ public class BTLBackGroundManager
     public static void SpawnStage(int StageID = 0) 
     {
         //创建BTL舞台
-        var stagePrefab = ResourcesLoader.LoadBtlStage("JokerStage");
+        var stagePrefab = ResourcesLoader.LoadBtlStage();
         //覆盖父类字段
         stageGobj = Object.Instantiate(stagePrefab);
         stageTransform = stageGobj.transform;
@@ -35,7 +35,8 @@ public class BTLBackGroundManager
 
     public static void Init()
     {
-        CameraGobj = GameObject.Find("Main Camera");
+        //CameraGobj = GameObject.Find("Main Camera");//注意：场景中Main Camera非激活会找不到
+        CameraGobj = CameraManager.mainCameraGobj;
 
         var platformTransform = stageTransform.Find("Platform");
         //stageLength = platformTransform.GetComponent<SpriteRenderer>().bounds.size.x;//获得Stage横向活动范围长度

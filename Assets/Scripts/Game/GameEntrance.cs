@@ -4,6 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 用继承自mono的类 来作为游戏运行入口
+/// 游戏程序执行的程序流（全局）
 /// </summary>
 public class GameEntrance : MonoBehaviour
 {

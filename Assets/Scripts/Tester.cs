@@ -14,7 +14,7 @@ public class Tester :MonoBehaviour
         m_updater = Updater.AddUpdater();
 
         //创建玩家 控制器
-        PlayerInput m_playerInput = new PlayerInput();
+        AdvPlayerInput m_playerInput = new AdvPlayerInput();
         m_playerInput.InitInput();
         //加载主角
         m_role = PlayerManager.SpawnPlayer1();
