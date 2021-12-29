@@ -148,9 +148,16 @@ public static class ResourcesLoader
     }
 
     //场景相关
-    public static GameObject LoadBtlStage(string name)
+
+    //角色站位配置
+    public static GameObject LoadBtlCharacterPosConfig()
     {
-        return AssetModule.LoadAsset<GameObject>($"Stage/{name}.prefab");
+        return AssetModule.LoadAsset<GameObject>($"Stage/CharacterPosConfig.prefab");
+    }
+
+    public static GameObject LoadBtlStage(string path = "JokerCircus/JokerStage")
+    {
+        return AssetModule.LoadAsset<GameObject>($"Stage/{path}.prefab");
     }
 
 
@@ -189,16 +196,6 @@ public static class ResourcesLoader
         return AssetModule.LoadAsset<AnimationClip>($"Assets/AssetBundles_sai/Animation/{type}/{category}/{clipName}.anim");
     }
 
-    //Spine相关
-    public static Atlas LoadAtlas(string name = "Assets/AssetBundles_sai/SpineData/JokerKung/Resource/JokerKung_Atlas.asset")
-    {
-        return AssetModule.LoadAsset<Atlas>($"{name}");
-    }
-
-    public static SkeletonData LoadSkeletonData(string name = "Assets/AssetBundles_sai/SpineData/JokerKung/Resource/JokerKung_SkeletonData.asset")
-    {
-        return AssetModule.LoadAsset<SkeletonData>($"{name}");
-    }
 
     //Sound
     public static GameObject LoadSEPrefab(string name = "SE_Prefab")
@@ -243,4 +240,28 @@ public static class ResourcesLoader
         return null;
     }
 
+
+
+    //Spine相关
+    public static AnimationReferenceAsset LoadAnim_Spine(string roleName = "JokerKung", string animName = "Idle01")
+    {
+        return AssetModule.LoadAsset<AnimationReferenceAsset>($"Character/{roleName}/Resource/ReferenceAssets/{animName}.asset");
+    }
+
+    public static GameObject LoadSpineRolePrefab(string roleName = "JokerKung")
+    {
+        return AssetModule.LoadAsset<GameObject>($"Character/{roleName}/{roleName}_Animation.prefab");
+    }
+
+
+    //暂时不会用到的方法（动态配置Spine源数据），一般就做成Prefab，直接加载生成GameObject
+    public static Atlas LoadAtlas(string name = "Assets/AssetBundles_sai/SpineData/JokerKung/Resource/JokerKung_Atlas.asset")
+    {
+        return AssetModule.LoadAsset<Atlas>($"{name}");
+    }
+    public static SkeletonData LoadSkeletonData(string name = "Assets/AssetBundles_sai/SpineData/JokerKung/Resource/JokerKung_SkeletonData.asset")
+    {
+        return AssetModule.LoadAsset<SkeletonData>($"{name}");
+    }
+    //skeletonData = json.ReadSkeletonData("mySkeleton.json");//这个读取方法应该用绝对路径吗？
 }
