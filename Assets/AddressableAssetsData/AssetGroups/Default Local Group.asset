@@ -81,6 +81,10 @@ MonoBehaviour:
     m_Address: Stage
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: ed17ff897ae7a5e419dd1dcac8890824
+    m_Address: Character
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 52a50aa9a4584624f86160fa43c6dbea, type: 2}
   m_SchemaSet:
