@@ -20,7 +20,7 @@ public class ADVGameModeController : GameController
         //加载主角
         m_role = PlayerManager.SpawnPlayer1();
         //控制器和角色耦合
-        PlayerInput m_playerInput = new PlayerInput();//创建玩家 控制器
+        AdvPlayerInput m_playerInput = new AdvPlayerInput();//创建玩家 控制器
         m_playerInput.InitInput();
         m_role.BindInput(m_playerInput);
 

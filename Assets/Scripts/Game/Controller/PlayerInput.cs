@@ -1,16 +1,31 @@
 ﻿using UnityEngine.InputSystem;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class PlayerInput
+
+public class PlayerInput 
 {
-    private InputActionAsset inputActionAsset;
-    private string inputActionAssetName => "Assets/AssetBundles_sai/Input/PlayerInput.inputactions";
+    protected InputActionAsset inputActionAsset;
+    protected string inputActionAssetName => "Assets/AssetBundles_sai/Input/PlayerInput.inputactions";
+    public List<InputAction> PlayModeInputActions = new List<InputAction>();
+    public List<InputAction> UIModeInputActions = new List<InputAction>();
 
-    //按键
+    //基础操作按键
     public InputAction Move;
+    public InputAction Jump;
+
+    public virtual void InitInput() 
+    {
+        inputActionAsset = Object.Instantiate(GameAssetManager.LoadInputActionAsset(inputActionAssetName));
+    }
+}
+
+
+public class AdvPlayerInput:PlayerInput
+{
+    //按键
     public InputAction Lock;
     public InputAction Hook;
-    public InputAction Jump;
     public InputAction Interact;
     public InputAction ChangeWeaponLeft;
     public InputAction ChangeWeaponRight;
@@ -19,15 +34,14 @@ public class PlayerInput
     /// <summary>
     /// 初始化 输入事件
     /// </summary>
-    public void InitInput()
+    public override void InitInput()
     {
-        inputActionAsset = Object.Instantiate(GameAssetManager.LoadInputActionAsset(inputActionAssetName));
-
+        base.InitInput();
         //[0]好像是 面板里Action Maps栏的index 第一个的话对应的就是adventureMode
         InputActionMap AdventureMap = inputActionAsset.FindActionMap("Adventure");
         AdventureMap.Enable();
         InputActionMap UIMap = inputActionAsset.FindActionMap("UI");
-        AdventureMap.Disable();//切换到UI交互模式再激活
+        UIMap.Disable();//切换到UI交互模式再激活
 
         //相当于多了层抽象层，有需求可以修改不同的InPutActionMap输入源（比如像街机格斗就可以切换输入源InPutActionMap（player1 2 3 4）绑定到同一个角色上）
         //下面是 在建立 表现层和逻辑层的耦合
@@ -53,7 +67,7 @@ public class PlayerInput
         ChangeWeaponLeft.Enable();
         ChangeWeaponRight.Enable();
         Attack.Enable();
-        Debug.Log("激活所有按键");
+        Debug.Log("激活adv所有按键");
     }
 
     public void DisableInput() 
@@ -66,7 +80,49 @@ public class PlayerInput
         ChangeWeaponLeft.Disable();
         ChangeWeaponRight.Disable();
         Attack.Disable();
-        Debug.Log("禁用所有按键");
+        Debug.Log("禁用adv所有按键");
+    }
+}
+
+public class BtlPlayerInput:PlayerInput
+{
+    //不知道Move可不可以 包含 下蹲 和上跳
+    public InputAction LightPunch,MediumPunch,LightKick,MediumKick;
+
+
+    public override void InitInput()
+    {
+        base.InitInput();
+        InputActionMap BattleMap = inputActionAsset.FindActionMap("Battle");
+        BattleMap.Enable();
+        //InputActionMap UIMap = inputActionAsset.FindActionMap("UI");
+        //UIMap.Disable();//切换到UI交互模式再激活
+
+        Move = BattleMap.FindAction(nameof(Move)); //前提：inputAction的Asset名和字段名同名
+        PlayModeInputActions.Add(Move);
+        Jump = BattleMap.FindAction(nameof(Jump));
+        PlayModeInputActions.Add(Jump);
+        LightPunch = BattleMap.FindAction(nameof(LightPunch));
+        PlayModeInputActions.Add(LightPunch);
+
+        EnableInput();
     }
 
+    public void EnableInput()
+    {
+        foreach (var InputAction in PlayModeInputActions)
+        {
+            InputAction.Enable();
+        }
+        Debug.Log("激活btl所有按键");
+    }
+
+    public void DisableInput()
+    {
+        foreach (var InputAction in PlayModeInputActions)
+        {
+            InputAction.Disable();
+        }
+        Debug.Log("禁用btl所有按键");
+    }
 }

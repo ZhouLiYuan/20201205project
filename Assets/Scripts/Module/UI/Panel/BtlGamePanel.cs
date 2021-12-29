@@ -18,6 +18,8 @@ public class BtlGamePanel : BasePanel
     private AwakeningGauge pl1_circleGauge;
     private AwakeningGauge pl2_circleGauge;
 
+    List<HealthBar> healthBars = new List<HealthBar>();
+    List<AwakeningGauge> awakeningGauges = new List<AwakeningGauge>();
 
     public override void OnOpen()
     {
@@ -31,35 +33,40 @@ public class BtlGamePanel : BasePanel
         //lockUI.SetActive(false);
 
         player1_HealthBarGobj = Find<GameObject>("Player1_HealthBar");
-        player1_HealthBarGobj.SetActive(true);
         player1_CircleGaugeGobj = Find<GameObject>("Player1_CircleGauge");
-        player1_CircleGaugeGobj.SetActive(true);
 
-        player1_HealthBarGobj = Find<GameObject>("Player2_HealthBar");
-        player1_HealthBarGobj.SetActive(true);
-        player1_CircleGaugeGobj = Find<GameObject>("Player2_CircleGauge");
-        player1_CircleGaugeGobj.SetActive(true);
+        player2_HealthBarGobj = Find<GameObject>("Player2_HealthBar");
+        player2_CircleGaugeGobj = Find<GameObject>("Player2_CircleGauge");
 
         pl1_healthBar = new HealthBar(player1_HealthBarGobj);
-        pl1_healthBar.SetOwner(PlayerManager.p1_Role);
+        pl1_healthBar.SetOwner(BtlCharacterManager.p1_Role);
+        healthBars.Add(pl1_healthBar);
         pl2_healthBar = new HealthBar(player2_HealthBarGobj);
-        pl2_healthBar.SetOwner(PlayerManager.p1_Role);
-
+        pl2_healthBar.SetOwner(BtlCharacterManager.p2_Role);
+        healthBars.Add(pl2_healthBar);
 
         pl1_circleGauge = new AwakeningGauge(player1_CircleGaugeGobj);
-        pl1_circleGauge.SetOwner(PlayerManager.p1_Role);
+        pl1_circleGauge.SetOwner(BtlCharacterManager.p1_Role);
+        awakeningGauges.Add(pl1_circleGauge);
         pl2_circleGauge = new AwakeningGauge(player2_CircleGaugeGobj);
-        pl2_circleGauge.SetOwner(PlayerManager.p1_Role);
+        pl2_circleGauge.SetOwner(BtlCharacterManager.p2_Role);
+        awakeningGauges.Add(pl2_circleGauge);
+
+        foreach (var healthBar in healthBars)
+        {healthBar.GameObject.SetActive(true);}
+
+        foreach (var gauge in awakeningGauges)
+        { gauge.GameObject.SetActive(true);}
     }
 
 
     public override void OnUpdate(float deltaTime)
     {
-        pl1_healthBar.OnUpdate(deltaTime);
-        pl1_circleGauge.OnUpdate(deltaTime);
+        foreach (var healthBar in healthBars)
+        {healthBar.OnUpdate(deltaTime);}
 
-        pl2_healthBar.OnUpdate(deltaTime);
-        pl2_circleGauge.OnUpdate(deltaTime);
+        foreach (var gauge in awakeningGauges)
+        {gauge.OnUpdate(deltaTime);}
     }
 
 
