@@ -5,6 +5,11 @@ using Spine.Unity;
 //不用原本的FSM系统(前提条件，状态和动画一一对应时)
 namespace Role.SpineRole
 {
+    //注意！！！！！！这是一个基类，而不是数据之间的共通中转站，状态之间需要相互访问的数据，请放在PlayerRole_Spine里
+    //比如这次的animName
+
+
+
     //状态机其实思路和之前版本的差不多，可以参考例子4 Object Oriented Sample
     //非Spine版本PlayerRoleState是用State切换动画播放，Unity原生动画系统则是状态和动画一一对应
     //Spine版本也同样，只是多了一些动画事件可以用（动画事件和State还是有很多用法的不同的）
@@ -108,7 +113,7 @@ namespace Role.SpineRole
         //播放动画
         protected void SetAnimation(Spine.Animation anim, int trackIndex = 0, bool loop = false, float mixDuration = 0f, float timeScale = 1f)
         {
-            if (anim.Name.Equals(animName)) return; //如果已经在播放就不必重新播放
+            if (anim.Name.Equals(Role.currentAnimName)) return; //如果已经在播放就不必重新播放
             var trackEntry = state.SetAnimation(trackIndex, anim, loop);
             trackEntry.MixDuration = mixDuration;
             trackEntry.TimeScale = timeScale;//暂时默认动画不分层
@@ -119,7 +124,7 @@ namespace Role.SpineRole
         //重载：通过动画名称在自身SkeletonData中寻找对应动画(变相实现了相对路径的效果)
         protected void SetAnimation(int trackIndex = 0, string animationName = "Idle01", bool loop = false, float mixDuration = 0f, float timeScale = 1f)
         {
-            if (animationName.Equals(animName)) return; //如果已经在播放就不必重新播放
+            if (animationName.Equals(Role.currentAnimName)) return; 
             var trackEntry = state.SetAnimation(trackIndex, animationName, loop);
             trackEntry.MixDuration = mixDuration;
             trackEntry.TimeScale = timeScale;//暂时默认动画不分层
@@ -171,9 +176,6 @@ namespace Role.SpineRole
                 Debug.Log("");
             };
             #endregion
-
-            //播放状态对应的动画
-            //SetAnimation(0, animName);
             Debug.Log($"正在播放Spine动画{animName}");
         }
 
