@@ -17,3 +17,5 @@ EditorBuildSettings:
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: f627ed487230d404f9ead4f4f5867e5f,
       type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 5151f03bc17c8534f81124cba52b31c5,
+      type: 2}
