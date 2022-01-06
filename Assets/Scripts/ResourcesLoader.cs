@@ -204,6 +204,7 @@ public static class ResourcesLoader
     }
 
     //按wav,mp3,ogg顺序查找格式
+    //可以学下项目用excel输出json，用id或名称指定 json中音效的方式管理
     public static AudioClip LoadSEClip(string name)
     {
         AudioClip audioClip;
@@ -239,6 +240,13 @@ public static class ResourcesLoader
         }
         return null;
     }
+
+    //万能读取尝试
+
+
+
+
+
 
 
 
