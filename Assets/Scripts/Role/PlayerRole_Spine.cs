@@ -8,8 +8,6 @@ using static Spine.Skin;
 using Role.SelectableRole;
 
 
-#if (Spine_4_0)
-
 namespace Role.SpineRole
 {
     //Spine_Animation版本(暂时用于BTL模式)
@@ -41,7 +39,6 @@ namespace Role.SpineRole
         private const string moveAnim = "Move01";
         private const string jumpAnim = "Jump01";
         private const string attackAnim = "Attack01";
-        private string currentAnimName;
         #endregion
 
         public SkeletonAnimation skeletonAnimation;
@@ -49,6 +46,7 @@ namespace Role.SpineRole
         public SkeletonData skeletonData;
 
         public SpineRoleState currentState;
+        public string currentAnimName;
 
         //常用骨骼Transform(放置特效用)
         public Transform root, foot_R, foot_L, hand_R, hand_L;
@@ -190,8 +188,10 @@ namespace Role.SpineRole
             base.BindInput(inputHandler);
 
             playerInput.LightPunch.performed += context => IsLightPunchPressed = true;
-            //playerInput.Attack.started += context => IsAttackPressed = true;
             playerInput.LightPunch.canceled += context => IsLightPunchPressed = false;
+
+            playerInput.MediumPunch.performed += context => IsMediumPunchPressed = true;
+            playerInput.MediumPunch.canceled += context => IsMediumPunchPressed = false;
         }
 
         public void ResetSpineData()
@@ -255,7 +255,7 @@ namespace Role.SpineRole
         #region 生命周期 
         protected override void OnUpdate(float deltaTime)
         {
-            Debug.Log($"{Velocity}{inputAxis}");
+     
             generalFsm.Update(deltaTime);
             subFsm.Update(deltaTime);
 
@@ -299,7 +299,7 @@ namespace Role.SpineRole
 //        }
 //    }
 //}
-#endif
+
 
 //Spine Example中有意思的设计
 

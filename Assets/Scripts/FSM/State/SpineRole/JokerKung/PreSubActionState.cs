@@ -13,7 +13,11 @@ namespace Role.SpineRole
         {
             base.OnEnter();
         }
-        public override void OnUpdate(float deltaTime) { }
+        public override void OnUpdate(float deltaTime) 
+        {
+            if (Role.IsLightPunchPressed) ChangeState<LightPunchState>();
+            if (Role.IsLightPunchPressed) ChangeState<MediumPunchState>();
+        }
         public override void OnExit() 
         {
             base.OnExit();

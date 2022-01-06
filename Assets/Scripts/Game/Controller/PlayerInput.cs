@@ -120,6 +120,8 @@ public class BtlPlayerInput:PlayerInput
         PlayModeInputActions.Add(Jump);
         LightPunch = BattleMap.FindAction(nameof(LightPunch));
         PlayModeInputActions.Add(LightPunch);
+        MediumPunch = BattleMap.FindAction(nameof(MediumPunch));
+        PlayModeInputActions.Add(MediumPunch);
 
         EnableInput();
     }

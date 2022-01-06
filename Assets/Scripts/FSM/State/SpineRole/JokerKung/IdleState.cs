@@ -12,13 +12,15 @@ namespace Role.SpineRole
         public override void OnEnter()
         {
             base.OnEnter();
-            SetAnimation(Role.idle01);
+            SetAnimation(1, "Idle01", true, 0.5f, 2);
+            //SetAnimation(Role.idle01,0,true,0.5f,1);
         }
         public override void OnUpdate(float deltaTime)
         {
             //if (Role.InvincibleTime == 0 && Role.isAttacked) ChangeState<DamagedState>();
             if (Role.IsJumpPressed && Role.GroundDetect.IsGrounded) ChangeState<JumpState>();
             if (Role.canMoveHorizontal && Mathf.Abs(InputAxis.x) > 0.1f) ChangeState<MoveState>();
+
         }
         public override void OnExit() 
         {
@@ -35,6 +37,7 @@ namespace Role.SpineRole
 
         protected override void State_Complete(TrackEntry trackEntry)//On one duration finsh
         {
+
         }
 
         protected override void State_End(TrackEntry trackEntry)//OnStateExit

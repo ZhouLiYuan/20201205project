@@ -12,13 +12,18 @@ namespace Role.SpineRole
         public override void OnEnter()
         {
             base.OnEnter();
+            SetAnimation(0, "Attack01", false, 0, 0.75f);
+            Role.canMoveHorizontal = false;
         }
-        public override void OnUpdate(float deltaTime) { }
-        public override void OnExit() 
+        public override void OnUpdate(float deltaTime)
+        {
+            //if (Role.InvincibleTime == 0 && Role.isAttacked) ChangeState<DamagedState>();
+        }
+        public override void OnExit()
         {
             base.OnExit();
+            Role.canMoveHorizontal = true;
         }
-
 
 
         //Spine事件回调
@@ -29,12 +34,13 @@ namespace Role.SpineRole
 
         protected override void State_Complete(TrackEntry trackEntry)//On one duration finsh
         {
+            ChangeState<PreSubActionState>();
         }
 
         protected override void State_End(TrackEntry trackEntry)//OnStateExit
         {
             base.State_End(trackEntry);
-            //if (Role.InvincibleTime == 0 && Role.isAttacked) ChangeState<DamagedState>();
+            ChangeState<PreSubActionState>();
         }
 
 
