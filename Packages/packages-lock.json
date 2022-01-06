@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "com.esotericsoftware.spine.timeline": {
-      "version": "file:../工具/Spine/com.esotericsoftware.spine.timeline-4.0",
+      "version": "file:com.esotericsoftware.spine.timeline-4.0",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {
         "com.unity.timeline": "1.2.10"
       }

@@ -8,7 +8,7 @@ using UnityEngine.Timeline;
 [NotKeyable]
 public class HitboxClip : PlayableAsset, ITimelineClipAsset
 {
-    public ClipCaps clipCaps => ClipCaps.None;
+    public ClipCaps clipCaps => ClipCaps.All;
     [SerializeField] private Vector2[] rect;
 
 
@@ -24,7 +24,7 @@ public class HitboxClip : PlayableAsset, ITimelineClipAsset
 
     private static void Changed()
     {
-        UnityEditor.Selection.ob
+        //UnityEditor.Selection.ob
     }
 
     public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
