@@ -28,19 +28,19 @@ public static class DamageSystem
         int result;
         switch (damageType)
         {
-            case DamageType.normal:
+            case AdvDamageType.normal:
                 result = atkParam - defParam;
                 Debug.Log($"接受到普通攻击{result}");
                 return result;
-            case DamageType.fired:
+            case AdvDamageType.fired:
                 result = atkParam* 2 - defParam;
                 Debug.Log($"接受到火焰攻击{result}");
                 return result;
-            case DamageType.poison:
+            case AdvDamageType.poison:
                 result = atkParam/2;
                 Debug.Log($"接受到毒攻击{result}");
                 return result;
-            case DamageType.friendSide:
+            case AdvDamageType.friendSide:
                 Debug.Log($"攻击无效，傷害值{0}");
                 return 0;
             default:

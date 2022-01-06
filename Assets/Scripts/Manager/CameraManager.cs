@@ -2,6 +2,17 @@
 using Cinemachine;
 using Role.SelectableRole;
 
+
+public enum CameraShakeType
+{
+    None,
+    Small,
+    Medium,
+    Large,
+    Great,
+    Ultra
+}
+
 public static class CameraManager
 {
     public static GameObject mainCameraGobj;

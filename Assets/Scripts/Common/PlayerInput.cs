@@ -1,6 +1,6 @@
-﻿using UnityEngine.InputSystem;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 
 public class PlayerInput 
@@ -14,7 +14,7 @@ public class PlayerInput
     public InputAction Move;
     public InputAction Jump;
 
-    public virtual void InitInput() 
+    public virtual void InitInput(string PlayerIndex = "P1") 
     {
         inputActionAsset = Object.Instantiate(GameAssetManager.LoadInputActionAsset(inputActionAssetName));
     }
@@ -34,7 +34,7 @@ public class AdvPlayerInput:PlayerInput
     /// <summary>
     /// 初始化 输入事件
     /// </summary>
-    public override void InitInput()
+    public override void InitInput(string PlayerIndex = "P1")
     {
         base.InitInput();
         //[0]好像是 面板里Action Maps栏的index 第一个的话对应的就是adventureMode
@@ -89,11 +89,27 @@ public class BtlPlayerInput:PlayerInput
     //不知道Move可不可以 包含 下蹲 和上跳
     public InputAction LightPunch,MediumPunch,LightKick,MediumKick;
 
-
-    public override void InitInput()
+    //需要传参当前是 几P
+    public override void InitInput(string PlayerIndex)
     {
         base.InitInput();
-        InputActionMap BattleMap = inputActionAsset.FindActionMap("Battle");
+
+        InputActionMap BattleMap;
+        switch (PlayerIndex)
+        {
+            case "P1":
+                BattleMap = inputActionAsset.FindActionMap("Battle");
+                break;
+            case "P2":
+                BattleMap = inputActionAsset.FindActionMap("BattleLocal_P2");
+                break;
+            default:
+                BattleMap = null;
+                Debug.Log("无法确定当前玩家为几P，请传入正确玩家序号参数");
+                break;
+        }
+
+       
         BattleMap.Enable();
         //InputActionMap UIMap = inputActionAsset.FindActionMap("UI");
         //UIMap.Disable();//切换到UI交互模式再激活
@@ -104,9 +120,13 @@ public class BtlPlayerInput:PlayerInput
         PlayModeInputActions.Add(Jump);
         LightPunch = BattleMap.FindAction(nameof(LightPunch));
         PlayModeInputActions.Add(LightPunch);
+        MediumPunch = BattleMap.FindAction(nameof(MediumPunch));
+        PlayModeInputActions.Add(MediumPunch);
 
         EnableInput();
     }
+
+
 
     public void EnableInput()
     {

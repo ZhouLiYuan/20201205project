@@ -43,7 +43,7 @@ public class BaseWeapon:Entity
     {
         var data = new DamageData();
         data.atkValue = AtkValue;
-        data.damageType = (DamageType)AtkType;
+        data.damageType = (AdvDamageType)AtkType;
         return data;
     }
 }

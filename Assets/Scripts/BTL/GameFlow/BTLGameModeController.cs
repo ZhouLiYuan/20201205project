@@ -1,6 +1,13 @@
 ﻿using Role.SelectableRole;
 using Role.SpineRole;
 using UnityEngine;
+using BTLMode;
+
+public enum Player
+{
+    Player1,
+    Player2
+}
 
 public class BTLGameModeController : GameController
 {
@@ -36,14 +43,14 @@ public class BTLGameModeController : GameController
 
         //绑定输入
         BtlPlayerInput p1_playerInput = new BtlPlayerInput();
-        p1_playerInput.InitInput();
+        p1_playerInput.InitInput("P1");
         player_1.BindInput(p1_playerInput);
 
         //防止相机计算和血槽空引用暂时把2P也给赋值上
         BtlPlayerInput p2_playerInput = new BtlPlayerInput();//创建玩家 控制器
-        //p2_playerInput.InitInput();//得提供另一套输入
-        //player_2.BindInput(p1_playerInput);
-    
+        p2_playerInput.InitInput("P2");//得提供另一套输入
+        player_2.BindInput(p2_playerInput);
+
 
         //打开GamePanel（需要有PlayerRole，否则会空引用）
         gamePanel = UIManager.OpenPanel<BtlGamePanel>();//根据对战人数血槽数也要变更(参考任天堂大乱斗)

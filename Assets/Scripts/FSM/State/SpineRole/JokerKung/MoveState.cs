@@ -12,11 +12,13 @@ namespace Role.SpineRole
         public override void OnEnter()
         {
             base.OnEnter();
-            SetAnimation(Role.move01);
-            Debug.Log($"Spine动画{Role.move01}");
+            SetAnimation(1, "Move01", true,0.5f,2);
         }
         public override void OnUpdate(float deltaTime)
         {
+            Debug.Log($"{Velocity}{Role.inputAxis}");
+
+
             //横向输入 x轴方向
             Velocity = new Vector2(InputAxis.x * MoveSpeed, Velocity.y);
             Role.TurnFace();
