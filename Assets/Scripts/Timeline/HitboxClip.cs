@@ -24,7 +24,7 @@ public class HitboxClip : PlayableAsset, ITimelineClipAsset
 
     private static void Changed()
     {
-
+        UnityEditor.Selection.ob
     }
 
     public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
