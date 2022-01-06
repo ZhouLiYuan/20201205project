@@ -1,6 +1,13 @@
 ﻿using Role.SelectableRole;
 using Role.SpineRole;
 using UnityEngine;
+using BTLMode;
+
+public enum Player
+{
+    Player1,
+    Player2
+}
 
 public class BTLGameModeController : GameController
 {
