@@ -13,6 +13,7 @@ public class PlayerInput
     //基础操作按键
     public InputAction Move;
     public InputAction Jump;
+    public InputAction Crouch;//下蹲
 
     public virtual void InitInput(string PlayerIndex = "P1") 
     {
@@ -87,7 +88,7 @@ public class AdvPlayerInput:PlayerInput
 public class BtlPlayerInput:PlayerInput
 {
     //不知道Move可不可以 包含 下蹲 和上跳
-    public InputAction LightPunch,MediumPunch,LightKick,MediumKick;
+    public InputAction LightPunch,MediumPunch,HeavyPunch,LightKick,MediumKick,HeavyKick;
 
     //需要传参当前是 几P
     public override void InitInput(string PlayerIndex)
@@ -118,6 +119,8 @@ public class BtlPlayerInput:PlayerInput
         PlayModeInputActions.Add(Move);
         Jump = BattleMap.FindAction(nameof(Jump));
         PlayModeInputActions.Add(Jump);
+        Crouch = BattleMap.FindAction(nameof(Crouch));
+        PlayModeInputActions.Add(Crouch);
         LightPunch = BattleMap.FindAction(nameof(LightPunch));
         PlayModeInputActions.Add(LightPunch);
         MediumPunch = BattleMap.FindAction(nameof(MediumPunch));
