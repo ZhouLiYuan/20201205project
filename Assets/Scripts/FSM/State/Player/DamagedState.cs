@@ -15,7 +15,7 @@ namespace Role.SelectableRole
             //特效生成  以后可以根据武器 攻击类型 或者角色 盔甲类型生成不同种类（倾向于前者）
             //var hitEffectPrefab = ResourcesLoader.LoadEffectPrefab("ef_hit01");
             //var hitEffectGobj = Object.Instantiate(hitEffectPrefab, Role.Transform.position, Quaternion.identity);
-            Role.GetDamage();
+            Role.GetDamage(); 
         }
 
         public override void OnUpdate(float deltaTime)
