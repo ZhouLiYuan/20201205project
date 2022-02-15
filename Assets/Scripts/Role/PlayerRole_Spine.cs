@@ -11,16 +11,62 @@ using Role.SelectableRole;
 namespace Role.SpineRole
 {
     //Spine_Animation版本(暂时用于BTL模式)
+    [System.Serializable]
     public class PlayerRole_Spine : ControllableRole<BtlPlayerInput>
     {
         #region 输入trigger
         public bool IsLightPunchPressed { get; protected set; }
         public bool IsMediumPunchPressed { get; protected set; }
         #endregion
-        public static List<Collider2D> p1_HitColliders;
+
+        #region 格斗属性
+        //指令
+        public bool isBlocking;//是否处于防御状态
+        public bool isParrying;
+        public bool isQuickStanding;//受身快速起身
+
+        //目押 格斗连招
+        //每个招式都有StartUp(前摇) 发动(Active) Recovery(后摇)
+        public bool isCollapsed;//倒地 无敌状态
+        public bool isStuned;//昏厥无法行动 硬直状态
+
+        public int comboCount;//被连招数(只有被连击多次才会进入倒地状态)
+        public int atkValue;
+        #endregion
 
         private FSM generalFsm;
         private FSM subFsm;
+
+        #region damage相关
+        public float invincibleInterval = 1f;
+        private float invincibleTime;
+        public float InvincibleTime
+        {
+            get { return invincibleTime; }
+            set
+            {
+                if (0 <= value) { invincibleTime = value; }
+                else if (value < 0) { invincibleTime = 0; }
+            }
+        }
+
+        public bool isAttacked => DamageReceiver.isAttacked;
+        public BTL_DamageReceiver DamageReceiver { get; private set; }
+
+
+
+        #region hitbox模块
+        //需要要让这个模块follow角色,角色反转的时候也一起反转
+        public Transform DamageUnit;
+        public Transform HitboxsTransform;
+        public Transform HurtboxsTransform;
+        public Collider2D[] Hitboxs;
+        public List<Collider2D> Hurtboxs;
+
+        public Animator HitboxAnimator { get; private set; }
+
+        #endregion
+        #endregion
 
 
         //-------------------------------Spine相关--------------------------------
@@ -61,13 +107,33 @@ namespace Role.SpineRole
             maxHP = 100;
             HP = 100;
 
-
-
             //第一层级
             base.Init(obj);
             skeletonAnimation = Transform.GetComponent<SkeletonAnimation>();
             skeleton = skeletonAnimation.Skeleton;
             skeletonData = skeleton.Data;
+
+            #region damage相关
+            #region hitbox模块
+            DamageUnit = Find<Transform>("DamageUnit");
+            //DamageUnit = Transform.Find("DamageUnit");
+            DamageReceiver = DamageUnit.GetComponent<BTL_DamageReceiver>();
+
+            HitboxAnimator = DamageUnit.GetComponent<Animator>();
+
+            HitboxsTransform = DamageUnit.Find("Hitboxs");
+            Hitboxs = HitboxsTransform.GetComponentsInChildren<Collider2D>(true);
+            HitBoxManager.AddBoxsToDic(Hitboxs, this);
+
+            HurtboxsTransform = DamageUnit.Find("Hurtboxs");
+            Hurtboxs = new List<Collider2D>();
+            Hurtboxs.AddRange(HurtboxsTransform.GetComponentsInChildren<Collider2D>(true));
+            HitBoxManager.AddBoxsToDic(Hurtboxs, this);
+            #endregion
+
+            #endregion
+
+
 
             //trackEntry = state.SetAnimation(0, moveAnim, true);
             //trackEntry.MixDuration = 0.6f;//统一设置所有动画间过渡的混合
@@ -78,8 +144,8 @@ namespace Role.SpineRole
             stateData.SetMix(idleAnim, moveAnim, 0.2f);
             stateData.SetMix(moveAnim, attackAnim, 0.4f);
 
-            idle01 = ResourcesLoader.LoadAnim_Spine(); 
-            move01 = ResourcesLoader.LoadAnim_Spine("JokerKung", moveAnim); 
+            idle01 = ResourcesLoader.LoadAnim_Spine();
+            move01 = ResourcesLoader.LoadAnim_Spine("JokerKung", moveAnim);
             attack01 = ResourcesLoader.LoadAnim_Spine("JokerKung", attackAnim);
 
             //可以在SkeletonData查看,目前命名bone slot attachment都是一致的
@@ -107,7 +173,7 @@ namespace Role.SpineRole
 
 
             #region 貌似是过时的API（都是访问级别报错）原因大概率是从字段编程了属性(后备字段自然无法访问) ，注释掉的部分是报错原因不明的
-          
+
             //skeleton.R = 0.5f;//骨骼变色，可以用来做一些中毒变色的效果？
 
             //获取插槽信息
@@ -157,13 +223,10 @@ namespace Role.SpineRole
             Vector3 pos = skeletonAnimation.skeleton.FindSlot("head").Bone.GetWorldPosition(Transform);
             Debug.Log("head坐标：" + pos);
             #endregion
-
-            //generalFsm = new GeneralFSM();
-            //generalFsm.AddState<IdleState>().SetRole(this);
         }
 
         protected override void InitFSM()
-        { 
+        {
             base.InitFSM();
             //每个FSM创建后记得关联OnUpdate()和OnFixUpdate()；
 
@@ -181,6 +244,9 @@ namespace Role.SpineRole
 
             subFsm.AddState<LightPunchState>().SetPlayerRole(this);
             subFsm.AddState<MediumPunchState>().SetPlayerRole(this);
+
+            //需要手动设置下默认的State
+            generalFsm.ChangeState<IdleState>();
         }
 
         public override void BindInput(BtlPlayerInput inputHandler)
@@ -238,11 +304,15 @@ namespace Role.SpineRole
         //        SetAnimation(move01, true, 1f);
         //}
 
-        //public void GetDamage()
-        //{
-        //    if (skeletonAnimation.AnimationName != "Damage01")
-        //        SetAnimation(damage01, false, 1f);
-        //}
+        //public event Func<DamageData> OnAttacked;
+        public void GetDamage()
+        {
+            //var data = OnAttacked?.Invoke();
+            //if (data == null) return;
+            //data.defValue = defValue;
+            //float finalDamageValue = DamageSystem.CalculateDamage(data);
+            //HP -= (int)finalDamageValue;
+        }
 
         //public void Attack()
         //{
@@ -255,7 +325,7 @@ namespace Role.SpineRole
         #region 生命周期 
         protected override void OnUpdate(float deltaTime)
         {
-     
+
             generalFsm.Update(deltaTime);
             subFsm.Update(deltaTime);
 

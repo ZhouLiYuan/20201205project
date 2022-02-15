@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Role.SelectableRole
 {
     //注意：子类实现接口的方法，必须添加 Public关键字，否则报错
+    [System.Serializable]
     public class PlayerRole : ControllableRole<AdvPlayerInput>/*, IPlayerRole*/
     {
         public string Name => PlayerManager.p1_RoleName;
@@ -19,8 +20,6 @@ namespace Role.SelectableRole
 
         public int money;
 
-        //一些碰撞检测脚本
-        public DamageReceiver DamageReceiver { get; private set; }
 
         //锁定相关
         public GameObject lockTarget = null;
@@ -46,7 +45,7 @@ namespace Role.SelectableRole
         public float finalJumpSpeed = 5f;    //最后便于着陆的上升速度
         #endregion
 
-        //damage相关
+        #region damage相关
         public float invincibleInterval = 1f;
         private float invincibleTime;
         public float InvincibleTime
@@ -60,6 +59,10 @@ namespace Role.SelectableRole
         }
         public bool isAttacked = false;
 
+        public DamageReceiver DamageReceiver { get; private set; }
+        #endregion
+
+     
         #region 交互相关
         public bool isInInteractArea => GobjsInInteractArea != null;
         public bool IsInteracting = false;//当前不在交互状态才能和其他对象交互
